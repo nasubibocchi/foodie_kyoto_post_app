@@ -11,3 +11,9 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# dart define
+**/android/app/src/main/res/mipmap*/
+
+# Firebase
+**/**/google-services.json
