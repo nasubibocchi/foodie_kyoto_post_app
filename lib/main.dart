@@ -19,23 +19,23 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
-  String appName = '';
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  PackageInfo? _packageInfo;
+
   @override
   void initState() {
     super.initState();
@@ -43,9 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getPackageInfo() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    widget.appName = packageInfo.appName;
+    _packageInfo = await PackageInfo.fromPlatform();
   }
 
   @override
@@ -55,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Text(widget.appName),
+        child: Text(_packageInfo?.appName ?? ''),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
