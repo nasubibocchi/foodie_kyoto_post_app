@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  package_info_plus: ^1.4.2
 
   # DI
   flutter_hooks: ^0.18.2+1
