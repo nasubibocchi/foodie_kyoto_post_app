@@ -16,6 +16,7 @@ analyzer:
   errors:
     # https://github.com/rrousselGit/freezed#disabling-invalid_annotation_target-warning-and-warning-in-generates-files
     invalid_annotation_target: ignore
+    asset_does_not_exist: ignore
 
 linter:
   # The lint rules applied to this project can be customized in the
