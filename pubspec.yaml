@@ -54,6 +54,9 @@ dependencies:
   # Places
   google_place: ^0.4.7
 
+  # Map
+  google_maps_flutter: ^2.1.3
+
   # Test
   mockito: ^5.1.0
   fake_cloud_firestore: ^1.2.2
