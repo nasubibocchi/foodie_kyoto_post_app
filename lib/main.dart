@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:foodie_kyoto_post_app/app_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  await dotenv.load();
+  await AppConfig.load().then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
