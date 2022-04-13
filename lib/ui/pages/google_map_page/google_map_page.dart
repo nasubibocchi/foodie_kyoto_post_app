@@ -11,12 +11,6 @@ class GoogleMapPage extends HookConsumerWidget {
     zoom: 14.4746,
   );
 
-  static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(googleMapProvider);
@@ -28,12 +22,9 @@ class GoogleMapPage extends HookConsumerWidget {
         onMapCreated: ref.read(googleMapProvider.notifier).onMapCreated,
       ),
       floatingActionButton: state.when(
-          (googleMapController) => FloatingActionButton.extended(
-                onPressed: () => ref
-                    .read(googleMapProvider.notifier)
-                    .goToTheLake(position: _kLake),
-                label: const Text('To the lake!'),
-                icon: const Icon(Icons.directions_boat),
+          (googleMapController) => FloatingActionButton(
+                onPressed: () {},
+                child: const Icon(Icons.add),
               ),
           creating: () => const SizedBox()),
     );

@@ -18,12 +18,4 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
   void onMapCreated(controller) async {
     state = GoogleMapState(googleMapController: controller);
   }
-
-  Future<void> goToTheLake({required CameraPosition position}) async {
-    final currentState = state as _GoogleMapState;
-    if (state is _GoogleMapState) {
-      await currentState.googleMapController
-          ?.animateCamera(CameraUpdate.newCameraPosition(position));
-    }
-  }
 }
