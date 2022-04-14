@@ -22,11 +22,15 @@ class GoogleMapPage extends HookConsumerWidget {
         onMapCreated: ref.read(googleMapProvider.notifier).onMapCreated,
       ),
       floatingActionButton: state.when(
-          (googleMapController) => FloatingActionButton(
-                onPressed: () {},
-                child: const Icon(Icons.add),
+          (googleMapController) => Padding(
+                padding: const EdgeInsets.only(right: 64),
+                child: FloatingActionButton(
+                  onPressed: () {},
+                  child: const Icon(Icons.add, key: Key('Add-a-shop')),
+                ),
               ),
           creating: () => const SizedBox()),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }
 }
