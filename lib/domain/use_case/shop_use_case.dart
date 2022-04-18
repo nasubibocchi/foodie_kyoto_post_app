@@ -13,4 +13,8 @@ class ShopUseCase {
 
   Future<Result<List<Shop>>> fetchShops({required int limit, String? cursor}) =>
       _repository.fetchShops(limit: limit, cursor: cursor);
+
+  Future<Result<List<Shop>>> fetchShopsInMap(
+          {required List<String> shopIdList}) =>
+      _repository.fetchShopsInMap(shopIdList: shopIdList);
 }
