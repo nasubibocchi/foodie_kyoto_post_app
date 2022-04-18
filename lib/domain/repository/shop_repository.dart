@@ -9,4 +9,7 @@ final shopRepositoryProvider = Provider<ShopRepositoryImpl>(
 
 abstract class ShopRepository {
   Future<Result<List<Shop>>> fetchShops({required int limit, String? cursor});
+
+  Future<Result<List<Shop>>> fetchShopsInMap(
+      {required List<String> shopIdList});
 }

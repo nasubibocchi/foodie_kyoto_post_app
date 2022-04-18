@@ -25,4 +25,21 @@ class ShopRepositoryImpl implements ShopRepository {
             .toList()),
         (e) => Error(Exception(e)));
   }
+
+  @override
+  Future<Result<List<Shop>>> fetchShopsInMap(
+      {required List<String> shopIdList}) async {
+    final shopModelList =
+        await _dataSource.fetchShopsInMap(shopIdList: shopIdList);
+    return shopModelList.whenWithResult(
+        (data) => Success(data.value
+            .map((e) => Shop(
+                name: e.name,
+                shopId: e.shopId,
+                comment: e.comment,
+                images: e.images,
+                tags: e.tags))
+            .toList()),
+        (e) => Error(Exception(e)));
+  }
 }
