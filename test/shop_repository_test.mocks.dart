@@ -38,4 +38,12 @@ class MockShopDataSource extends _i1.Mock implements _i3.ShopDataSource {
           returnValue: Future<_i2.Result<List<_i5.ShopModel>>>.value(
               _FakeResult_0<List<_i5.ShopModel>>())) as _i4
           .Future<_i2.Result<List<_i5.ShopModel>>>);
+  @override
+  _i4.Future<_i2.Result<List<_i5.ShopModel>>> fetchShopsInMap(
+          {List<String>? shopIdList}) =>
+      (super.noSuchMethod(
+          Invocation.method(#fetchShopsInMap, [], {#shopIdList: shopIdList}),
+          returnValue: Future<_i2.Result<List<_i5.ShopModel>>>.value(
+              _FakeResult_0<List<_i5.ShopModel>>())) as _i4
+          .Future<_i2.Result<List<_i5.ShopModel>>>);
 }

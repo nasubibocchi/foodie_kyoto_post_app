@@ -15,7 +15,7 @@ import 'shop_repository_test.mocks.dart';
 void main() {
   late MockShopDataSource _shopDataSource;
 
-  setUp(() {
+  setUpAll(() {
     _shopDataSource = MockShopDataSource();
   });
 
@@ -24,27 +24,28 @@ void main() {
         Provider((ref) => ShopRepositoryImpl(dataSource: _shopDataSource)))
   ]);
 
+  final List<Map<String, dynamic>> data = [
+    {
+      'name': 'name_1',
+      'shop_id': 'shop_id_1',
+      'comment': 'comment_1',
+      'images': ['image1', 'image2'],
+      'tags': [1, 3],
+      'created_at': DateTime(2020, 1, 1),
+    },
+    {
+      'name': 'name_2',
+      'shop_id': 'shop_id_2',
+      'comment': 'comment_2',
+      'images': ['image1', 'image2'],
+      'tags': [2, 4],
+      'created_at': DateTime.now(),
+    },
+  ];
+
   group('fetch shops', () {
     test('shop repository can correctly change data type shop_model to shop',
         () async {
-      final List<Map<String, dynamic>> data = [
-        {
-          'name': 'name_1',
-          'shop_id': 'shop_id_1',
-          'comment': 'comment_1',
-          'images': ['image1', 'image2'],
-          'tags': [1, 3],
-          'created_at': DateTime(2020, 1, 1),
-        },
-        {
-          'name': 'name_2',
-          'shop_id': 'shop_id_2',
-          'comment': 'comment_2',
-          'images': ['image1', 'image2'],
-          'tags': [2, 4],
-          'created_at': DateTime.now(),
-        },
-      ];
       when(_shopDataSource.fetchShops(limit: 10)).thenAnswer((_) async {
         return Success(data.map((e) => ShopModel.fromJson(e)).toList());
       });
@@ -58,6 +59,26 @@ void main() {
       // dataの中身を確認
       shopResult.whenWithResult(
         (list) => expect(list.value.first.name, 'name_1'),
+        (e) => expect(e, null),
+      );
+    });
+  });
+
+  group('fetch shops in map', () {
+    test('when there are two shops in map', () async {
+      final List<String> shopIdList = ['shop_id_1', 'shop_id_2'];
+      when(_shopDataSource.fetchShopsInMap(shopIdList: shopIdList))
+          .thenAnswer((_) async {
+        return Success(data.map((e) => ShopModel.fromJson(e)).toList());
+      });
+
+      final model = container.read(shopRepositoryProvider);
+      final shopResult = await model.fetchShopsInMap(shopIdList: shopIdList);
+
+      expect(shopResult, isA<Success<List<Shop>>>());
+
+      shopResult.whenWithResult(
+        (list) => expect(list.value.map((e) => e.name), ['name_1', 'name_2']),
         (e) => expect(e, null),
       );
     });
