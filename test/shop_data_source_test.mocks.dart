@@ -39,4 +39,13 @@ class MockShopFirestore extends _i1.Mock implements _i3.ShopFirestore {
                   _i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>>>.value(
               _FakeResult_0<_i5.QuerySnapshot<Map<String, dynamic>>>())) as _i4
           .Future<_i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>>>);
+  @override
+  _i4.Future<_i2.Result<List<_i5.QuerySnapshot<Map<String, dynamic>>>>>
+      fetchShopsInMap({List<String>? shopIdList}) => (super.noSuchMethod(
+          Invocation.method(#fetchShopsInMap, [], {#shopIdList: shopIdList}),
+          returnValue:
+              Future<_i2.Result<List<_i5.QuerySnapshot<Map<String, dynamic>>>>>.value(
+                  _FakeResult_0<
+                      List<_i5.QuerySnapshot<Map<String, dynamic>>>>())) as _i4
+          .Future<_i2.Result<List<_i5.QuerySnapshot<Map<String, dynamic>>>>>);
 }

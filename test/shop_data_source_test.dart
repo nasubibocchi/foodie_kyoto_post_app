@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
@@ -97,6 +98,37 @@ Future<void> main() async {
       expect(result, isA<Result<List<ShopModel>>>());
       result.whenWithResult(
         (list) => expect(list.value.length, 1),
+        (e) => expect(e, Exception('Unhendled part, could be anything')),
+      );
+    });
+  });
+
+  group('fetch shops in map test', () {
+    test('when succeed fetching data', () async {
+      final shopIdList = ['shop_id_1', 'shop_id_2'];
+      when(_shopFirestore.fetchShopsInMap(shopIdList: shopIdList))
+          .thenAnswer((_) async {
+        try {
+          List<QuerySnapshot<Map<String, dynamic>>> snapshotList = [];
+          for (String shopId in shopIdList) {
+            final snapshot = await _firestore
+                .collection('shops')
+                .where('shop_id', isEqualTo: shopId)
+                .get();
+            snapshotList.add(snapshot);
+          }
+          return Success(snapshotList);
+        } on Exception catch (e) {
+          return Error(e);
+        }
+      });
+
+      final model = container.read(shopDataSourceProvider);
+      final result = await model.fetchShopsInMap(shopIdList: shopIdList);
+
+      expect(result, isA<Result<List<ShopModel>>>());
+      result.whenWithResult(
+        (list) => expect(list.value.length, 2),
         (e) => expect(e, Exception('Unhendled part, could be anything')),
       );
     });
