@@ -5,13 +5,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   final container = ProviderContainer(overrides: [
     googleMapProvider.overrideWithProvider(
         StateNotifierProvider<GoogleMapPageController, GoogleMapState>(
             (ref) => GoogleMapPageController())),
-    // googleMapProvider.overrideWithValue(GoogleMapPageController()),
   ]);
 
   group('Google map function tests', () {
