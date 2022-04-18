@@ -18,4 +18,19 @@ class ShopDataSourceImpl implements ShopDataSource {
             data.value.docs.map((e) => ShopModel.fromJson(e.data())).toList()),
         (e) => Error(Exception(e)));
   }
+
+  @override
+  Future<Result<List<ShopModel>>> fetchShopsInMap(
+      {required List<String> shopIdList}) async {
+    final snapshotResult =
+        await _shopFirestore.fetchShopsInMap(shopIdList: shopIdList);
+
+    // docsのfirstをとっているのは、Listの要素であるQuerySnapshotが一つしかデータを持たない
+    // (=同じshopIdが存在しない)想定のため。
+    return snapshotResult.whenWithResult(
+        (snapshotList) => Success(snapshotList.value
+            .map((e) => ShopModel.fromJson(e.docs.first.data()))
+            .toList()),
+        (e) => Error(Exception(e)));
+  }
 }

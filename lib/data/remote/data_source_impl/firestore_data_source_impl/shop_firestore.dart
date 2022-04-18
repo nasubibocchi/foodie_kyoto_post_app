@@ -36,4 +36,19 @@ class ShopFirestore {
       }
     }
   }
+
+  Future<Result<List<QuerySnapshot<Map<String, dynamic>>>>> fetchShopsInMap(
+      {required List<String> shopIdList}) async {
+    final ref = _firestore.collection('shops');
+    try {
+      List<QuerySnapshot<Map<String, dynamic>>> snapshotList = [];
+      for (String shop in shopIdList) {
+        final snapshot = await ref.where('shop_id', isEqualTo: shop).get();
+        snapshotList.add(snapshot);
+      }
+      return Success(snapshotList);
+    } on Exception catch (e) {
+      return Error(e);
+    }
+  }
 }
