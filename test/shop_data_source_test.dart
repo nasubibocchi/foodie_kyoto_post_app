@@ -29,6 +29,10 @@ Future<void> main() async {
     <String, dynamic>{
       'name': 'name_1',
       'shop_id': 'shop_id_1',
+      'position': {
+        'geohash': 'xn0x1ktq9',
+        'geopoint': [35.006323, 135.765321],
+      },
       'comment': 'comment_1',
       'images': ['image1', 'image2'],
       'tags': [1, 3],
@@ -40,6 +44,10 @@ Future<void> main() async {
     <String, dynamic>{
       'name': 'name_2',
       'shop_id': 'shop_id_2',
+      'position': {
+        'geohash': 'xn0x1ktq9',
+        'geopoint': [35.006323, 135.765321],
+      },
       'comment': 'comment_2',
       'images': ['image1', 'image2'],
       'tags': [2, 4],
