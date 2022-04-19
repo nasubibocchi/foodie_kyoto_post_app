@@ -12,25 +12,7 @@ part of 'google_map_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$GoogleMapStateTearOff {
-  const _$GoogleMapStateTearOff();
-
-  _GoogleMapState call({GoogleMapController? googleMapController}) {
-    return _GoogleMapState(
-      googleMapController: googleMapController,
-    );
-  }
-
-  _GoogleMapStateCreating creating() {
-    return _GoogleMapStateCreating();
-  }
-}
-
-/// @nodoc
-const $GoogleMapState = _$GoogleMapStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$GoogleMapState {
@@ -218,10 +200,11 @@ class _$_GoogleMapState implements _GoogleMapState {
 }
 
 abstract class _GoogleMapState implements GoogleMapState {
-  factory _GoogleMapState({GoogleMapController? googleMapController}) =
+  factory _GoogleMapState({final GoogleMapController? googleMapController}) =
       _$_GoogleMapState;
 
-  GoogleMapController? get googleMapController;
+  GoogleMapController? get googleMapController =>
+      throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$GoogleMapStateCopyWith<_GoogleMapState> get copyWith =>
       throw _privateConstructorUsedError;
