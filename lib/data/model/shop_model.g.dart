@@ -9,6 +9,7 @@ part of 'shop_model.dart';
 _$_AppShop _$$_AppShopFromJson(Map<String, dynamic> json) => _$_AppShop(
       name: json['name'] as String,
       shopId: json['shop_id'] as String,
+      position: json['position'],
       comment: json['comment'] as String,
       images:
           (json['images'] as List<dynamic>).map((e) => e as String).toList(),
@@ -19,6 +20,7 @@ Map<String, dynamic> _$$_AppShopToJson(_$_AppShop instance) =>
     <String, dynamic>{
       'name': instance.name,
       'shop_id': instance.shopId,
+      'position': instance.position,
       'comment': instance.comment,
       'images': instance.images,
       'tags': instance.tags,

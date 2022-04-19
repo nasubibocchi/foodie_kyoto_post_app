@@ -12,43 +12,17 @@ part of 'shop_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 ShopModel _$ShopModelFromJson(Map<String, dynamic> json) {
   return _AppShop.fromJson(json);
 }
 
 /// @nodoc
-class _$ShopModelTearOff {
-  const _$ShopModelTearOff();
-
-  _AppShop call(
-      {required String name,
-      required String shopId,
-      required String comment,
-      required List<String> images,
-      required List<int> tags}) {
-    return _AppShop(
-      name: name,
-      shopId: shopId,
-      comment: comment,
-      images: images,
-      tags: tags,
-    );
-  }
-
-  ShopModel fromJson(Map<String, Object?> json) {
-    return ShopModel.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $ShopModel = _$ShopModelTearOff();
-
-/// @nodoc
 mixin _$ShopModel {
   String get name => throw _privateConstructorUsedError;
   String get shopId => throw _privateConstructorUsedError;
+  dynamic get position => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
   List<String> get images => throw _privateConstructorUsedError;
   List<int> get tags => throw _privateConstructorUsedError;
@@ -66,6 +40,7 @@ abstract class $ShopModelCopyWith<$Res> {
   $Res call(
       {String name,
       String shopId,
+      dynamic position,
       String comment,
       List<String> images,
       List<int> tags});
@@ -83,6 +58,7 @@ class _$ShopModelCopyWithImpl<$Res> implements $ShopModelCopyWith<$Res> {
   $Res call({
     Object? name = freezed,
     Object? shopId = freezed,
+    Object? position = freezed,
     Object? comment = freezed,
     Object? images = freezed,
     Object? tags = freezed,
@@ -96,6 +72,10 @@ class _$ShopModelCopyWithImpl<$Res> implements $ShopModelCopyWith<$Res> {
           ? _value.shopId
           : shopId // ignore: cast_nullable_to_non_nullable
               as String,
+      position: position == freezed
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       comment: comment == freezed
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
@@ -120,6 +100,7 @@ abstract class _$AppShopCopyWith<$Res> implements $ShopModelCopyWith<$Res> {
   $Res call(
       {String name,
       String shopId,
+      dynamic position,
       String comment,
       List<String> images,
       List<int> tags});
@@ -138,6 +119,7 @@ class __$AppShopCopyWithImpl<$Res> extends _$ShopModelCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? shopId = freezed,
+    Object? position = freezed,
     Object? comment = freezed,
     Object? images = freezed,
     Object? tags = freezed,
@@ -151,6 +133,10 @@ class __$AppShopCopyWithImpl<$Res> extends _$ShopModelCopyWithImpl<$Res>
           ? _value.shopId
           : shopId // ignore: cast_nullable_to_non_nullable
               as String,
+      position: position == freezed
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       comment: comment == freezed
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
@@ -170,13 +156,16 @@ class __$AppShopCopyWithImpl<$Res> extends _$ShopModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AppShop extends _AppShop {
-  _$_AppShop(
+  const _$_AppShop(
       {required this.name,
       required this.shopId,
+      required this.position,
       required this.comment,
-      required this.images,
-      required this.tags})
-      : super._();
+      required final List<String> images,
+      required final List<int> tags})
+      : _images = images,
+        _tags = tags,
+        super._();
 
   factory _$_AppShop.fromJson(Map<String, dynamic> json) =>
       _$$_AppShopFromJson(json);
@@ -186,15 +175,26 @@ class _$_AppShop extends _AppShop {
   @override
   final String shopId;
   @override
+  final dynamic position;
+  @override
   final String comment;
+  final List<String> _images;
   @override
-  final List<String> images;
+  List<String> get images {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
+  final List<int> _tags;
   @override
-  final List<int> tags;
+  List<int> get tags {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
 
   @override
   String toString() {
-    return 'ShopModel(name: $name, shopId: $shopId, comment: $comment, images: $images, tags: $tags)';
+    return 'ShopModel(name: $name, shopId: $shopId, position: $position, comment: $comment, images: $images, tags: $tags)';
   }
 
   @override
@@ -204,16 +204,19 @@ class _$_AppShop extends _AppShop {
             other is _AppShop &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.shopId, shopId) &&
+            const DeepCollectionEquality().equals(other.position, position) &&
             const DeepCollectionEquality().equals(other.comment, comment) &&
             const DeepCollectionEquality().equals(other.images, images) &&
             const DeepCollectionEquality().equals(other.tags, tags));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(shopId),
+      const DeepCollectionEquality().hash(position),
       const DeepCollectionEquality().hash(comment),
       const DeepCollectionEquality().hash(images),
       const DeepCollectionEquality().hash(tags));
@@ -230,26 +233,29 @@ class _$_AppShop extends _AppShop {
 }
 
 abstract class _AppShop extends ShopModel {
-  factory _AppShop(
-      {required String name,
-      required String shopId,
-      required String comment,
-      required List<String> images,
-      required List<int> tags}) = _$_AppShop;
-  _AppShop._() : super._();
+  const factory _AppShop(
+      {required final String name,
+      required final String shopId,
+      required final dynamic position,
+      required final String comment,
+      required final List<String> images,
+      required final List<int> tags}) = _$_AppShop;
+  const _AppShop._() : super._();
 
   factory _AppShop.fromJson(Map<String, dynamic> json) = _$_AppShop.fromJson;
 
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
-  String get shopId;
+  String get shopId => throw _privateConstructorUsedError;
   @override
-  String get comment;
+  dynamic get position => throw _privateConstructorUsedError;
   @override
-  List<String> get images;
+  String get comment => throw _privateConstructorUsedError;
   @override
-  List<int> get tags;
+  List<String> get images => throw _privateConstructorUsedError;
+  @override
+  List<int> get tags => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$AppShopCopyWith<_AppShop> get copyWith =>
