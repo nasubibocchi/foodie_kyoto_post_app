@@ -33,7 +33,7 @@ void main() {
           'shop_id': 'shop_id_1',
           'position': {
             'geohash': 'xn0x1ktq9',
-            'geopoint': [35.006323, 135.765321],
+            'geopoint': {'latitude': 35.006323, 'longitude': 135.765321},
           },
           'comment': 'comment_1',
           'images': ['image1', 'image2'],
@@ -45,7 +45,7 @@ void main() {
           'shop_id': 'shop_id_2',
           'position': {
             'geohash': 'xn0x1ktq9',
-            'geopoint': [35.006323, 135.765321],
+            'geopoint': {'latitude': 35.006323, 'longitude': 135.765321},
           },
           'comment': 'comment_2',
           'images': ['image1', 'image2'],
