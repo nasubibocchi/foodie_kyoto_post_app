@@ -19,7 +19,8 @@ class ShopRepositoryImpl implements ShopRepository {
             .map((e) => Shop(
                 name: e.name,
                 shopId: e.shopId,
-                position: e.position,
+                latitude: e.latitude,
+                longitude: e.longitude,
                 comment: e.comment,
                 images: e.images,
                 tags: e.tags))
