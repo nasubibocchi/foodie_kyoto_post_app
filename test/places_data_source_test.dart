@@ -31,7 +31,7 @@ void main() {
   });
 
   group('search shop', () {
-    test('when there is a shop hit', () async {
+    test('when there is some shops hit', () async {
       when(googleMapsPlaces.autocomplete('body')).thenAnswer(
           (_) async => PlacesAutocompleteResponse(status: 'ok', predictions: [
                 Prediction(description: 'a', placeId: '1'),
