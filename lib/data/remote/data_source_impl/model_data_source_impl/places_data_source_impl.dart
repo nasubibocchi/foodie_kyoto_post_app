@@ -1,3 +1,4 @@
+import 'package:foodie_kyoto_post_app/data/model/foodie_prediction_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source/places_data_source.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -12,15 +13,21 @@ class PlacesDataSourceImpl implements PlacesDataSource {
   }
 
   @override
-  Future<Result<List<String>>> searchShopsByAutoComplete(
+  Future<Result<List<FoodiePredictionModel>>> searchShopsByAutoComplete(
       {required String body}) async {
     try {
       final response = await places.autocomplete(body);
-      List<String> searchResultList = [];
+      List<Map<String, String?>> searchResultList = [];
       for (Prediction p in response.predictions) {
-        searchResultList.add('${p.description}');
+        searchResultList.add({
+          'description': '${p.description}',
+          'place_id': '${p.placeId}',
+        });
       }
-      return Success(searchResultList);
+      final predictionList = searchResultList
+          .map((e) => FoodiePredictionModel.fromJson(e))
+          .toList();
+      return Success(predictionList);
     } on Exception catch (e) {
       return Error(Exception(e));
     }

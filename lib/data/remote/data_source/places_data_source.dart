@@ -1,3 +1,4 @@
+import 'package:foodie_kyoto_post_app/data/model/foodie_prediction_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source_impl/model_data_source_impl/places_data_source_impl.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -11,6 +12,6 @@ abstract class PlacesDataSource {
 
   void initGooglePlaces({required String apiKey});
 
-  Future<Result<List<String>>> searchShopsByAutoComplete(
+  Future<Result<List<FoodiePredictionModel>>> searchShopsByAutoComplete(
       {required String body});
 }
