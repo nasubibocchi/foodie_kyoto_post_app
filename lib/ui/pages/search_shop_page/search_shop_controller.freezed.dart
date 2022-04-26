@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SearchShopState {
   String? get searchText => throw _privateConstructorUsedError;
-  List<String>? get searchResultList => throw _privateConstructorUsedError;
+  List<FoodiePrediction>? get searchResultList =>
+      throw _privateConstructorUsedError;
   TextEditingController get searchController =>
       throw _privateConstructorUsedError;
 
@@ -33,7 +34,7 @@ abstract class $SearchShopStateCopyWith<$Res> {
       _$SearchShopStateCopyWithImpl<$Res>;
   $Res call(
       {String? searchText,
-      List<String>? searchResultList,
+      List<FoodiePrediction>? searchResultList,
       TextEditingController searchController});
 }
 
@@ -60,7 +61,7 @@ class _$SearchShopStateCopyWithImpl<$Res>
       searchResultList: searchResultList == freezed
           ? _value.searchResultList
           : searchResultList // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<FoodiePrediction>?,
       searchController: searchController == freezed
           ? _value.searchController
           : searchController // ignore: cast_nullable_to_non_nullable
@@ -78,7 +79,7 @@ abstract class _$SearchShopStateCopyWith<$Res>
   @override
   $Res call(
       {String? searchText,
-      List<String>? searchResultList,
+      List<FoodiePrediction>? searchResultList,
       TextEditingController searchController});
 }
 
@@ -107,7 +108,7 @@ class __$SearchShopStateCopyWithImpl<$Res>
       searchResultList: searchResultList == freezed
           ? _value.searchResultList
           : searchResultList // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<FoodiePrediction>?,
       searchController: searchController == freezed
           ? _value.searchController
           : searchController // ignore: cast_nullable_to_non_nullable
@@ -121,15 +122,15 @@ class __$SearchShopStateCopyWithImpl<$Res>
 class _$_SearchShopState implements _SearchShopState {
   _$_SearchShopState(
       {required this.searchText,
-      final List<String>? searchResultList,
+      final List<FoodiePrediction>? searchResultList,
       required this.searchController})
       : _searchResultList = searchResultList;
 
   @override
   final String? searchText;
-  final List<String>? _searchResultList;
+  final List<FoodiePrediction>? _searchResultList;
   @override
-  List<String>? get searchResultList {
+  List<FoodiePrediction>? get searchResultList {
     final value = _searchResultList;
     if (value == null) return null;
     // ignore: implicit_dynamic_type
@@ -173,14 +174,15 @@ class _$_SearchShopState implements _SearchShopState {
 abstract class _SearchShopState implements SearchShopState {
   factory _SearchShopState(
           {required final String? searchText,
-          final List<String>? searchResultList,
+          final List<FoodiePrediction>? searchResultList,
           required final TextEditingController searchController}) =
       _$_SearchShopState;
 
   @override
   String? get searchText => throw _privateConstructorUsedError;
   @override
-  List<String>? get searchResultList => throw _privateConstructorUsedError;
+  List<FoodiePrediction>? get searchResultList =>
+      throw _privateConstructorUsedError;
   @override
   TextEditingController get searchController =>
       throw _privateConstructorUsedError;

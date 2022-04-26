@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:foodie_kyoto_post_app/app_config.dart';
+import 'package:foodie_kyoto_post_app/domain/entity/foodie_prediction.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,7 +11,7 @@ part 'search_shop_controller.freezed.dart';
 class SearchShopState with _$SearchShopState {
   factory SearchShopState({
     required String? searchText,
-    List<String>? searchResultList,
+    List<FoodiePrediction>? searchResultList,
     required TextEditingController searchController,
   }) = _SearchShopState;
 }
@@ -36,7 +37,6 @@ class SearchShopController extends StateNotifier<SearchShopState> {
 
   Future<void> searchShops() async {
     final currentState = state;
-
     final searchText = currentState.searchController.text;
 
     final shopResponse =

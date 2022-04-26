@@ -31,7 +31,8 @@ class SearchShopPage extends HookConsumerWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, int index) {
                       return TextButton(
-                          onPressed: () {}, child: Text(shopList[index]));
+                          onPressed: () {},
+                          child: Text(shopList[index].description));
                     })
                 : const SizedBox(),
           ],
