@@ -1,19 +1,4 @@
 coverage:
   status:
+    project: off
     patch: off
-    project:
-      default:
-        # basic
-        target: 70
-        threshold: -5%
-        base: auto
-        flags:
-          - unit
-        paths:
-          - "src"
-        # advanced settings
-        branches:
-          - master
-        if_ci_failed: error #success, failure, error, ignore
-        informational: false
-        only_pulls: false
