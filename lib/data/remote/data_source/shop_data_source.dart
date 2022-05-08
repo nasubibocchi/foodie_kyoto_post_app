@@ -10,4 +10,6 @@ final shopDataSourceProvider = Provider<ShopDataSourceImpl>((ref) =>
 abstract class ShopDataSource {
   Future<Result<List<ShopModel>>> fetchShops(
       {required int limit, String? cursor});
+
+  Future<Result<void>> postShop({required ShopModel shop});
 }
