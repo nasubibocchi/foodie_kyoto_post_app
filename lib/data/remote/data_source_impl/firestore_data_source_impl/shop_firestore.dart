@@ -61,7 +61,7 @@ class ShopFirestore {
     }
   }
 
-  Future<Result<QuerySnapshot<Map<String, dynamic>>>> fetchShopByShopId(
+  Future<Result<QuerySnapshot<Map<String, dynamic>>?>> fetchShopByShopId(
       {required String shopId}) async {
     try {
       final shopData = await _firestore

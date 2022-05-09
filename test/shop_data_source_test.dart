@@ -172,9 +172,30 @@ Future<void> main() async {
       final model = container.read(shopDataSourceProvider);
       final result = await model.fetchShopByShopId(shopId: shopId);
 
-      expect(result, isA<Result<ShopModel>>());
+      expect(result, isA<Result<ShopModel?>>());
       result.whenWithResult(
-        (shop) => expect(shop.value.shopId, shopId),
+        (shop) => expect(shop.value?.shopId, shopId),
+        (e) => expect(e, Error(Exception('Unhendled part, could be anything'))),
+      );
+    });
+
+    test('when there is no shop to return', () async {
+      const shopId = 'shop_id_6';
+      when(_shopFirestore.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        final shopData = await _firestore
+            .collection('shops')
+            .where('shop_id', isEqualTo: shopId)
+            .get();
+        return Success(shopData);
+      });
+
+      final model = container.read(shopDataSourceProvider);
+      final result = await model.fetchShopByShopId(shopId: shopId);
+
+      expect(result, isA<Result<ShopModel?>>());
+      result.whenWithResult(
+        (shop) => expect(shop.value, null),
         (e) => expect(e, Error(Exception('Unhendled part, could be anything'))),
       );
     });

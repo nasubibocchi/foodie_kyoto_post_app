@@ -13,5 +13,5 @@ abstract class ShopDataSource {
 
   Future<Result<void>> postShop({required ShopModel shop});
 
-  Future<Result<ShopModel>> fetchShopByShopId({required String shopId});
+  Future<Result<ShopModel?>> fetchShopByShopId({required String shopId});
 }
