@@ -1,4 +1,5 @@
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
+import 'package:foodie_kyoto_post_app/domain/entity/foodie_location.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/foodie_prediction.dart';
 import 'package:foodie_kyoto_post_app/domain/repository/places_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,4 +19,8 @@ class PlacesUseCase {
   Future<Result<List<FoodiePrediction>>> searchShopsByAutoComplete(
           {required String body}) =>
       _repository.searchShopsByAutoComplete(body: body);
+
+  Future<Result<FoodieLocation?>> searchShopDetailByPlaceId(
+          {required String placeId}) =>
+      _repository.searchShopDetailByPlaceId(placeId: placeId);
 }
