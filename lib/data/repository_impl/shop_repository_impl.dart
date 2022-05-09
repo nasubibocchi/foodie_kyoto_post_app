@@ -31,20 +31,20 @@ class ShopRepositoryImpl implements ShopRepository {
 
   @override
   Future<Result<void>> postShop({required Shop shop}) async {
-    try {
-      final shopModel = ShopModel(
-          name: shop.name,
-          shopId: shop.shopId,
-          latitude: shop.latitude,
-          longitude: shop.longitude,
-          comment: shop.comment,
-          images: shop.images,
-          tags: shop.tags);
+    final shopModel = ShopModel(
+        name: shop.name,
+        shopId: shop.shopId,
+        latitude: shop.latitude,
+        longitude: shop.longitude,
+        comment: shop.comment,
+        images: shop.images,
+        tags: shop.tags);
 
-      await _dataSource.postShop(shop: shopModel);
-      return Success(null);
-    } on Exception catch (e) {
-      return Error(e);
-    }
+    final postResult = await _dataSource.postShop(shop: shopModel);
+
+    return postResult.whenWithResult(
+      (success) => Success(null),
+      (e) => Error(Exception(e)),
+    );
   }
 }

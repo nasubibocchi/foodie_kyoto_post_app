@@ -21,13 +21,12 @@ class ShopDataSourceImpl implements ShopDataSource {
 
   @override
   Future<Result<void>> postShop({required ShopModel shop}) async {
-    try {
-      final shopData = shop.toJson();
-      await _shopFirestore.postShop(shopData: shopData);
+    final shopData = shop.toJson();
+    final postResult = await _shopFirestore.postShop(shopData: shopData);
 
-      return Success(null);
-    } on Exception catch (e) {
-      return Error(e);
-    }
+    return postResult.whenWithResult(
+      (success) => Success(null),
+      (e) => Error(Exception(e)),
+    );
   }
 }
