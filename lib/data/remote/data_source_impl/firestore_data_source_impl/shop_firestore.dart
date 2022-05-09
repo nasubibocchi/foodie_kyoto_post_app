@@ -60,4 +60,18 @@ class ShopFirestore {
       return Error(e);
     }
   }
+
+  Future<Result<QuerySnapshot<Map<String, dynamic>>>> fetchShopByShopId(
+      {required String shopId}) async {
+    try {
+      final shopData = await _firestore
+          .collection('shops')
+          .where('shop_id', isEqualTo: shopId)
+          .get();
+
+      return Success(shopData);
+    } on Exception catch (e) {
+      return Error(e);
+    }
+  }
 }
