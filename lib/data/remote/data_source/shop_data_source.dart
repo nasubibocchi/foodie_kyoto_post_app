@@ -12,4 +12,6 @@ abstract class ShopDataSource {
       {required int limit, String? cursor});
 
   Future<Result<void>> postShop({required ShopModel shop});
+
+  Future<Result<ShopModel>> fetchShopByShopId({required String shopId});
 }

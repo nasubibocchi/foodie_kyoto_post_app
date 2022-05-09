@@ -29,4 +29,15 @@ class ShopDataSourceImpl implements ShopDataSource {
       (e) => Error(Exception(e)),
     );
   }
+
+  @override
+  Future<Result<ShopModel>> fetchShopByShopId({required String shopId}) async {
+    final shopResult = await _shopFirestore.fetchShopByShopId(shopId: shopId);
+
+    return shopResult.whenWithResult(
+      (shop) => Success(
+          shop.value.docs.map((e) => ShopModel.fromJson(e.data())).first),
+      (e) => Error(Exception(e)),
+    );
+  }
 }
