@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:foodie_kyoto_post_app/data/model/foodie_location_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/foodie_prediction_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source/places_data_source.dart';
@@ -55,17 +56,20 @@ void main() {
       when(googleMapsPlaces.getDetailsByPlaceId(placeId)).thenAnswer((_) async {
         return PlacesDetailsResponse(
             status: 'ok',
-            result: PlaceDetails(name: 'name', placeId: placeId),
+            result: PlaceDetails(
+                name: 'name',
+                placeId: placeId,
+                geometry: Geometry(location: Location(lat: 50.0, lng: 135.0))),
             htmlAttributions: ['html_attributions']);
       });
 
       final model = container.read(placesDataSourceProvider);
       final result = await model.searchShopDetailByPlaceId(placeId: placeId);
 
-      expect(result, isA<Success<PlacesDetailsResponse>>());
+      expect(result, isA<Success<FoodieLocationModel?>>());
 
       result.whenWithResult(
-        (result) => expect(result.value.result.name, 'name'),
+        (foodieLocation) => expect(foodieLocation.value?.latitude, 50.0),
         (e) => expect(e, Exception('Unhendled part, could be anything')),
       );
     });
