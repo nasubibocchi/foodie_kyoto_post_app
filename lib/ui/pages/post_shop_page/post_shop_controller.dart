@@ -54,7 +54,7 @@ class PostShopController extends StateNotifier<PostShopState> {
     });
   }
 
-  void editComment({required String? body}) {
+  void editComment(String? body) {
     if (state is _PostShopState) {
       final currentState = state as _PostShopState;
       if (currentState.shop == null) {

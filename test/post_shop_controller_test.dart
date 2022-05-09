@@ -84,7 +84,7 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.editComment(body: 'modified comment');
+      model.editComment('modified comment');
       model.debugState.when((shop, commentController) {
         expect(shop?.comment, 'modified comment');
       }, loading: () {}, error: () {});
