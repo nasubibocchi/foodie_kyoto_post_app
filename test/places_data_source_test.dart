@@ -48,4 +48,26 @@ void main() {
       );
     });
   });
+
+  group('search detail by shop id', () {
+    test('when there is shop detail to return', () async {
+      const placeId = 'place_id_1';
+      when(googleMapsPlaces.getDetailsByPlaceId(placeId)).thenAnswer((_) async {
+        return PlacesDetailsResponse(
+            status: 'ok',
+            result: PlaceDetails(name: 'name', placeId: placeId),
+            htmlAttributions: ['html_attributions']);
+      });
+
+      final model = container.read(placesDataSourceProvider);
+      final result = await model.searchShopDetailByPlaceId(placeId: placeId);
+
+      expect(result, isA<Success<PlacesDetailsResponse>>());
+
+      result.whenWithResult(
+        (result) => expect(result.value.result.name, 'name'),
+        (e) => expect(e, Exception('Unhendled part, could be anything')),
+      );
+    });
+  });
 }
