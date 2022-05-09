@@ -14,4 +14,7 @@ abstract class PlacesDataSource {
 
   Future<Result<List<FoodiePredictionModel>>> searchShopsByAutoComplete(
       {required String body});
+
+  Future<Result<PlacesDetailsResponse>> searchShopDetailByPlaceId(
+      {required String placeId});
 }

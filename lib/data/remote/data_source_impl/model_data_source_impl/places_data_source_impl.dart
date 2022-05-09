@@ -32,4 +32,15 @@ class PlacesDataSourceImpl implements PlacesDataSource {
       return Error(Exception(e));
     }
   }
+
+  @override
+  Future<Result<PlacesDetailsResponse>> searchShopDetailByPlaceId(
+      {required String placeId}) async {
+    try {
+      final placesDetailResponse = await places.getDetailsByPlaceId(placeId);
+      return Success(placesDetailResponse);
+    } on Exception catch (e) {
+      return Error(Exception(e));
+    }
+  }
 }
