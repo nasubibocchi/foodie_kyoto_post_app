@@ -5,12 +5,13 @@ part 'foodie_location_model.freezed.dart';
 part 'foodie_location_model.g.dart';
 
 @freezed
-class FoodieLocation with _$FoodieLocation {
-  factory FoodieLocation(
-      {required double latitude, required double longitude}) = _FoodieLocation;
+class FoodieLocationModel with _$FoodieLocationModel {
+  factory FoodieLocationModel(
+      {required double latitude,
+      required double longitude}) = _FoodieLocationModel;
 
-  const FoodieLocation._();
+  const FoodieLocationModel._();
 
-  factory FoodieLocation.fromJson(Map<String, dynamic> json) =>
-      _$FoodieLocationFromJson(json);
+  factory FoodieLocationModel.fromJson(Map<String, dynamic> json) =>
+      _$FoodieLocationModelFromJson(json);
 }

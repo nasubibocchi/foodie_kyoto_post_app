@@ -14,37 +14,37 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-FoodieLocation _$FoodieLocationFromJson(Map<String, dynamic> json) {
-  return _FoodieLocation.fromJson(json);
+FoodieLocationModel _$FoodieLocationModelFromJson(Map<String, dynamic> json) {
+  return _FoodieLocationModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$FoodieLocation {
+mixin _$FoodieLocationModel {
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FoodieLocationCopyWith<FoodieLocation> get copyWith =>
+  $FoodieLocationModelCopyWith<FoodieLocationModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FoodieLocationCopyWith<$Res> {
-  factory $FoodieLocationCopyWith(
-          FoodieLocation value, $Res Function(FoodieLocation) then) =
-      _$FoodieLocationCopyWithImpl<$Res>;
+abstract class $FoodieLocationModelCopyWith<$Res> {
+  factory $FoodieLocationModelCopyWith(
+          FoodieLocationModel value, $Res Function(FoodieLocationModel) then) =
+      _$FoodieLocationModelCopyWithImpl<$Res>;
   $Res call({double latitude, double longitude});
 }
 
 /// @nodoc
-class _$FoodieLocationCopyWithImpl<$Res>
-    implements $FoodieLocationCopyWith<$Res> {
-  _$FoodieLocationCopyWithImpl(this._value, this._then);
+class _$FoodieLocationModelCopyWithImpl<$Res>
+    implements $FoodieLocationModelCopyWith<$Res> {
+  _$FoodieLocationModelCopyWithImpl(this._value, this._then);
 
-  final FoodieLocation _value;
+  final FoodieLocationModel _value;
   // ignore: unused_field
-  final $Res Function(FoodieLocation) _then;
+  final $Res Function(FoodieLocationModel) _then;
 
   @override
   $Res call({
@@ -65,32 +65,32 @@ class _$FoodieLocationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$$_FoodieLocationCopyWith<$Res>
-    implements $FoodieLocationCopyWith<$Res> {
-  factory _$$_FoodieLocationCopyWith(
-          _$_FoodieLocation value, $Res Function(_$_FoodieLocation) then) =
-      __$$_FoodieLocationCopyWithImpl<$Res>;
+abstract class _$$_FoodieLocationModelCopyWith<$Res>
+    implements $FoodieLocationModelCopyWith<$Res> {
+  factory _$$_FoodieLocationModelCopyWith(_$_FoodieLocationModel value,
+          $Res Function(_$_FoodieLocationModel) then) =
+      __$$_FoodieLocationModelCopyWithImpl<$Res>;
   @override
   $Res call({double latitude, double longitude});
 }
 
 /// @nodoc
-class __$$_FoodieLocationCopyWithImpl<$Res>
-    extends _$FoodieLocationCopyWithImpl<$Res>
-    implements _$$_FoodieLocationCopyWith<$Res> {
-  __$$_FoodieLocationCopyWithImpl(
-      _$_FoodieLocation _value, $Res Function(_$_FoodieLocation) _then)
-      : super(_value, (v) => _then(v as _$_FoodieLocation));
+class __$$_FoodieLocationModelCopyWithImpl<$Res>
+    extends _$FoodieLocationModelCopyWithImpl<$Res>
+    implements _$$_FoodieLocationModelCopyWith<$Res> {
+  __$$_FoodieLocationModelCopyWithImpl(_$_FoodieLocationModel _value,
+      $Res Function(_$_FoodieLocationModel) _then)
+      : super(_value, (v) => _then(v as _$_FoodieLocationModel));
 
   @override
-  _$_FoodieLocation get _value => super._value as _$_FoodieLocation;
+  _$_FoodieLocationModel get _value => super._value as _$_FoodieLocationModel;
 
   @override
   $Res call({
     Object? latitude = freezed,
     Object? longitude = freezed,
   }) {
-    return _then(_$_FoodieLocation(
+    return _then(_$_FoodieLocationModel(
       latitude: latitude == freezed
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
@@ -105,12 +105,12 @@ class __$$_FoodieLocationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_FoodieLocation extends _FoodieLocation {
-  _$_FoodieLocation({required this.latitude, required this.longitude})
+class _$_FoodieLocationModel extends _FoodieLocationModel {
+  _$_FoodieLocationModel({required this.latitude, required this.longitude})
       : super._();
 
-  factory _$_FoodieLocation.fromJson(Map<String, dynamic> json) =>
-      _$$_FoodieLocationFromJson(json);
+  factory _$_FoodieLocationModel.fromJson(Map<String, dynamic> json) =>
+      _$$_FoodieLocationModelFromJson(json);
 
   @override
   final double latitude;
@@ -119,14 +119,14 @@ class _$_FoodieLocation extends _FoodieLocation {
 
   @override
   String toString() {
-    return 'FoodieLocation(latitude: $latitude, longitude: $longitude)';
+    return 'FoodieLocationModel(latitude: $latitude, longitude: $longitude)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FoodieLocation &&
+            other is _$_FoodieLocationModel &&
             const DeepCollectionEquality().equals(other.latitude, latitude) &&
             const DeepCollectionEquality().equals(other.longitude, longitude));
   }
@@ -140,23 +140,24 @@ class _$_FoodieLocation extends _FoodieLocation {
 
   @JsonKey(ignore: true)
   @override
-  _$$_FoodieLocationCopyWith<_$_FoodieLocation> get copyWith =>
-      __$$_FoodieLocationCopyWithImpl<_$_FoodieLocation>(this, _$identity);
+  _$$_FoodieLocationModelCopyWith<_$_FoodieLocationModel> get copyWith =>
+      __$$_FoodieLocationModelCopyWithImpl<_$_FoodieLocationModel>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FoodieLocationToJson(this);
+    return _$$_FoodieLocationModelToJson(this);
   }
 }
 
-abstract class _FoodieLocation extends FoodieLocation {
-  factory _FoodieLocation(
+abstract class _FoodieLocationModel extends FoodieLocationModel {
+  factory _FoodieLocationModel(
       {required final double latitude,
-      required final double longitude}) = _$_FoodieLocation;
-  _FoodieLocation._() : super._();
+      required final double longitude}) = _$_FoodieLocationModel;
+  _FoodieLocationModel._() : super._();
 
-  factory _FoodieLocation.fromJson(Map<String, dynamic> json) =
-      _$_FoodieLocation.fromJson;
+  factory _FoodieLocationModel.fromJson(Map<String, dynamic> json) =
+      _$_FoodieLocationModel.fromJson;
 
   @override
   double get latitude => throw _privateConstructorUsedError;
@@ -164,6 +165,6 @@ abstract class _FoodieLocation extends FoodieLocation {
   double get longitude => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_FoodieLocationCopyWith<_$_FoodieLocation> get copyWith =>
+  _$$_FoodieLocationModelCopyWith<_$_FoodieLocationModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
