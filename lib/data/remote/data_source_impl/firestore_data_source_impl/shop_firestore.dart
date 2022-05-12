@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/data/remote/firestore_provider.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final shopFirestoreProvider = Provider<ShopFirestore>(
@@ -34,6 +35,29 @@ class ShopFirestore {
       } on Exception catch (e) {
         return Error(e);
       }
+    }
+  }
+
+  Future<Result<void>> postShop(
+      {required Map<String, dynamic> shopData}) async {
+    final ref = _firestore.collection('shops');
+    final geo = Geoflutterfire();
+    final position = geo.point(
+        latitude: shopData['latitude'], longitude: shopData['longitude']);
+
+    try {
+      final geoShopData = {
+        'name': shopData['name'],
+        'shop_id': shopData['shop_id'],
+        'position': position.data,
+        'comment': shopData['comment'],
+        'images': shopData['images'],
+        'tags': shopData['tags'],
+      };
+      await ref.add(geoShopData);
+      return Success(null);
+    } on Exception catch (e) {
+      return Error(e);
     }
   }
 }

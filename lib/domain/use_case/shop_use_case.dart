@@ -13,4 +13,7 @@ class ShopUseCase {
 
   Future<Result<List<Shop>>> fetchShops({required int limit, String? cursor}) =>
       _repository.fetchShops(limit: limit, cursor: cursor);
+
+  Future<Result<void>> postShop({required Shop shop}) =>
+      _repository.postShop(shop: shop);
 }

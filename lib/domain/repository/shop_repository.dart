@@ -9,4 +9,6 @@ final shopRepositoryProvider = Provider<ShopRepositoryImpl>(
 
 abstract class ShopRepository {
   Future<Result<List<Shop>>> fetchShops({required int limit, String? cursor});
+
+  Future<Result<void>> postShop({required Shop shop});
 }

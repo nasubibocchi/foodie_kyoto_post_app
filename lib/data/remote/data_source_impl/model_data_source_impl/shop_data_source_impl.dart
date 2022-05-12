@@ -18,4 +18,15 @@ class ShopDataSourceImpl implements ShopDataSource {
             data.value.docs.map((e) => ShopModel.fromJson(e.data())).toList()),
         (e) => Error(Exception(e)));
   }
+
+  @override
+  Future<Result<void>> postShop({required ShopModel shop}) async {
+    final shopData = shop.toJson();
+    final postResult = await _shopFirestore.postShop(shopData: shopData);
+
+    return postResult.whenWithResult(
+      (success) => Success(null),
+      (e) => Error(Exception(e)),
+    );
+  }
 }

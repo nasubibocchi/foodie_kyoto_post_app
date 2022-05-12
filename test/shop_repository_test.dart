@@ -70,4 +70,39 @@ void main() {
       );
     });
   });
+
+  group('postShop', () {
+    test(
+      'Testing shop to shop model',
+      () async {
+        final shop = Shop(
+            name: 'name',
+            shopId: 'shop_id',
+            latitude: 50.0,
+            longitude: 100.0,
+            comment: 'comment',
+            images: ['image1', 'image2'],
+            tags: [1, 3]);
+
+        const shopModel = ShopModel(
+            name: 'name',
+            shopId: 'shop_id',
+            latitude: 50.0,
+            longitude: 100.0,
+            comment: 'comment',
+            images: ['image1', 'image2'],
+            tags: [1, 3]);
+
+        when(_shopDataSource.postShop(shop: shopModel)).thenAnswer((_) async {
+          return Success(null);
+        });
+
+        final model = container.read(shopRepositoryProvider);
+        final result = await model.postShop(shop: shop);
+
+        expect(result, isA<Result<void>>());
+      },
+      skip: true,
+    );
+  });
 }
