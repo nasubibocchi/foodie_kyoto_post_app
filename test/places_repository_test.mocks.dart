@@ -58,11 +58,11 @@ class MockPlacesDataSource extends _i1.Mock implements _i4.PlacesDataSource {
                       _FakeResult_1<List<_i6.FoodiePredictionModel>>()))
           as _i5.Future<_i3.Result<List<_i6.FoodiePredictionModel>>>);
   @override
-  _i5.Future<_i3.Result<_i7.FoodieLocationModel?>> searchShopDetailByPlaceId(
+  _i5.Future<_i3.Result<_i7.FoodieLocationModel?>> searchShopLocationByPlaceId(
           {String? placeId}) =>
       (super.noSuchMethod(
               Invocation.method(
-                  #searchShopDetailByPlaceId, [], {#placeId: placeId}),
+                  #searchShopLocationByPlaceId, [], {#placeId: placeId}),
               returnValue: Future<_i3.Result<_i7.FoodieLocationModel?>>.value(
                   _FakeResult_1<_i7.FoodieLocationModel?>()))
           as _i5.Future<_i3.Result<_i7.FoodieLocationModel?>>);

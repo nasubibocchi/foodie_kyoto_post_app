@@ -20,7 +20,7 @@ class PlacesUseCase {
           {required String body}) =>
       _repository.searchShopsByAutoComplete(body: body);
 
-  Future<Result<FoodieLocation?>> searchShopDetailByPlaceId(
+  Future<Result<FoodieLocation?>> searchShopLocationByPlaceId(
           {required String placeId}) =>
-      _repository.searchShopDetailByPlaceId(placeId: placeId);
+      _repository.searchShopLocationByPlaceId(placeId: placeId);
 }

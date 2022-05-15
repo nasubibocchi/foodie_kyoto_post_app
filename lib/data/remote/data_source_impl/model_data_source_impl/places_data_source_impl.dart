@@ -35,7 +35,7 @@ class PlacesDataSourceImpl implements PlacesDataSource {
   }
 
   @override
-  Future<Result<FoodieLocationModel?>> searchShopDetailByPlaceId(
+  Future<Result<FoodieLocationModel?>> searchShopLocationByPlaceId(
       {required String placeId}) async {
     try {
       final placesDetailResponse = await places.getDetailsByPlaceId(placeId);

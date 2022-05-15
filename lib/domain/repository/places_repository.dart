@@ -14,6 +14,6 @@ abstract class PlacesRepository {
   Future<Result<List<FoodiePrediction>>> searchShopsByAutoComplete(
       {required String body});
 
-  Future<Result<FoodieLocation?>> searchShopDetailByPlaceId(
+  Future<Result<FoodieLocation?>> searchShopLocationByPlaceId(
       {required String placeId});
 }

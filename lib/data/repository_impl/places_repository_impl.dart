@@ -29,10 +29,10 @@ class PlacesRepositoryImpl implements PlacesRepository {
   }
 
   @override
-  Future<Result<FoodieLocation?>> searchShopDetailByPlaceId(
+  Future<Result<FoodieLocation?>> searchShopLocationByPlaceId(
       {required String placeId}) async {
     final placesDetailResponse =
-        await _dataSource.searchShopDetailByPlaceId(placeId: placeId);
+        await _dataSource.searchShopLocationByPlaceId(placeId: placeId);
 
     return placesDetailResponse.whenWithResult(
       (response) {

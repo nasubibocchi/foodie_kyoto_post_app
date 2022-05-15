@@ -64,7 +64,7 @@ void main() {
       });
 
       final model = container.read(placesDataSourceProvider);
-      final result = await model.searchShopDetailByPlaceId(placeId: placeId);
+      final result = await model.searchShopLocationByPlaceId(placeId: placeId);
 
       expect(result, isA<Success<FoodieLocationModel?>>());
 

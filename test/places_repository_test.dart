@@ -69,13 +69,13 @@ void main() {
   group('get shop detail by place id', () {
     test('when there is location to return', () async {
       const placeId = 'place_id_1';
-      when(placesDataSource.searchShopDetailByPlaceId(placeId: placeId))
+      when(placesDataSource.searchShopLocationByPlaceId(placeId: placeId))
           .thenAnswer((_) async {
         return Success(FoodieLocationModel(latitude: 50.0, longitude: 135));
       });
 
       final model = container.read(placesRepositoryProvider);
-      final result = await model.searchShopDetailByPlaceId(placeId: placeId);
+      final result = await model.searchShopLocationByPlaceId(placeId: placeId);
 
       expect(result, isA<Success<FoodieLocation?>>());
 
