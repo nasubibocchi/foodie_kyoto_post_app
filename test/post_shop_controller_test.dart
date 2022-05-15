@@ -37,7 +37,8 @@ void main() {
             longitude: 135.0,
             comment: 'comment',
             images: [],
-            tags: []));
+            tags: [],
+            postUser: 'user1'));
       });
 
       final model = container.read(postShopProvider(shopId).notifier);
@@ -110,7 +111,8 @@ void main() {
             longitude: 135.0,
             comment: 'comment',
             images: [],
-            tags: []));
+            tags: [],
+            postUser: 'user1'));
       });
 
       final model = container.read(postShopProvider(shopId).notifier);

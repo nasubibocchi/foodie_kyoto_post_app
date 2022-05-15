@@ -50,7 +50,8 @@ class PostShopController extends StateNotifier<PostShopState> {
               longitude: shopDetail.longitude,
               comment: '',
               images: [],
-              tags: []);
+              tags: [],
+              postUser: '');
           state = PostShopState(
               shop: shop,
               commentController: TextEditingController(text: shop.comment));
@@ -79,7 +80,8 @@ class PostShopController extends StateNotifier<PostShopState> {
           longitude: currentState.shop!.longitude,
           comment: comment,
           images: currentState.shop!.images,
-          tags: currentState.shop!.tags);
+          tags: currentState.shop!.tags,
+          postUser: currentState.shop!.postUser);
 
       state = currentState.copyWith(
           shop: shop,
