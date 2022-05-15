@@ -4,11 +4,10 @@
 
 import 'dart:async' as _i5;
 
-import 'package:foodie_kyoto_post_app/data/model/foodie_location_model.dart'
-    as _i7;
 import 'package:foodie_kyoto_post_app/data/model/foodie_prediction_model.dart'
     as _i6;
 import 'package:foodie_kyoto_post_app/data/model/result.dart' as _i3;
+import 'package:foodie_kyoto_post_app/data/model/shop_detail_model.dart' as _i7;
 import 'package:foodie_kyoto_post_app/data/remote/data_source/places_data_source.dart'
     as _i4;
 import 'package:google_maps_webservice/places.dart' as _i2;
@@ -58,12 +57,12 @@ class MockPlacesDataSource extends _i1.Mock implements _i4.PlacesDataSource {
                       _FakeResult_1<List<_i6.FoodiePredictionModel>>()))
           as _i5.Future<_i3.Result<List<_i6.FoodiePredictionModel>>>);
   @override
-  _i5.Future<_i3.Result<_i7.FoodieLocationModel?>> searchShopLocationByPlaceId(
+  _i5.Future<_i3.Result<_i7.ShopDetailModel?>> searchShopDetailsByPlaceId(
           {String? placeId}) =>
       (super.noSuchMethod(
               Invocation.method(
-                  #searchShopLocationByPlaceId, [], {#placeId: placeId}),
-              returnValue: Future<_i3.Result<_i7.FoodieLocationModel?>>.value(
-                  _FakeResult_1<_i7.FoodieLocationModel?>()))
-          as _i5.Future<_i3.Result<_i7.FoodieLocationModel?>>);
+                  #searchShopDetailsByPlaceId, [], {#placeId: placeId}),
+              returnValue: Future<_i3.Result<_i7.ShopDetailModel?>>.value(
+                  _FakeResult_1<_i7.ShopDetailModel?>()))
+          as _i5.Future<_i3.Result<_i7.ShopDetailModel?>>);
 }

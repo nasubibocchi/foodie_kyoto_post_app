@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:foodie_kyoto_post_app/data/model/foodie_location_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/foodie_prediction_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
+import 'package:foodie_kyoto_post_app/data/model/shop_detail_model.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source/places_data_source.dart';
 import 'package:foodie_kyoto_post_app/data/repository_impl/places_repository_impl.dart';
-import 'package:foodie_kyoto_post_app/domain/entity/foodie_location.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/foodie_prediction.dart';
+import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
 import 'package:foodie_kyoto_post_app/domain/repository/places_repository.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -69,15 +69,16 @@ void main() {
   group('get shop detail by place id', () {
     test('when there is location to return', () async {
       const placeId = 'place_id_1';
-      when(placesDataSource.searchShopLocationByPlaceId(placeId: placeId))
+      when(placesDataSource.searchShopDetailsByPlaceId(placeId: placeId))
           .thenAnswer((_) async {
-        return Success(FoodieLocationModel(latitude: 50.0, longitude: 135));
+        return Success(
+            ShopDetailModel(name: 'shop1', latitude: 50.0, longitude: 135));
       });
 
       final model = container.read(placesRepositoryProvider);
-      final result = await model.searchShopLocationByPlaceId(placeId: placeId);
+      final result = await model.searchShopDetailsByPlaceId(placeId: placeId);
 
-      expect(result, isA<Success<FoodieLocation?>>());
+      expect(result, isA<Success<ShopDetail?>>());
 
       result.whenWithResult(
         (foodieLocation) => expect(foodieLocation.value?.latitude, 50.0),

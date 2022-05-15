@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:foodie_kyoto_post_app/data/model/foodie_location_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/foodie_prediction_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
+import 'package:foodie_kyoto_post_app/data/model/shop_detail_model.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source/places_data_source.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source_impl/model_data_source_impl/places_data_source_impl.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -64,9 +64,9 @@ void main() {
       });
 
       final model = container.read(placesDataSourceProvider);
-      final result = await model.searchShopLocationByPlaceId(placeId: placeId);
+      final result = await model.searchShopDetailsByPlaceId(placeId: placeId);
 
-      expect(result, isA<Success<FoodieLocationModel?>>());
+      expect(result, isA<Success<ShopDetailModel?>>());
 
       result.whenWithResult(
         (foodieLocation) => expect(foodieLocation.value?.latitude, 50.0),
