@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
+import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,35 +21,42 @@ class PostShopState with _$PostShopState {
 }
 
 class PostShopController extends StateNotifier<PostShopState> {
-  PostShopController(this._shopUseCase, this._shopId)
+  PostShopController(this._shopUseCase, this._placesUseCase, this._shopId)
       : super(PostShopState.loading()) {
     initShopState();
   }
 
   final ShopUseCase _shopUseCase;
+  final PlacesUseCase _placesUseCase;
   final String _shopId;
 
   Future<void> initShopState() async {
     final shopResult = await _shopUseCase.fetchShopByShopId(shopId: _shopId);
 
-    shopResult.whenWithResult((shop) {
+    shopResult.whenWithResult((shop) async {
       if (shop.value != null) {
         state = PostShopState(
           shop: shop.value,
           commentController: TextEditingController(text: shop.value!.comment),
         );
       } else {
-        final shop = Shop(
-            name: '',
-            shopId: _shopId,
-            latitude: 0.0,
-            longitude: 0.0,
-            comment: '',
-            images: [],
-            tags: []);
-        state = PostShopState(
-            shop: shop,
-            commentController: TextEditingController(text: shop.comment));
+        final shopDetail = await fetchShopDetail();
+
+        if (shopDetail != null) {
+          final shop = Shop(
+              name: shopDetail.name,
+              shopId: _shopId,
+              latitude: shopDetail.latitude,
+              longitude: shopDetail.longitude,
+              comment: '',
+              images: [],
+              tags: []);
+          state = PostShopState(
+              shop: shop,
+              commentController: TextEditingController(text: shop.comment));
+        } else {
+          state = PostShopState.error();
+        }
       }
     }, (e) {
       state = PostShopState.error();
@@ -76,5 +85,20 @@ class PostShopController extends StateNotifier<PostShopState> {
           shop: shop,
           commentController: TextEditingController(text: shop.comment));
     }
+  }
+
+  Future<ShopDetail?> fetchShopDetail() async {
+    final shopDetailResult =
+        await _placesUseCase.searchShopDetailsByPlaceId(placeId: _shopId);
+
+    ShopDetail? shopDetail;
+
+    shopDetailResult.whenWithResult((detail) {
+      shopDetail = detail.value;
+    }, (e) {
+      shopDetail = null;
+    });
+
+    return shopDetail;
   }
 }
