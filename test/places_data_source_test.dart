@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:foodie_kyoto_post_app/data/model/foodie_prediction_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
+import 'package:foodie_kyoto_post_app/data/model/shop_detail_model.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source/places_data_source.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source_impl/model_data_source_impl/places_data_source_impl.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -44,6 +45,31 @@ void main() {
 
       result.whenWithResult(
         (list) => expect(list.value.length, 2),
+        (e) => expect(e, Exception('Unhendled part, could be anything')),
+      );
+    });
+  });
+
+  group('search detail by shop id', () {
+    test('when there is shop detail to return', () async {
+      const placeId = 'place_id_1';
+      when(googleMapsPlaces.getDetailsByPlaceId(placeId)).thenAnswer((_) async {
+        return PlacesDetailsResponse(
+            status: 'ok',
+            result: PlaceDetails(
+                name: 'name',
+                placeId: placeId,
+                geometry: Geometry(location: Location(lat: 50.0, lng: 135.0))),
+            htmlAttributions: ['html_attributions']);
+      });
+
+      final model = container.read(placesDataSourceProvider);
+      final result = await model.searchShopDetailsByPlaceId(placeId: placeId);
+
+      expect(result, isA<Success<ShopDetailModel?>>());
+
+      result.whenWithResult(
+        (foodieLocation) => expect(foodieLocation.value?.latitude, 50.0),
         (e) => expect(e, Exception('Unhendled part, could be anything')),
       );
     });
