@@ -1,7 +1,7 @@
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source/places_data_source.dart';
-import 'package:foodie_kyoto_post_app/domain/entity/foodie_location.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/foodie_prediction.dart';
+import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
 import 'package:foodie_kyoto_post_app/domain/repository/places_repository.dart';
 
 class PlacesRepositoryImpl implements PlacesRepository {
@@ -29,19 +29,20 @@ class PlacesRepositoryImpl implements PlacesRepository {
   }
 
   @override
-  Future<Result<FoodieLocation?>> searchShopLocationByPlaceId(
+  Future<Result<ShopDetail?>> searchShopDetailsByPlaceId(
       {required String placeId}) async {
     final placesDetailResponse =
-        await _dataSource.searchShopLocationByPlaceId(placeId: placeId);
+        await _dataSource.searchShopDetailsByPlaceId(placeId: placeId);
 
     return placesDetailResponse.whenWithResult(
       (response) {
         final latitude = response.value?.latitude;
         final longitude = response.value?.longitude;
+        final shopName = response.value?.name ?? '';
 
         if (latitude != null && longitude != null) {
-          final location =
-              FoodieLocation(latitude: latitude, longitude: longitude);
+          final location = ShopDetail(
+              name: shopName, latitude: latitude, longitude: longitude);
           return Success(location);
         } else {
           return Success(null);

@@ -1,6 +1,6 @@
-import 'package:foodie_kyoto_post_app/data/model/foodie_location_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/foodie_prediction_model.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
+import 'package:foodie_kyoto_post_app/data/model/shop_detail_model.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source/places_data_source.dart';
 import 'package:google_maps_webservice/places.dart';
 
@@ -35,17 +35,18 @@ class PlacesDataSourceImpl implements PlacesDataSource {
   }
 
   @override
-  Future<Result<FoodieLocationModel?>> searchShopLocationByPlaceId(
+  Future<Result<ShopDetailModel?>> searchShopDetailsByPlaceId(
       {required String placeId}) async {
     try {
       final placesDetailResponse = await places.getDetailsByPlaceId(placeId);
 
       final latitude = placesDetailResponse.result.geometry?.location.lat;
       final longitude = placesDetailResponse.result.geometry?.location.lng;
+      final shopName = placesDetailResponse.result.name;
 
       if (latitude != null && longitude != null) {
-        final foodieLocation =
-            FoodieLocationModel(latitude: latitude, longitude: longitude);
+        final foodieLocation = ShopDetailModel(
+            name: shopName, latitude: latitude, longitude: longitude);
         return Success(foodieLocation);
       } else {
         return Success(null);
