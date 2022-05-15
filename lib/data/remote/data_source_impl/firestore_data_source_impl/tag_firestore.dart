@@ -15,7 +15,7 @@ class TagFirestore {
     final ref = _firestore.collection('tags');
 
     try {
-      final snapshot = await ref.get();
+      final snapshot = await ref.orderBy('name').get();
       return Success(snapshot);
     } on Exception catch (e) {
       return Error(e);
