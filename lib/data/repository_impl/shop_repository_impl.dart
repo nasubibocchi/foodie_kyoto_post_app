@@ -18,13 +18,15 @@ class ShopRepositoryImpl implements ShopRepository {
     return appShopList.whenWithResult(
         (data) => Success(data.value
             .map((e) => Shop(
-                name: e.name,
-                shopId: e.shopId,
-                latitude: e.latitude,
-                longitude: e.longitude,
-                comment: e.comment,
-                images: e.images,
-                tags: e.tags))
+                  name: e.name,
+                  shopId: e.shopId,
+                  latitude: e.latitude,
+                  longitude: e.longitude,
+                  comment: e.comment,
+                  images: e.images,
+                  tags: e.tags,
+                  postUser: e.postUser,
+                ))
             .toList()),
         (e) => Error(Exception(e)));
   }
@@ -38,7 +40,8 @@ class ShopRepositoryImpl implements ShopRepository {
         longitude: shop.longitude,
         comment: shop.comment,
         images: shop.images,
-        tags: shop.tags);
+        tags: shop.tags,
+        postUser: shop.postUser);
 
     final postResult = await _dataSource.postShop(shop: shopModel);
 
@@ -62,7 +65,8 @@ class ShopRepositoryImpl implements ShopRepository {
               longitude: shop.value!.longitude,
               comment: shop.value!.comment,
               images: shop.value!.images,
-              tags: shop.value!.tags));
+              tags: shop.value!.tags,
+              postUser: shop.value!.postUser));
         } else {
           return Success(null);
         }

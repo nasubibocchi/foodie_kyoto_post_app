@@ -14,6 +14,7 @@ void main() {
       'images': ['image1', 'image2'],
       'tags': [1, 3],
       'created_at': DateTime(2020, 1, 1),
+      'post_user': 'user1',
     },
     {
       'name': 'name_2',
@@ -26,6 +27,7 @@ void main() {
       'images': ['image1', 'image2'],
       'tags': [2, 4],
       'created_at': DateTime.now(),
+      'post_user': 'user1',
     },
   ];
 
@@ -39,7 +41,8 @@ void main() {
         longitude: 135.765321,
         comment: 'comment_1',
         images: ['image1', 'image2'],
-        tags: [1, 3]);
+        tags: [1, 3],
+        postUser: 'user1');
 
     expect(test.name, actual.name);
     expect(test.shopId, actual.shopId);
@@ -48,6 +51,7 @@ void main() {
     expect(test.comment, actual.comment);
     expect(test.images, actual.images);
     expect(test.tags, actual.tags);
+    expect(test.postUser, actual.postUser);
   });
 
   group('copyWith', () {
@@ -59,7 +63,8 @@ void main() {
           longitude: 135.765321,
           comment: 'comment_2',
           images: ['image1', 'image2'],
-          tags: [1, 3]);
+          tags: [1, 3],
+          postUser: 'user1');
 
       final copyWith = original.copyWith(
           name: original.name,
@@ -68,7 +73,8 @@ void main() {
           longitude: original.longitude,
           comment: original.comment,
           images: original.images,
-          tags: original.tags);
+          tags: original.tags,
+          postUser: original.postUser);
 
       expect(copyWith.name, original.name);
       expect(copyWith.shopId, original.shopId);
@@ -77,6 +83,7 @@ void main() {
       expect(copyWith.comment, original.comment);
       expect(copyWith.images, original.images);
       expect(copyWith.tags, original.tags);
+      expect(copyWith.postUser, original.postUser);
     });
 
     test('copyWith != original', () {
@@ -87,7 +94,8 @@ void main() {
           longitude: 135.765321,
           comment: 'comment_2',
           images: ['image1', 'image2'],
-          tags: [1, 3]);
+          tags: [1, 3],
+          postUser: 'user1');
       final copyWith = original.copyWith(
           name: original.name,
           shopId: original.shopId,
@@ -95,7 +103,8 @@ void main() {
           longitude: original.latitude,
           comment: original.comment,
           images: original.images,
-          tags: original.tags);
+          tags: original.tags,
+          postUser: original.postUser);
 
       expect(copyWith.longitude, isNot(original.longitude));
     });
@@ -109,7 +118,8 @@ void main() {
         longitude: 135.765321,
         comment: 'comment_2',
         images: ['image1', 'image2'],
-        tags: [1, 3]);
+        tags: [1, 3],
+        postUser: 'user1');
 
     final json = original.toJson();
     expect(json, isA<Map<String, dynamic>>());
@@ -123,7 +133,8 @@ void main() {
         longitude: 135.765321,
         comment: 'comment_2',
         images: ['image1', 'image2'],
-        tags: [1, 3]);
+        tags: [1, 3],
+        postUser: 'user1');
 
     final json = original.toString();
     expect(json, isA<String>());
