@@ -23,8 +23,8 @@ void main() {
     test('when there are tags to return', () async {
       when(_tagDataSource.fetchAllTags()).thenAnswer((_) async {
         return Success([
-          TagModel(id: 1, name: 'tag1', shopIdList: ['shop1', 'shop2']),
-          TagModel(id: 2, name: 'tag2', shopIdList: []),
+          TagModel(id: 1, name: 'tag1'),
+          TagModel(id: 2, name: 'tag2'),
         ]);
       });
 

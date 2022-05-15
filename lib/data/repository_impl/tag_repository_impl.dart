@@ -14,9 +14,8 @@ class TagRepositoryImpl implements TagRepository {
     final dataSourceResult = await _dataSource.fetchAllTags();
 
     return dataSourceResult.whenWithResult(
-      (data) => Success(data.value
-          .map((e) => Tag(id: e.id, name: e.name, shopIdList: e.shopIdList))
-          .toList()),
+      (data) =>
+          Success(data.value.map((e) => Tag(id: e.id, name: e.name)).toList()),
       (e) => Error(Exception(e)),
     );
   }
