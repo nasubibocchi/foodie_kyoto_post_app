@@ -5,7 +5,12 @@
 import 'dart:async' as _i4;
 
 import 'package:foodie_kyoto_post_app/data/model/result.dart' as _i2;
+import 'package:foodie_kyoto_post_app/domain/entity/foodie_prediction.dart'
+    as _i7;
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart' as _i5;
+import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart' as _i8;
+import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart'
+    as _i6;
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -51,4 +56,35 @@ class MockShopUseCase extends _i1.Mock implements _i3.ShopUseCase {
               returnValue: Future<_i2.Result<_i5.Shop?>>.value(
                   _FakeResult_0<_i5.Shop?>()))
           as _i4.Future<_i2.Result<_i5.Shop?>>);
+}
+
+/// A class which mocks [PlacesUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPlacesUseCase extends _i1.Mock implements _i6.PlacesUseCase {
+  MockPlacesUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void initGooglePlaces({String? apiKey}) => super.noSuchMethod(
+      Invocation.method(#initGooglePlaces, [], {#apiKey: apiKey}),
+      returnValueForMissingStub: null);
+  @override
+  _i4.Future<_i2.Result<List<_i7.FoodiePrediction>>> searchShopsByAutoComplete(
+          {String? body}) =>
+      (super.noSuchMethod(
+              Invocation.method(#searchShopsByAutoComplete, [], {#body: body}),
+              returnValue: Future<_i2.Result<List<_i7.FoodiePrediction>>>.value(
+                  _FakeResult_0<List<_i7.FoodiePrediction>>()))
+          as _i4.Future<_i2.Result<List<_i7.FoodiePrediction>>>);
+  @override
+  _i4.Future<_i2.Result<_i8.ShopDetail?>> searchShopDetailsByPlaceId(
+          {String? placeId}) =>
+      (super.noSuchMethod(
+              Invocation.method(
+                  #searchShopDetailsByPlaceId, [], {#placeId: placeId}),
+              returnValue: Future<_i2.Result<_i8.ShopDetail?>>.value(
+                  _FakeResult_0<_i8.ShopDetail?>()))
+          as _i4.Future<_i2.Result<_i8.ShopDetail?>>);
 }

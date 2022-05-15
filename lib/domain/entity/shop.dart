@@ -6,6 +6,7 @@ class Shop {
   final String comment;
   final List<String> images;
   final List<int> tags;
+  final String postUser;
 
   Shop({
     required this.name,
@@ -15,5 +16,6 @@ class Shop {
     required this.comment,
     required this.images,
     required this.tags,
+    required this.postUser,
   });
 }
