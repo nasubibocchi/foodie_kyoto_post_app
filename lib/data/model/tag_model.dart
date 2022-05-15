@@ -6,10 +6,7 @@ part 'tag_model.g.dart';
 
 @freezed
 class TagModel with _$TagModel {
-  factory TagModel(
-      {required int id,
-      required String name,
-      required List<String> shopIdList}) = _TagModel;
+  factory TagModel({required int id, required String name}) = _TagModel;
 
   const TagModel._();
 

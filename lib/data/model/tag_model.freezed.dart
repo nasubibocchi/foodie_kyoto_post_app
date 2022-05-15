@@ -22,7 +22,6 @@ TagModel _$TagModelFromJson(Map<String, dynamic> json) {
 mixin _$TagModel {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  List<String> get shopIdList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +33,7 @@ mixin _$TagModel {
 abstract class $TagModelCopyWith<$Res> {
   factory $TagModelCopyWith(TagModel value, $Res Function(TagModel) then) =
       _$TagModelCopyWithImpl<$Res>;
-  $Res call({int id, String name, List<String> shopIdList});
+  $Res call({int id, String name});
 }
 
 /// @nodoc
@@ -49,7 +48,6 @@ class _$TagModelCopyWithImpl<$Res> implements $TagModelCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
-    Object? shopIdList = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -60,10 +58,6 @@ class _$TagModelCopyWithImpl<$Res> implements $TagModelCopyWith<$Res> {
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      shopIdList: shopIdList == freezed
-          ? _value.shopIdList
-          : shopIdList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ));
   }
 }
@@ -74,7 +68,7 @@ abstract class _$$_TagModelCopyWith<$Res> implements $TagModelCopyWith<$Res> {
           _$_TagModel value, $Res Function(_$_TagModel) then) =
       __$$_TagModelCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name, List<String> shopIdList});
+  $Res call({int id, String name});
 }
 
 /// @nodoc
@@ -91,7 +85,6 @@ class __$$_TagModelCopyWithImpl<$Res> extends _$TagModelCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
-    Object? shopIdList = freezed,
   }) {
     return _then(_$_TagModel(
       id: id == freezed
@@ -102,10 +95,6 @@ class __$$_TagModelCopyWithImpl<$Res> extends _$TagModelCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      shopIdList: shopIdList == freezed
-          ? _value._shopIdList
-          : shopIdList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ));
   }
 }
@@ -113,12 +102,7 @@ class __$$_TagModelCopyWithImpl<$Res> extends _$TagModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_TagModel extends _TagModel {
-  _$_TagModel(
-      {required this.id,
-      required this.name,
-      required final List<String> shopIdList})
-      : _shopIdList = shopIdList,
-        super._();
+  _$_TagModel({required this.id, required this.name}) : super._();
 
   factory _$_TagModel.fromJson(Map<String, dynamic> json) =>
       _$$_TagModelFromJson(json);
@@ -127,16 +111,10 @@ class _$_TagModel extends _TagModel {
   final int id;
   @override
   final String name;
-  final List<String> _shopIdList;
-  @override
-  List<String> get shopIdList {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_shopIdList);
-  }
 
   @override
   String toString() {
-    return 'TagModel(id: $id, name: $name, shopIdList: $shopIdList)';
+    return 'TagModel(id: $id, name: $name)';
   }
 
   @override
@@ -145,9 +123,7 @@ class _$_TagModel extends _TagModel {
         (other.runtimeType == runtimeType &&
             other is _$_TagModel &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other._shopIdList, _shopIdList));
+            const DeepCollectionEquality().equals(other.name, name));
   }
 
   @JsonKey(ignore: true)
@@ -155,8 +131,7 @@ class _$_TagModel extends _TagModel {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(_shopIdList));
+      const DeepCollectionEquality().hash(name));
 
   @JsonKey(ignore: true)
   @override
@@ -170,10 +145,8 @@ class _$_TagModel extends _TagModel {
 }
 
 abstract class _TagModel extends TagModel {
-  factory _TagModel(
-      {required final int id,
-      required final String name,
-      required final List<String> shopIdList}) = _$_TagModel;
+  factory _TagModel({required final int id, required final String name}) =
+      _$_TagModel;
   _TagModel._() : super._();
 
   factory _TagModel.fromJson(Map<String, dynamic> json) = _$_TagModel.fromJson;
@@ -182,8 +155,6 @@ abstract class _TagModel extends TagModel {
   int get id => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
-  @override
-  List<String> get shopIdList => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_TagModelCopyWith<_$_TagModel> get copyWith =>
