@@ -9,7 +9,8 @@ class ShopModel {
       required this.longitude,
       required this.comment,
       required this.images,
-      required this.tags});
+      required this.tags,
+      required this.postUser});
 
   factory ShopModel.fromJson(Map<String, Object?> json) {
     final position = json['position'] as Map<String, dynamic>;
@@ -28,7 +29,8 @@ class ShopModel {
         longitude: geoPoint['longitude'] as double,
         comment: json['comment'] as String,
         images: images,
-        tags: tags);
+        tags: tags,
+        postUser: json['post_user'] as String);
   }
 
   final String name;
@@ -38,6 +40,7 @@ class ShopModel {
   final String comment;
   final List<String> images;
   final List<int> tags;
+  final String postUser;
 
   ShopModel copyWith(
       {String? name,
@@ -46,7 +49,8 @@ class ShopModel {
       double? longitude,
       String? comment,
       List<String>? images,
-      List<int>? tags}) {
+      List<int>? tags,
+      String? postUser}) {
     return ShopModel(
         name: name as String,
         shopId: shopId as String,
@@ -54,7 +58,8 @@ class ShopModel {
         longitude: longitude as double,
         comment: comment as String,
         images: images as List<String>,
-        tags: tags as List<int>);
+        tags: tags as List<int>,
+        postUser: postUser as String);
   }
 
   Map<String, Object?> toJson() {
@@ -65,7 +70,8 @@ class ShopModel {
       'longitude': longitude,
       'comment': comment,
       'images': images,
-      'tags': tags
+      'tags': tags,
+      'post_user': postUser,
     };
   }
 
@@ -73,12 +79,13 @@ class ShopModel {
   String toString() {
     return 'ShopModel('
         'name: $name,'
-        'shop_id: $shopId'
-        'latitude: $latitude'
-        'longitude: $longitude'
-        'comment: $comment'
-        'images: $images'
-        'tags: $tags'
+        'shop_id: $shopId,'
+        'latitude: $latitude,'
+        'longitude: $longitude,'
+        'comment: $comment,'
+        'images: $images,'
+        'tags: $tags,'
+        'post_user: $postUser,'
         ')';
   }
 
@@ -87,7 +94,7 @@ class ShopModel {
 
   @override
   int get hashCode {
-    return Object.hash(
-        runtimeType, name, shopId, latitude, longitude, comment, images, tags);
+    return Object.hash(runtimeType, name, shopId, latitude, longitude, comment,
+        images, tags, postUser);
   }
 }

@@ -34,6 +34,7 @@ void main() {
           'comment': 'comment_1',
           'images': ['image1', 'image2'],
           'tags': [1, 3],
+          'post_user': 'user1',
           'created_at': DateTime(2020, 1, 1),
         },
         {
@@ -46,6 +47,7 @@ void main() {
           'comment': 'comment_2',
           'images': ['image1', 'image2'],
           'tags': [2, 4],
+          'post_user': 'user1',
           'created_at': DateTime.now(),
         },
       ];
@@ -78,7 +80,8 @@ void main() {
             longitude: 100.0,
             comment: 'comment',
             images: ['image1', 'image2'],
-            tags: [1, 3]);
+            tags: [1, 3],
+            postUser: 'user1');
 
         const shopModel = ShopModel(
             name: 'name',
@@ -87,7 +90,8 @@ void main() {
             longitude: 100.0,
             comment: 'comment',
             images: ['image1', 'image2'],
-            tags: [1, 3]);
+            tags: [1, 3],
+            postUser: 'user1');
 
         when(_shopDataSource.postShop(shop: shopModel)).thenAnswer((_) async {
           return Success(null);
@@ -114,7 +118,8 @@ void main() {
             longitude: 100.0,
             comment: 'comment',
             images: ['image_1', 'image_2'],
-            tags: [1, 3]));
+            tags: [1, 3],
+            postUser: 'user1'));
       });
 
       final model = container.read(shopRepositoryProvider);

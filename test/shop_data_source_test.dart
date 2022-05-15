@@ -37,6 +37,7 @@ Future<void> main() async {
       'comment': 'comment_1',
       'images': ['image1', 'image2'],
       'tags': [1, 3],
+      'post_user': 'user1',
       'created_at': DateTime(2020, 1, 1),
     },
   );
@@ -52,6 +53,7 @@ Future<void> main() async {
       'comment': 'comment_2',
       'images': ['image1', 'image2'],
       'tags': [2, 4],
+      'post_user': 'user1',
       'created_at': DateTime.now(),
     },
   );
@@ -119,7 +121,8 @@ Future<void> main() async {
         longitude: 100.0,
         comment: 'comment_3',
         images: ['image1', 'image2'],
-        tags: [1, 3]);
+        tags: [1, 3],
+        postUser: 'user1');
 
     final geo = Geoflutterfire();
 
