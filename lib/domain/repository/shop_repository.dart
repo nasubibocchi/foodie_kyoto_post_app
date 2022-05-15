@@ -11,4 +11,6 @@ abstract class ShopRepository {
   Future<Result<List<Shop>>> fetchShops({required int limit, String? cursor});
 
   Future<Result<void>> postShop({required Shop shop});
+
+  Future<Result<Shop?>> fetchShopByShopId({required String shopId});
 }

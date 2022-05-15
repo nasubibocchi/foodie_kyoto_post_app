@@ -13,11 +13,7 @@ import 'shop_repository_test.mocks.dart';
 
 @GenerateMocks([ShopDataSource])
 void main() {
-  late MockShopDataSource _shopDataSource;
-
-  setUp(() {
-    _shopDataSource = MockShopDataSource();
-  });
+  final _shopDataSource = MockShopDataSource();
 
   final container = ProviderContainer(overrides: [
     shopRepositoryProvider.overrideWithProvider(
@@ -104,5 +100,32 @@ void main() {
       },
       skip: true,
     );
+  });
+
+  group('fetch shop by shop id', () {
+    test('when there is a shop', () async {
+      const shopId = 'shop_id_1';
+      when(_shopDataSource.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(const ShopModel(
+            name: 'name',
+            shopId: 'shop_id_1',
+            latitude: 100.0,
+            longitude: 100.0,
+            comment: 'comment',
+            images: ['image_1', 'image_2'],
+            tags: [1, 3]));
+      });
+
+      final model = container.read(shopRepositoryProvider);
+      final result = await model.fetchShopByShopId(shopId: shopId);
+
+      expect(result, isA<Result<Shop?>>());
+
+      result.whenWithResult(
+        (shop) => expect(shop.value?.shopId, 'shop_id_1'),
+        (e) => expect(e, Error(Exception('Unhendled part, could be anything'))),
+      );
+    });
   });
 }

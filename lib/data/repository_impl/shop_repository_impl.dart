@@ -47,4 +47,27 @@ class ShopRepositoryImpl implements ShopRepository {
       (e) => Error(Exception(e)),
     );
   }
+
+  @override
+  Future<Result<Shop?>> fetchShopByShopId({required String shopId}) async {
+    final shopResult = await _dataSource.fetchShopByShopId(shopId: shopId);
+
+    return shopResult.whenWithResult(
+      (shop) {
+        if (shop.value != null) {
+          return Success(Shop(
+              name: shop.value!.name,
+              shopId: shop.value!.shopId,
+              latitude: shop.value!.latitude,
+              longitude: shop.value!.longitude,
+              comment: shop.value!.comment,
+              images: shop.value!.images,
+              tags: shop.value!.tags));
+        } else {
+          return Success(null);
+        }
+      },
+      (e) => Error(Exception(e)),
+    );
+  }
 }

@@ -16,4 +16,7 @@ class ShopUseCase {
 
   Future<Result<void>> postShop({required Shop shop}) =>
       _repository.postShop(shop: shop);
+
+  Future<Result<Shop?>> fetchShopByShopId({required String shopId}) =>
+      _repository.fetchShopByShopId(shopId: shopId);
 }
