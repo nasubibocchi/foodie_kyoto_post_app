@@ -12,7 +12,7 @@ class PostShopPage extends HookConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
     return Scaffold(
       appBar: AppBar(),
-      body: state.when((shop, commentController) {
+      body: state.when((shop, commentController, comment) {
         return SingleChildScrollView(
           child: Column(
             children: [
