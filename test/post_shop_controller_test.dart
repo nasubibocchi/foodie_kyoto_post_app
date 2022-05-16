@@ -44,9 +44,10 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop, commentController) {
+      model.debugState.when((shop, commentController, comment) {
         expect(shop?.shopId, 'shop_id_1');
         expect(shop?.name, 'name');
+        expect(shop?.comment, 'comment');
       }, loading: () {}, error: () {});
     });
 
@@ -61,8 +62,8 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop, commentController) {}, loading: () {},
-          error: () {
+      model.debugState.when((shop, commentController, comment) {},
+          loading: () {}, error: () {
         expect(state, PostShopState.error());
       });
     });
@@ -85,14 +86,17 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop, commentController) async {
+      model.debugState.when((shop, commentController, comment) async {
         expect(shop?.name, 'name');
         expect(shop?.latitude, 135.0);
         expect(shop?.longitude, 45.0);
 
         expect(
           state,
-          PostShopState(shop: shop, commentController: commentController),
+          PostShopState(
+              shop: shop,
+              commentController: commentController,
+              comment: comment),
         );
       }, loading: () {}, error: () {});
     });
@@ -119,8 +123,9 @@ void main() {
       await model.initShopState();
 
       model.editComment('modified comment');
-      model.debugState.when((shop, commentController) {
+      model.debugState.when((shop, commentController, comment) {
         expect(shop?.comment, 'modified comment');
+        expect(comment, 'modified comment');
       }, loading: () {}, error: () {});
     });
   });
