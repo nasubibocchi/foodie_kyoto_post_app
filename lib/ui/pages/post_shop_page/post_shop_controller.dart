@@ -13,6 +13,7 @@ class PostShopState with _$PostShopState {
   factory PostShopState({
     required Shop? shop,
     required TextEditingController commentController,
+    required String? comment,
   }) = _PostShopState;
 
   factory PostShopState.loading() = _PostShopStateLoading;
@@ -33,11 +34,15 @@ class PostShopController extends StateNotifier<PostShopState> {
   Future<void> initShopState() async {
     final shopResult = await _shopUseCase.fetchShopByShopId(shopId: _shopId);
 
-    shopResult.whenWithResult((shop) async {
-      if (shop.value != null) {
+    shopResult.whenWithResult((data) async {
+      if (data.value != null) {
         state = PostShopState(
-          shop: shop.value,
-          commentController: TextEditingController(text: shop.value!.comment),
+          shop: data.value,
+          commentController: TextEditingController.fromValue(TextEditingValue(
+              text: data.value!.comment,
+              selection:
+                  TextSelection.collapsed(offset: data.value!.comment.length))),
+          comment: data.value!.comment,
         );
       } else {
         final shopDetail = await fetchShopDetail();
@@ -54,7 +59,12 @@ class PostShopController extends StateNotifier<PostShopState> {
               postUser: '');
           state = PostShopState(
               shop: shop,
-              commentController: TextEditingController(text: shop.comment));
+              commentController: TextEditingController.fromValue(
+                  TextEditingValue(
+                      text: shop.comment,
+                      selection: TextSelection.collapsed(
+                          offset: shop.comment.length))),
+              comment: shop.comment);
         } else {
           state = PostShopState.error();
         }
@@ -64,28 +74,24 @@ class PostShopController extends StateNotifier<PostShopState> {
     });
   }
 
-  void editComment(String? body) {
+  void editComment(String body) {
     if (state is _PostShopState) {
       final currentState = state as _PostShopState;
       if (currentState.shop == null) {
         return;
       }
 
-      final comment = body ?? '';
-
       final shop = Shop(
           name: currentState.shop!.name,
           shopId: currentState.shop!.shopId,
           latitude: currentState.shop!.latitude,
           longitude: currentState.shop!.longitude,
-          comment: comment,
+          comment: body,
           images: currentState.shop!.images,
           tags: currentState.shop!.tags,
           postUser: currentState.shop!.postUser);
 
-      state = currentState.copyWith(
-          shop: shop,
-          commentController: TextEditingController(text: shop.comment));
+      state = currentState.copyWith(shop: shop, comment: body);
     }
   }
 
