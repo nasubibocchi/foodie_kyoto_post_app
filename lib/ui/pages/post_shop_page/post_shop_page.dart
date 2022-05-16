@@ -9,7 +9,7 @@ class PostShopPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.read(postShopProvider(shopId));
+    final state = ref.watch(postShopProvider(shopId));
     return Scaffold(
       appBar: AppBar(),
       body: state.when((shop, commentController) {
@@ -18,12 +18,16 @@ class PostShopPage extends HookConsumerWidget {
             children: [
               Text(shop?.name ?? ''),
               const SizedBox(height: 20),
-              shop != null
-                  ? PageView.builder(
-                      itemCount: shop.images.length,
-                      itemBuilder: (context, int index) {
-                        return Image(image: NetworkImage(shop.images[index]));
-                      })
+              shop?.images != []
+                  ? SizedBox(
+                      height: 130,
+                      child: PageView.builder(
+                          itemCount: shop!.images.length,
+                          itemBuilder: (context, int index) {
+                            return Image(
+                                image: NetworkImage(shop.images[index]));
+                          }),
+                    )
                   : const SizedBox(),
               const SizedBox(height: 20),
               TextField(
