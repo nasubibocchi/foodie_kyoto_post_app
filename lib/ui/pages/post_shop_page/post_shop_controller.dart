@@ -5,6 +5,7 @@ import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'post_shop_controller.freezed.dart';
 
@@ -14,6 +15,7 @@ class PostShopState with _$PostShopState {
     required Shop? shop,
     required TextEditingController commentController,
     required String? comment,
+    required List<XFile>? images,
   }) = _PostShopState;
 
   factory PostShopState.loading() = _PostShopStateLoading;
@@ -36,6 +38,8 @@ class PostShopController extends StateNotifier<PostShopState> {
 
     shopResult.whenWithResult((data) async {
       if (data.value != null) {
+        final _images = data.value!.images.map((e) => XFile(e)).toList();
+
         state = PostShopState(
           shop: data.value,
           commentController: TextEditingController.fromValue(TextEditingValue(
@@ -43,6 +47,7 @@ class PostShopController extends StateNotifier<PostShopState> {
               selection:
                   TextSelection.collapsed(offset: data.value!.comment.length))),
           comment: data.value!.comment,
+          images: _images,
         );
       } else {
         final shopDetail = await fetchShopDetail();
@@ -57,6 +62,7 @@ class PostShopController extends StateNotifier<PostShopState> {
               images: [],
               tags: [],
               postUser: '');
+
           state = PostShopState(
               shop: shop,
               commentController: TextEditingController.fromValue(
@@ -64,7 +70,8 @@ class PostShopController extends StateNotifier<PostShopState> {
                       text: shop.comment,
                       selection: TextSelection.collapsed(
                           offset: shop.comment.length))),
-              comment: shop.comment);
+              comment: shop.comment,
+              images: null);
         } else {
           state = PostShopState.error();
         }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,20 +14,19 @@ class PostShopPage extends HookConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
     return Scaffold(
       appBar: AppBar(),
-      body: state.when((shop, commentController, comment) {
+      body: state.when((shop, commentController, comment, images) {
         return SingleChildScrollView(
           child: Column(
             children: [
               Text(shop?.name ?? ''),
               const SizedBox(height: 20),
-              shop?.images != []
+              images != null
                   ? SizedBox(
                       height: 130,
                       child: PageView.builder(
-                          itemCount: shop!.images.length,
+                          itemCount: images.length,
                           itemBuilder: (context, int index) {
-                            return Image(
-                                image: NetworkImage(shop.images[index]));
+                            return Image.file(File(images[index].path));
                           }),
                     )
                   : const SizedBox(),
