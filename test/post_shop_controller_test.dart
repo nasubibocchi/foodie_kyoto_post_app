@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
@@ -7,15 +8,17 @@ import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'post_shop_controller_test.mocks.dart';
 
-@GenerateMocks([ShopUseCase, PlacesUseCase])
+@GenerateMocks([ShopUseCase, PlacesUseCase, ImagePicker])
 void main() {
   final _shopUseCase = MockShopUseCase();
   final _placesUseCase = MockPlacesUseCase();
+  final _picker = MockImagePicker();
 
   final container = ProviderContainer(overrides: [
     postShopProvider.overrideWithProvider(StateNotifierProvider.family
@@ -44,7 +47,7 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop, commentController, comment) {
+      model.debugState.when((shop, commentController, comment, images) {
         expect(shop?.shopId, 'shop_id_1');
         expect(shop?.name, 'name');
         expect(shop?.comment, 'comment');
@@ -62,7 +65,7 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop, commentController, comment) {},
+      model.debugState.when((shop, commentController, comment, images) {},
           loading: () {}, error: () {
         expect(state, PostShopState.error());
       });
@@ -86,7 +89,7 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop, commentController, comment) async {
+      model.debugState.when((shop, commentController, comment, images) async {
         expect(shop?.name, 'name');
         expect(shop?.latitude, 135.0);
         expect(shop?.longitude, 45.0);
@@ -96,13 +99,13 @@ void main() {
           PostShopState(
               shop: shop,
               commentController: commentController,
-              comment: comment),
+              comment: comment,
+              images: []),
         );
       }, loading: () {}, error: () {});
     });
   });
 
-  // 'init shop state' がpassした状態で実行する
   group('edit comment', () {
     test('when input some comment', () async {
       const shopId = 'shop_id_1';
@@ -123,10 +126,92 @@ void main() {
       await model.initShopState();
 
       model.editComment('modified comment');
-      model.debugState.when((shop, commentController, comment) {
-        expect(shop?.comment, 'modified comment');
+      model.debugState.when((shop, commentController, comment, images) {
+        expect(shop?.comment, 'comment');
         expect(comment, 'modified comment');
       }, loading: () {}, error: () {});
     });
+  });
+
+  setUpAll(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    const MethodChannel channel =
+        MethodChannel('plugins.flutter.io/image_picker');
+    channel.setMockMethodCallHandler((methodCall) async {
+      if (methodCall.method == 'pickMultiImage') {
+        return [MockXFile(), MockXFile()];
+      }
+      if (methodCall.method == 'pickImage') {
+        return MockXFile();
+      }
+    });
+  });
+
+  group('selectImages', () {
+    test('with selected xFiles', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(Shop(
+            name: 'name',
+            shopId: 'shop_id_1',
+            latitude: 45.0,
+            longitude: 135.0,
+            comment: 'comment',
+            images: [],
+            tags: [],
+            postUser: 'user1'));
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      when(_picker.pickMultiImage()).thenAnswer((_) async {
+        return [MockXFile(), MockXFile()];
+      });
+
+      await model.selectImages();
+
+      model.debugState.when((shop, commentController, comment, images) {
+        expect(images.length, 2);
+        expect(images.first.path, '');
+      }, loading: () {}, error: () {});
+    }, skip: true);
+
+    group('changeImage', () {
+      test('with selected xFiles', () async {
+        const shopId = 'shop_id_1';
+        when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+            .thenAnswer((_) async {
+          return Success(Shop(
+              name: 'name',
+              shopId: 'shop_id_1',
+              latitude: 45.0,
+              longitude: 135.0,
+              comment: 'comment',
+              images: ['path1'],
+              tags: [],
+              postUser: 'user1'));
+        });
+
+        final model = container.read(postShopProvider(shopId).notifier);
+        await model.initShopState();
+
+        model.debugState.when((shop, commentController, comment, images) {
+          expect(images.first.path, MockXFile().path);
+        }, loading: () {}, error: () {});
+
+        when(_picker.pickImage()).thenAnswer((_) async {
+          return MockXFile();
+        });
+
+        await model.changeImage(0);
+
+        model.debugState.when((shop, commentController, comment, images) {
+          expect(images.length, 1);
+          expect(images.first.path, 'path2');
+        }, loading: () {}, error: () {});
+      });
+    }, skip: true);
   });
 }
