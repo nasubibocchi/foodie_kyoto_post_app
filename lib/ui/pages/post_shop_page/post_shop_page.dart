@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
+import 'package:foodie_kyoto_post_app/ui/components/ok_dialog.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,16 +22,61 @@ class PostShopPage extends HookConsumerWidget {
             children: [
               Text(shop?.name ?? ''),
               const SizedBox(height: 20),
-              images != null
+              images.isNotEmpty
                   ? SizedBox(
-                      height: 130,
+                      height: 350,
                       child: PageView.builder(
                           itemCount: images.length,
                           itemBuilder: (context, int index) {
-                            return Image.file(File(images[index].path));
+                            return GestureDetector(
+                                onTap: () async {
+                                  try {
+                                    ref
+                                        .read(postShopProvider(shopId).notifier)
+                                        .changeImage(index);
+                                  } catch (e) {
+                                    await showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const OkDialog(
+                                              title: 'エラー',
+                                              body:
+                                                  '画像選択に失敗しました。もう一度試してみてください。');
+                                        });
+                                  }
+                                },
+                                child: Image.file(File(images[index].path)));
                           }),
                     )
-                  : const SizedBox(),
+                  : GestureDetector(
+                      onTap: () async {
+                        try {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .selectImages();
+                        } catch (e) {
+                          await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const OkDialog(
+                                    title: 'エラー',
+                                    body: '画像選択に失敗しました。もう一度試してみてください。');
+                              });
+                        }
+                      },
+                      child: Container(
+                        height: 350,
+                        width: 350,
+                        decoration:
+                            const BoxDecoration(color: AppColors.appBeige),
+                        child: const Center(
+                          child: Text(
+                            'タップして画像を追加',
+                            style: TextStyle(color: AppColors.appBlack),
+                          ),
+                        ),
+                      ),
+                    ),
               const SizedBox(height: 20),
               TextField(
                 controller: commentController,
