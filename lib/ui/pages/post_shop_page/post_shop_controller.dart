@@ -15,7 +15,7 @@ class PostShopState with _$PostShopState {
     required Shop? shop,
     required TextEditingController commentController,
     required String? comment,
-    required List<XFile>? images,
+    @Default([]) List<XFile> images,
   }) = _PostShopState;
 
   factory PostShopState.loading() = _PostShopStateLoading;
@@ -23,6 +23,7 @@ class PostShopState with _$PostShopState {
   factory PostShopState.error() = _PostShopStateError;
 }
 
+// shopのstateを変更するのは「投稿」ボタンをタップ直後、Firestoreに保存する直前だけにする。
 class PostShopController extends StateNotifier<PostShopState> {
   PostShopController(this._shopUseCase, this._placesUseCase, this._shopId)
       : super(PostShopState.loading()) {
@@ -32,6 +33,8 @@ class PostShopController extends StateNotifier<PostShopState> {
   final ShopUseCase _shopUseCase;
   final PlacesUseCase _placesUseCase;
   final String _shopId;
+
+  final ImagePicker _picker = ImagePicker();
 
   Future<void> initShopState() async {
     final shopResult = await _shopUseCase.fetchShopByShopId(shopId: _shopId);
@@ -71,7 +74,7 @@ class PostShopController extends StateNotifier<PostShopState> {
                       selection: TextSelection.collapsed(
                           offset: shop.comment.length))),
               comment: shop.comment,
-              images: null);
+              images: []);
         } else {
           state = PostShopState.error();
         }
@@ -88,17 +91,7 @@ class PostShopController extends StateNotifier<PostShopState> {
         return;
       }
 
-      final shop = Shop(
-          name: currentState.shop!.name,
-          shopId: currentState.shop!.shopId,
-          latitude: currentState.shop!.latitude,
-          longitude: currentState.shop!.longitude,
-          comment: body,
-          images: currentState.shop!.images,
-          tags: currentState.shop!.tags,
-          postUser: currentState.shop!.postUser);
-
-      state = currentState.copyWith(shop: shop, comment: body);
+      state = currentState.copyWith(comment: body);
     }
   }
 
@@ -115,5 +108,31 @@ class PostShopController extends StateNotifier<PostShopState> {
     });
 
     return shopDetail;
+  }
+
+  Future<void> selectImages() async {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+      List<XFile> _imageList = currentState.images;
+
+      final _images = await _picker.pickMultiImage();
+      if (_images != null) {
+        state = currentState.copyWith(images: _imageList + _images);
+      }
+    }
+  }
+
+  Future<void> changeImage(int index) async {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      List<XFile>? dupImages = currentState.images;
+
+      final _image = await _picker.pickImage(source: ImageSource.gallery);
+      if (_image != null) {
+        dupImages[index] = _image;
+        state = currentState.copyWith(images: dupImages);
+      }
+    }
   }
 }
