@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodie_kyoto_post_app/constants.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/search_shop_page/search_shop_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,7 +34,7 @@ class SearchShopPage extends HookConsumerWidget {
                     itemBuilder: (context, int index) {
                       return TextButton(
                           onPressed: () => context.go(
-                              '/search_shop_page/post_shop_page',
+                              '/${RouteNames.searchShopPage}/${RouteNames.postShopPage}',
                               extra: shopList[index].placeId),
                           child: Text(shopList[index].description));
                     })
