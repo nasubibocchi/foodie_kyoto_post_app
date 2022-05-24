@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_page.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/search_shop_page/search_shop_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -31,7 +32,13 @@ class SearchShopPage extends HookConsumerWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, int index) {
                       return TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PostShopPage(
+                                        shopId: shopList[index].placeId)));
+                          },
                           child: Text(shopList[index].description));
                     })
                 : const SizedBox(),
