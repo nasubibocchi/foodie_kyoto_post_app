@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foodie_kyoto_post_app/constants.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/google_map_page/google_map_provider.dart';
-import 'package:foodie_kyoto_post_app/ui/pages/search_shop_page/search_shop_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,6 +12,8 @@ class GoogleMapPage extends HookConsumerWidget {
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
+
+  static const addAShopKey = 'Add-a-shop';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,13 +29,8 @@ class GoogleMapPage extends HookConsumerWidget {
           (googleMapController) => Padding(
                 padding: const EdgeInsets.only(right: 64),
                 child: FloatingActionButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SearchShopPage()));
-                  },
-                  child: const Icon(Icons.add, key: Key('Add-a-shop')),
+                  onPressed: () => context.go('/${RouteNames.searchShopPage}'),
+                  child: const Icon(Icons.add, key: Key(addAShopKey)),
                 ),
               ),
           creating: () => const SizedBox()),
