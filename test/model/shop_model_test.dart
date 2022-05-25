@@ -12,7 +12,9 @@ void main() {
       },
       'comment': 'comment_1',
       'images': ['image1', 'image2'],
-      'tags': [1, 3],
+      'service_tags': [1, 2],
+      'area_tags': [3, 4],
+      'food_tags': [5, 6],
       'created_at': DateTime(2020, 1, 1),
       'post_user': 'user1',
     },
@@ -25,7 +27,9 @@ void main() {
       },
       'comment': 'comment_2',
       'images': ['image1', 'image2'],
-      'tags': [2, 4],
+      'service_tags': [1],
+      'area_tags': [3],
+      'food_tags': [5],
       'created_at': DateTime.now(),
       'post_user': 'user1',
     },
@@ -41,7 +45,9 @@ void main() {
         longitude: 135.765321,
         comment: 'comment_1',
         images: ['image1', 'image2'],
-        tags: [1, 3],
+        serviceTags: [1, 2],
+        areaTags: [3, 4],
+        foodTags: [5, 6],
         postUser: 'user1');
 
     expect(test.name, actual.name);
@@ -50,7 +56,7 @@ void main() {
     expect(test.longitude, actual.longitude);
     expect(test.comment, actual.comment);
     expect(test.images, actual.images);
-    expect(test.tags, actual.tags);
+    expect(test.serviceTags, actual.serviceTags);
     expect(test.postUser, actual.postUser);
   });
 
@@ -63,7 +69,9 @@ void main() {
           longitude: 135.765321,
           comment: 'comment_2',
           images: ['image1', 'image2'],
-          tags: [1, 3],
+          serviceTags: [1, 2],
+          areaTags: [3, 4],
+          foodTags: [5, 6],
           postUser: 'user1');
 
       final copyWith = original.copyWith(
@@ -73,7 +81,9 @@ void main() {
           longitude: original.longitude,
           comment: original.comment,
           images: original.images,
-          tags: original.tags,
+          serviceTags: original.serviceTags,
+          areaTags: original.areaTags,
+          foodTags: original.foodTags,
           postUser: original.postUser);
 
       expect(copyWith.name, original.name);
@@ -82,7 +92,7 @@ void main() {
       expect(copyWith.longitude, original.longitude);
       expect(copyWith.comment, original.comment);
       expect(copyWith.images, original.images);
-      expect(copyWith.tags, original.tags);
+      expect(copyWith.serviceTags, original.serviceTags);
       expect(copyWith.postUser, original.postUser);
     });
 
@@ -94,7 +104,9 @@ void main() {
           longitude: 135.765321,
           comment: 'comment_2',
           images: ['image1', 'image2'],
-          tags: [1, 3],
+          serviceTags: [1, 2],
+          areaTags: [3, 4],
+          foodTags: [5, 6],
           postUser: 'user1');
       final copyWith = original.copyWith(
           name: original.name,
@@ -103,7 +115,9 @@ void main() {
           longitude: original.latitude,
           comment: original.comment,
           images: original.images,
-          tags: original.tags,
+          serviceTags: original.serviceTags,
+          areaTags: original.areaTags,
+          foodTags: original.foodTags,
           postUser: original.postUser);
 
       expect(copyWith.longitude, isNot(original.longitude));
@@ -118,7 +132,9 @@ void main() {
         longitude: 135.765321,
         comment: 'comment_2',
         images: ['image1', 'image2'],
-        tags: [1, 3],
+        serviceTags: [1, 2],
+        areaTags: [3, 4],
+        foodTags: [5, 6],
         postUser: 'user1');
 
     final json = original.toJson();
@@ -133,7 +149,9 @@ void main() {
         longitude: 135.765321,
         comment: 'comment_2',
         images: ['image1', 'image2'],
-        tags: [1, 3],
+        serviceTags: [1, 2],
+        areaTags: [3, 4],
+        foodTags: [5, 6],
         postUser: 'user1');
 
     final json = original.toString();
