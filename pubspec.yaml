@@ -59,6 +59,9 @@ dependencies:
   mockito: ^5.1.0
   fake_cloud_firestore: ^1.2.2
 
+  # Misc
+  image_picker: ^0.8.5+3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

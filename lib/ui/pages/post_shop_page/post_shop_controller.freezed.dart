@@ -19,7 +19,7 @@ mixin _$PostShopState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)
+            String? comment, List<XFile> images)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
@@ -28,7 +28,7 @@ mixin _$PostShopState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)?
+            String? comment, List<XFile> images)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -37,7 +37,7 @@ mixin _$PostShopState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)?
+            String? comment, List<XFile> images)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -91,7 +91,10 @@ abstract class _$$_PostShopStateCopyWith<$Res> {
           _$_PostShopState value, $Res Function(_$_PostShopState) then) =
       __$$_PostShopStateCopyWithImpl<$Res>;
   $Res call(
-      {Shop? shop, TextEditingController commentController, String? comment});
+      {Shop? shop,
+      TextEditingController commentController,
+      String? comment,
+      List<XFile> images});
 }
 
 /// @nodoc
@@ -110,6 +113,7 @@ class __$$_PostShopStateCopyWithImpl<$Res>
     Object? shop = freezed,
     Object? commentController = freezed,
     Object? comment = freezed,
+    Object? images = freezed,
   }) {
     return _then(_$_PostShopState(
       shop: shop == freezed
@@ -124,6 +128,10 @@ class __$$_PostShopStateCopyWithImpl<$Res>
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String?,
+      images: images == freezed
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<XFile>,
     ));
   }
 }
@@ -134,7 +142,9 @@ class _$_PostShopState implements _PostShopState {
   _$_PostShopState(
       {required this.shop,
       required this.commentController,
-      required this.comment});
+      required this.comment,
+      final List<XFile> images = const []})
+      : _images = images;
 
   @override
   final Shop? shop;
@@ -142,10 +152,17 @@ class _$_PostShopState implements _PostShopState {
   final TextEditingController commentController;
   @override
   final String? comment;
+  final List<XFile> _images;
+  @override
+  @JsonKey()
+  List<XFile> get images {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
 
   @override
   String toString() {
-    return 'PostShopState(shop: $shop, commentController: $commentController, comment: $comment)';
+    return 'PostShopState(shop: $shop, commentController: $commentController, comment: $comment, images: $images)';
   }
 
   @override
@@ -156,7 +173,8 @@ class _$_PostShopState implements _PostShopState {
             const DeepCollectionEquality().equals(other.shop, shop) &&
             const DeepCollectionEquality()
                 .equals(other.commentController, commentController) &&
-            const DeepCollectionEquality().equals(other.comment, comment));
+            const DeepCollectionEquality().equals(other.comment, comment) &&
+            const DeepCollectionEquality().equals(other._images, _images));
   }
 
   @override
@@ -164,7 +182,8 @@ class _$_PostShopState implements _PostShopState {
       runtimeType,
       const DeepCollectionEquality().hash(shop),
       const DeepCollectionEquality().hash(commentController),
-      const DeepCollectionEquality().hash(comment));
+      const DeepCollectionEquality().hash(comment),
+      const DeepCollectionEquality().hash(_images));
 
   @JsonKey(ignore: true)
   @override
@@ -175,38 +194,38 @@ class _$_PostShopState implements _PostShopState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)
+            String? comment, List<XFile> images)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
   }) {
-    return $default(shop, commentController, comment);
+    return $default(shop, commentController, comment, images);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)?
+            String? comment, List<XFile> images)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
   }) {
-    return $default?.call(shop, commentController, comment);
+    return $default?.call(shop, commentController, comment, images);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)?
+            String? comment, List<XFile> images)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(shop, commentController, comment);
+      return $default(shop, commentController, comment, images);
     }
     return orElse();
   }
@@ -250,12 +269,14 @@ abstract class _PostShopState implements PostShopState {
   factory _PostShopState(
       {required final Shop? shop,
       required final TextEditingController commentController,
-      required final String? comment}) = _$_PostShopState;
+      required final String? comment,
+      final List<XFile> images}) = _$_PostShopState;
 
   Shop? get shop => throw _privateConstructorUsedError;
   TextEditingController get commentController =>
       throw _privateConstructorUsedError;
   String? get comment => throw _privateConstructorUsedError;
+  List<XFile> get images => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$$_PostShopStateCopyWith<_$_PostShopState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -303,7 +324,7 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)
+            String? comment, List<XFile> images)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
@@ -315,7 +336,7 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)?
+            String? comment, List<XFile> images)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -327,7 +348,7 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)?
+            String? comment, List<XFile> images)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -420,7 +441,7 @@ class _$_PostShopStateError implements _PostShopStateError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)
+            String? comment, List<XFile> images)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
@@ -432,7 +453,7 @@ class _$_PostShopStateError implements _PostShopStateError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)?
+            String? comment, List<XFile> images)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -444,7 +465,7 @@ class _$_PostShopStateError implements _PostShopStateError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment)?
+            String? comment, List<XFile> images)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,

@@ -5,6 +5,7 @@ import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'post_shop_controller.freezed.dart';
 
@@ -14,6 +15,7 @@ class PostShopState with _$PostShopState {
     required Shop? shop,
     required TextEditingController commentController,
     required String? comment,
+    @Default([]) List<XFile> images,
   }) = _PostShopState;
 
   factory PostShopState.loading() = _PostShopStateLoading;
@@ -21,6 +23,7 @@ class PostShopState with _$PostShopState {
   factory PostShopState.error() = _PostShopStateError;
 }
 
+// shopのstateを変更するのは「投稿」ボタンをタップ直後、Firestoreに保存する直前だけにする。
 class PostShopController extends StateNotifier<PostShopState> {
   PostShopController(this._shopUseCase, this._placesUseCase, this._shopId)
       : super(PostShopState.loading()) {
@@ -31,11 +34,15 @@ class PostShopController extends StateNotifier<PostShopState> {
   final PlacesUseCase _placesUseCase;
   final String _shopId;
 
+  final ImagePicker _picker = ImagePicker();
+
   Future<void> initShopState() async {
     final shopResult = await _shopUseCase.fetchShopByShopId(shopId: _shopId);
 
     shopResult.whenWithResult((data) async {
       if (data.value != null) {
+        final _images = data.value!.images.map((e) => XFile(e)).toList();
+
         state = PostShopState(
           shop: data.value,
           commentController: TextEditingController.fromValue(TextEditingValue(
@@ -43,6 +50,7 @@ class PostShopController extends StateNotifier<PostShopState> {
               selection:
                   TextSelection.collapsed(offset: data.value!.comment.length))),
           comment: data.value!.comment,
+          images: _images,
         );
       } else {
         final shopDetail = await fetchShopDetail();
@@ -57,6 +65,7 @@ class PostShopController extends StateNotifier<PostShopState> {
               images: [],
               tags: [],
               postUser: '');
+
           state = PostShopState(
               shop: shop,
               commentController: TextEditingController.fromValue(
@@ -64,7 +73,8 @@ class PostShopController extends StateNotifier<PostShopState> {
                       text: shop.comment,
                       selection: TextSelection.collapsed(
                           offset: shop.comment.length))),
-              comment: shop.comment);
+              comment: shop.comment,
+              images: []);
         } else {
           state = PostShopState.error();
         }
@@ -81,17 +91,7 @@ class PostShopController extends StateNotifier<PostShopState> {
         return;
       }
 
-      final shop = Shop(
-          name: currentState.shop!.name,
-          shopId: currentState.shop!.shopId,
-          latitude: currentState.shop!.latitude,
-          longitude: currentState.shop!.longitude,
-          comment: body,
-          images: currentState.shop!.images,
-          tags: currentState.shop!.tags,
-          postUser: currentState.shop!.postUser);
-
-      state = currentState.copyWith(shop: shop, comment: body);
+      state = currentState.copyWith(comment: body);
     }
   }
 
@@ -108,5 +108,31 @@ class PostShopController extends StateNotifier<PostShopState> {
     });
 
     return shopDetail;
+  }
+
+  Future<void> selectImages() async {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+      List<XFile> _imageList = currentState.images;
+
+      final _images = await _picker.pickMultiImage();
+      if (_images != null) {
+        state = currentState.copyWith(images: _imageList + _images);
+      }
+    }
+  }
+
+  Future<void> changeImage(int index) async {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      List<XFile>? dupImages = currentState.images;
+
+      final _image = await _picker.pickImage(source: ImageSource.gallery);
+      if (_image != null) {
+        dupImages[index] = _image;
+        state = currentState.copyWith(images: dupImages);
+      }
+    }
   }
 }
