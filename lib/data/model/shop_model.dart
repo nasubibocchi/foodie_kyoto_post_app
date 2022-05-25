@@ -9,7 +9,9 @@ class ShopModel {
       required this.longitude,
       required this.comment,
       required this.images,
-      required this.tags,
+      required this.serviceTags,
+      required this.areaTags,
+      required this.foodTags,
       required this.postUser});
 
   factory ShopModel.fromJson(Map<String, Object?> json) {
@@ -19,8 +21,14 @@ class ShopModel {
     final dynamicImages = json['images'] as List<dynamic>;
     final images = dynamicImages.cast<String>();
 
-    final dynamicTags = json['tags'] as List<dynamic>;
-    final tags = dynamicTags.cast<int>();
+    final dynamicServiceTags = json['service_tags'] as List<dynamic>;
+    final serviceTags = dynamicServiceTags.cast<int>();
+
+    final dynamicFoodTags = json['food_tags'] as List<dynamic>;
+    final foodTags = dynamicFoodTags.cast<int>();
+
+    final dynamicAreaTags = json['area_tags'] as List<dynamic>;
+    final areaTags = dynamicAreaTags.cast<int>();
 
     return ShopModel(
         name: json['name'] as String,
@@ -29,7 +37,9 @@ class ShopModel {
         longitude: geoPoint['longitude'] as double,
         comment: json['comment'] as String,
         images: images,
-        tags: tags,
+        serviceTags: serviceTags,
+        areaTags: areaTags,
+        foodTags: foodTags,
         postUser: json['post_user'] as String);
   }
 
@@ -39,7 +49,9 @@ class ShopModel {
   final double longitude;
   final String comment;
   final List<String> images;
-  final List<int> tags;
+  final List<int> serviceTags;
+  final List<int> areaTags;
+  final List<int> foodTags;
   final String postUser;
 
   ShopModel copyWith(
@@ -49,7 +61,9 @@ class ShopModel {
       double? longitude,
       String? comment,
       List<String>? images,
-      List<int>? tags,
+      List<int>? serviceTags,
+      List<int>? areaTags,
+      List<int>? foodTags,
       String? postUser}) {
     return ShopModel(
         name: name as String,
@@ -58,7 +72,9 @@ class ShopModel {
         longitude: longitude as double,
         comment: comment as String,
         images: images as List<String>,
-        tags: tags as List<int>,
+        serviceTags: serviceTags as List<int>,
+        areaTags: areaTags as List<int>,
+        foodTags: foodTags as List<int>,
         postUser: postUser as String);
   }
 
@@ -70,7 +86,9 @@ class ShopModel {
       'longitude': longitude,
       'comment': comment,
       'images': images,
-      'tags': tags,
+      'service_tags': serviceTags,
+      'area_tags': areaTags,
+      'food_tags': foodTags,
       'post_user': postUser,
     };
   }
@@ -84,7 +102,9 @@ class ShopModel {
         'longitude: $longitude,'
         'comment: $comment,'
         'images: $images,'
-        'tags: $tags,'
+        'service_tags: $serviceTags,'
+        'area_tags: $areaTags,'
+        'food_tags: $foodTags,'
         'post_user: $postUser,'
         ')';
   }
@@ -95,6 +115,6 @@ class ShopModel {
   @override
   int get hashCode {
     return Object.hash(runtimeType, name, shopId, latitude, longitude, comment,
-        images, tags, postUser);
+        images, serviceTags, areaTags, foodTags, postUser);
   }
 }

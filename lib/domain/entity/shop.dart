@@ -5,7 +5,9 @@ class Shop {
   final double longitude;
   final String comment;
   final List<String> images;
-  final List<int> tags;
+  final List<int> serviceTags;
+  final List<int> areaTags;
+  final List<int> foodTags;
   final String postUser;
 
   Shop({
@@ -15,7 +17,9 @@ class Shop {
     required this.longitude,
     required this.comment,
     required this.images,
-    required this.tags,
+    required this.serviceTags,
+    required this.areaTags,
+    required this.foodTags,
     required this.postUser,
   });
 }
