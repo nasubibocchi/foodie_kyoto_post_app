@@ -97,16 +97,14 @@ void main() {
   group('deleteImages', () {
     test('description', () async {
       const shopId = 'shop_id_1';
-      const path = 'path';
 
-      when(_stringStorage.deleteImages(path: path, shopId: shopId))
-          .thenAnswer((_) async {
+      when(_stringStorage.deleteImages(shopId: shopId)).thenAnswer((_) async {
         _storage.ref().child('shops/$shopId/images/');
         return Success('shops/$shopId/images/');
       });
 
       final model = container.read(stringDataSourceProvider);
-      final result = await model.deleteImages(path: path, shopId: shopId);
+      final result = await model.deleteImages(shopId: shopId);
 
       result.whenWithResult(
         (success) => expect(success.value, 'shops/$shopId/images/'),
