@@ -10,8 +10,11 @@ class StringRepositoryImpl implements StringRepository {
 
   @override
   Future<Result<String?>> getImagesUrl(
-      {required String path, required String shopId}) async {
-    final result = await _dataSource.getImagesUrl(path: path, shopId: shopId);
+      {required String path,
+      required String shopId,
+      required String fileName}) async {
+    final result = await _dataSource.getImagesUrl(
+        path: path, shopId: shopId, fileName: fileName);
 
     return result.whenWithResult((url) {
       return Success(url.value);
@@ -22,8 +25,11 @@ class StringRepositoryImpl implements StringRepository {
 
   @override
   Future<Result<String?>> postImages(
-      {required String path, required String shopId}) async {
-    final result = await _dataSource.postImages(path: path, shopId: shopId);
+      {required String path,
+      required String shopId,
+      required String fileName}) async {
+    final result = await _dataSource.postImages(
+        path: path, shopId: shopId, fileName: fileName);
 
     return result.whenWithResult((imagePath) {
       return Success(imagePath.value);

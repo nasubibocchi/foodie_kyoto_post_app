@@ -12,10 +12,14 @@ class StringUseCase {
   final StringRepository _repository;
 
   Future<Result<String?>> postImages(
-          {required String path, required String shopId}) =>
-      _repository.postImages(path: path, shopId: shopId);
+          {required String path,
+          required String shopId,
+          required String fileName}) =>
+      _repository.postImages(path: path, shopId: shopId, fileName: fileName);
 
   Future<Result<String?>> getImagesUrl(
-          {required String path, required String shopId}) =>
-      _repository.getImagesUrl(path: path, shopId: shopId);
+          {required String path,
+          required String shopId,
+          required String fileName}) =>
+      _repository.getImagesUrl(path: path, shopId: shopId, fileName: fileName);
 }

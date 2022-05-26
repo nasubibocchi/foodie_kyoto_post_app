@@ -10,9 +10,11 @@ class StringDataSourceImpl implements StringDataSource {
 
   @override
   Future<Result<String?>> getImagesUrl(
-      {required String path, required String shopId}) async {
-    final storageResult =
-        await _stringStorage.getImagesUrl(path: path, shopId: shopId);
+      {required String path,
+      required String shopId,
+      required String fileName}) async {
+    final storageResult = await _stringStorage.getImagesUrl(
+        path: path, shopId: shopId, fileName: fileName);
 
     return storageResult.whenWithResult((imagePath) {
       return Success(imagePath.value);
@@ -23,9 +25,11 @@ class StringDataSourceImpl implements StringDataSource {
 
   @override
   Future<Result<String?>> postImages(
-      {required String path, required String shopId}) async {
-    final storageResult =
-        await _stringStorage.postImages(path: path, shopId: shopId);
+      {required String path,
+      required String shopId,
+      required String fileName}) async {
+    final storageResult = await _stringStorage.postImages(
+        path: path, shopId: shopId, fileName: fileName);
 
     return storageResult.whenWithResult((url) {
       return Success(url.value);

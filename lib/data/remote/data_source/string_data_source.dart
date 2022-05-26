@@ -8,8 +8,8 @@ final stringDataSourceProvider = Provider<StringDataSourceImpl>((ref) =>
 
 abstract class StringDataSource {
   Future<Result<String?>> postImages(
-      {required String path, required String shopId});
+      {required String path, required String shopId, required String fileName});
 
   Future<Result<String?>> getImagesUrl(
-      {required String path, required String shopId});
+      {required String path, required String shopId, required String fileName});
 }

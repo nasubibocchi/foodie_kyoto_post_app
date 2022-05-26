@@ -8,8 +8,8 @@ final stringRepositoryProvider = Provider<StringRepositoryImpl>((ref) =>
 
 abstract class StringRepository {
   Future<Result<String?>> postImages(
-      {required String path, required String shopId});
+      {required String path, required String shopId, required String fileName});
 
   Future<Result<String?>> getImagesUrl(
-      {required String path, required String shopId});
+      {required String path, required String shopId, required String fileName});
 }

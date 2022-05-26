@@ -14,11 +14,16 @@ class StringStorage {
   final FirebaseStorage _storage;
 
   Future<Result<String?>> postImages(
-      {required String path, required String shopId}) async {
+      {required String path,
+      required String shopId,
+      required String fileName}) async {
     final file = File(path);
 
     try {
-      await _storage.ref().child('shops/$shopId/images').putFile(file);
+      await _storage
+          .ref()
+          .child('shops/$shopId/images/$fileName.png')
+          .putFile(file);
       return Success('shops/$shopId/images');
     } on Exception catch (e) {
       return Error(e);
@@ -26,10 +31,14 @@ class StringStorage {
   }
 
   Future<Result<String?>> getImagesUrl(
-      {required String path, required String shopId}) async {
+      {required String path,
+      required String shopId,
+      required String fileName}) async {
     try {
-      final url =
-          await _storage.ref().child('shops/$shopId/images').getDownloadURL();
+      final url = await _storage
+          .ref()
+          .child('shops/$shopId/images/$fileName.png')
+          .getDownloadURL();
       return Success(url);
     } on Exception catch (e) {
       return Error(e);
