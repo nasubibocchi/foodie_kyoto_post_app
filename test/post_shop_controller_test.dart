@@ -40,7 +40,9 @@ void main() {
             longitude: 135.0,
             comment: 'comment',
             images: [],
-            tags: [],
+            serviceTags: <int>[],
+            areaTags: <int>[],
+            foodTags: <int>[],
             postUser: 'user1'));
       });
 
@@ -118,7 +120,9 @@ void main() {
             longitude: 135.0,
             comment: 'comment',
             images: [],
-            tags: [],
+            serviceTags: <int>[],
+            areaTags: <int>[],
+            foodTags: <int>[],
             postUser: 'user1'));
       });
 
@@ -159,7 +163,9 @@ void main() {
             longitude: 135.0,
             comment: 'comment',
             images: [],
-            tags: [],
+            serviceTags: <int>[],
+            areaTags: <int>[],
+            foodTags: <int>[],
             postUser: 'user1'));
       });
 
@@ -190,7 +196,9 @@ void main() {
               longitude: 135.0,
               comment: 'comment',
               images: ['path1'],
-              tags: [],
+              serviceTags: <int>[],
+              areaTags: <int>[],
+              foodTags: <int>[],
               postUser: 'user1'));
         });
 

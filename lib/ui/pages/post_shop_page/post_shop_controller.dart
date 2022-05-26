@@ -63,7 +63,9 @@ class PostShopController extends StateNotifier<PostShopState> {
               longitude: shopDetail.longitude,
               comment: '',
               images: [],
-              tags: [],
+              serviceTags: <int>[],
+              areaTags: <int>[],
+              foodTags: <int>[],
               postUser: '');
 
           state = PostShopState(

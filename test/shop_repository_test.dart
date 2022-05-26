@@ -33,7 +33,9 @@ void main() {
           },
           'comment': 'comment_1',
           'images': ['image1', 'image2'],
-          'tags': [1, 3],
+          'service_tags': [1, 2],
+          'area_tags': [3, 4],
+          'food_tags': [5, 6],
           'post_user': 'user1',
           'created_at': DateTime(2020, 1, 1),
         },
@@ -46,7 +48,9 @@ void main() {
           },
           'comment': 'comment_2',
           'images': ['image1', 'image2'],
-          'tags': [2, 4],
+          'service_tags': [1, 2],
+          'area_tags': [3, 4],
+          'food_tags': [5, 6],
           'post_user': 'user1',
           'created_at': DateTime.now(),
         },
@@ -80,7 +84,9 @@ void main() {
             longitude: 100.0,
             comment: 'comment',
             images: ['image1', 'image2'],
-            tags: [1, 3],
+            serviceTags: [1, 2],
+            areaTags: [3, 4],
+            foodTags: [5, 6],
             postUser: 'user1');
 
         const shopModel = ShopModel(
@@ -90,7 +96,9 @@ void main() {
             longitude: 100.0,
             comment: 'comment',
             images: ['image1', 'image2'],
-            tags: [1, 3],
+            serviceTags: [1, 2],
+            areaTags: [3, 4],
+            foodTags: [5, 6],
             postUser: 'user1');
 
         when(_shopDataSource.postShop(shop: shopModel)).thenAnswer((_) async {
@@ -118,7 +126,9 @@ void main() {
             longitude: 100.0,
             comment: 'comment',
             images: ['image_1', 'image_2'],
-            tags: [1, 3],
+            serviceTags: [1, 2],
+            areaTags: [3, 4],
+            foodTags: [5, 6],
             postUser: 'user1'));
       });
 

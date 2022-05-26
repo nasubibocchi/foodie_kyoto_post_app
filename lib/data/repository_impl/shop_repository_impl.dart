@@ -24,7 +24,9 @@ class ShopRepositoryImpl implements ShopRepository {
                   longitude: e.longitude,
                   comment: e.comment,
                   images: e.images,
-                  tags: e.tags,
+                  serviceTags: e.serviceTags,
+                  areaTags: e.areaTags,
+                  foodTags: e.foodTags,
                   postUser: e.postUser,
                 ))
             .toList()),
@@ -40,7 +42,9 @@ class ShopRepositoryImpl implements ShopRepository {
         longitude: shop.longitude,
         comment: shop.comment,
         images: shop.images,
-        tags: shop.tags,
+        serviceTags: shop.serviceTags,
+        areaTags: shop.areaTags,
+        foodTags: shop.foodTags,
         postUser: shop.postUser);
 
     final postResult = await _dataSource.postShop(shop: shopModel);
@@ -65,7 +69,9 @@ class ShopRepositoryImpl implements ShopRepository {
               longitude: shop.value!.longitude,
               comment: shop.value!.comment,
               images: shop.value!.images,
-              tags: shop.value!.tags,
+              serviceTags: shop.value!.serviceTags,
+              areaTags: shop.value!.areaTags,
+              foodTags: shop.value!.foodTags,
               postUser: shop.value!.postUser));
         } else {
           return Success(null);
