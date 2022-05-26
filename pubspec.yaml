@@ -59,6 +59,7 @@ dependencies:
   # Test
   mockito: ^5.1.0
   fake_cloud_firestore: ^1.2.2
+  firebase_storage_mocks: ^0.5.0
 
   # Misc
   image_picker: ^0.8.5+3
