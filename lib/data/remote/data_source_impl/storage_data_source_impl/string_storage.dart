@@ -45,8 +45,7 @@ class StringStorage {
     }
   }
 
-  Future<Result<String>> deleteImages(
-      {required String path, required String shopId}) async {
+  Future<Result<String>> deleteImages({required String shopId}) async {
     try {
       await _storage.ref().child('shops/$shopId/images/').delete();
       return Success('shops/$shopId/images/');

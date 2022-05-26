@@ -39,10 +39,8 @@ class StringDataSourceImpl implements StringDataSource {
   }
 
   @override
-  Future<Result<String>> deleteImages(
-      {required String path, required String shopId}) async {
-    final storageResult =
-        await _stringStorage.deleteImages(path: path, shopId: shopId);
+  Future<Result<String>> deleteImages({required String shopId}) async {
+    final storageResult = await _stringStorage.deleteImages(shopId: shopId);
 
     return storageResult.whenWithResult(
         (success) => Success(success.value), (e) => Error(Exception(e)));

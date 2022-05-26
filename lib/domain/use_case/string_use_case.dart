@@ -23,7 +23,6 @@ class StringUseCase {
           required String fileName}) =>
       _repository.getImagesUrl(path: path, shopId: shopId, fileName: fileName);
 
-  Future<Result<String>> deleteImages(
-          {required String path, required String shopId}) =>
-      _repository.deleteImages(path: path, shopId: shopId);
+  Future<Result<String>> deleteImages({required String shopId}) =>
+      _repository.deleteImages(shopId: shopId);
 }

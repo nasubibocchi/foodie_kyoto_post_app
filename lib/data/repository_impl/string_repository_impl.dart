@@ -39,9 +39,8 @@ class StringRepositoryImpl implements StringRepository {
   }
 
   @override
-  Future<Result<String>> deleteImages(
-      {required String path, required String shopId}) async {
-    final result = await _dataSource.deleteImages(path: path, shopId: shopId);
+  Future<Result<String>> deleteImages({required String shopId}) async {
+    final result = await _dataSource.deleteImages(shopId: shopId);
 
     return result.whenWithResult(
         (success) => Success(success.value), (e) => Error(Exception(e)));
