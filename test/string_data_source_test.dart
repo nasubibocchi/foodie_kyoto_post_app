@@ -28,6 +28,7 @@ void main() {
   group('postImages', () {
     const shopId = 'shop_id_1';
     const path = 'path';
+    const fileName = '1';
 
     test('post with valid path and shop id', () async {
       when(_stringStorage.postImages(path: path, shopId: shopId))
@@ -36,7 +37,8 @@ void main() {
       });
 
       final model = container.read(stringDataSourceProvider);
-      final result = await model.postImages(path: path, shopId: shopId);
+      final result = await model.postImages(
+          path: path, shopId: shopId, fileName: fileName);
 
       result.whenWithResult(
         (path) {
@@ -50,6 +52,7 @@ void main() {
   group('getImagesUrl', () {
     const shopId = 'shop_id_1';
     const path = 'path';
+    const fileName = '1';
 
     test('get images url with valid path and shopId', () async {
       when(_stringStorage.getImagesUrl(path: path, shopId: shopId))
@@ -64,7 +67,8 @@ void main() {
       });
 
       final model = container.read(stringDataSourceProvider);
-      final result = await model.getImagesUrl(path: path, shopId: shopId);
+      final result = await model.getImagesUrl(
+          path: path, shopId: shopId, fileName: fileName);
 
       result.whenWithResult(
         (url) {
