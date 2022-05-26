@@ -16,6 +16,9 @@ class PostShopState with _$PostShopState {
     required TextEditingController commentController,
     required String? comment,
     @Default([]) List<XFile> images,
+    @Default([]) List<int> selectedServiceTags,
+    @Default([]) List<int> selectedAreaTags,
+    @Default([]) List<int> selectedFoodTags,
   }) = _PostShopState;
 
   factory PostShopState.loading() = _PostShopStateLoading;
@@ -51,6 +54,9 @@ class PostShopController extends StateNotifier<PostShopState> {
                   TextSelection.collapsed(offset: data.value!.comment.length))),
           comment: data.value!.comment,
           images: _images,
+          selectedServiceTags: data.value!.serviceTags,
+          selectedAreaTags: data.value!.areaTags,
+          selectedFoodTags: data.value!.foodTags,
         );
       } else {
         final shopDetail = await fetchShopDetail();
@@ -135,6 +141,66 @@ class PostShopController extends StateNotifier<PostShopState> {
         dupImages[index] = _image;
         state = currentState.copyWith(images: dupImages);
       }
+    }
+  }
+
+  void addServiceTag(int key) {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      state = currentState.copyWith(
+          selectedServiceTags: currentState.selectedServiceTags + [key]);
+    }
+  }
+
+  void removeServiceTag(int key) {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      final selectedServiceTags = List.of(currentState.selectedServiceTags);
+      selectedServiceTags.remove(key);
+
+      state = currentState.copyWith(selectedServiceTags: selectedServiceTags);
+    }
+  }
+
+  void addAreaTag(int key) {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      state = currentState.copyWith(
+          selectedAreaTags: currentState.selectedAreaTags + [key]);
+    }
+  }
+
+  void removeAreaTag(int key) {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      final selectedAreaTags = List.of(currentState.selectedAreaTags);
+      selectedAreaTags.remove(key);
+
+      state = currentState.copyWith(selectedAreaTags: selectedAreaTags);
+    }
+  }
+
+  void addFoodTag(int key) {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      state = currentState.copyWith(
+          selectedFoodTags: currentState.selectedFoodTags + [key]);
+    }
+  }
+
+  void removeFoodTag(int key) {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      final selectedFoodTags = List.of(currentState.selectedFoodTags);
+      selectedFoodTags.remove(key);
+
+      state = currentState.copyWith(selectedFoodTags: selectedFoodTags);
     }
   }
 }
