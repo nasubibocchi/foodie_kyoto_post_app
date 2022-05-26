@@ -14,7 +14,7 @@ import 'package:mockito/mockito.dart';
 
 import 'post_shop_controller_test.mocks.dart';
 
-@GenerateMocks([ShopUseCase, PlacesUseCase, ImagePicker])
+@GenerateMocks([ShopUseCase, PlacesUseCase, ImagePicker, XFile])
 void main() {
   final _shopUseCase = MockShopUseCase();
   final _placesUseCase = MockPlacesUseCase();
@@ -49,7 +49,8 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop, commentController, comment, images) {
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
         expect(shop?.shopId, 'shop_id_1');
         expect(shop?.name, 'name');
         expect(shop?.comment, 'comment');
@@ -67,7 +68,9 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop, commentController, comment, images) {},
+      model.debugState.when(
+          (shop, commentController, comment, images, selectedServiceTags,
+              selectedAreaTags, selectedFoodTags) {},
           loading: () {}, error: () {
         expect(state, PostShopState.error());
       });
@@ -91,7 +94,8 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop, commentController, comment, images) async {
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) async {
         expect(shop?.name, 'name');
         expect(shop?.latitude, 135.0);
         expect(shop?.longitude, 45.0);
@@ -130,7 +134,8 @@ void main() {
       await model.initShopState();
 
       model.editComment('modified comment');
-      model.debugState.when((shop, commentController, comment, images) {
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
         expect(shop?.comment, 'comment');
         expect(comment, 'modified comment');
       }, loading: () {}, error: () {});
@@ -178,7 +183,8 @@ void main() {
 
       await model.selectImages();
 
-      model.debugState.when((shop, commentController, comment, images) {
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
         expect(images.length, 2);
         expect(images.first.path, '');
       }, loading: () {}, error: () {});
@@ -205,7 +211,8 @@ void main() {
         final model = container.read(postShopProvider(shopId).notifier);
         await model.initShopState();
 
-        model.debugState.when((shop, commentController, comment, images) {
+        model.debugState.when((shop, commentController, comment, images,
+            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
           expect(images.first.path, MockXFile().path);
         }, loading: () {}, error: () {});
 
@@ -215,7 +222,8 @@ void main() {
 
         await model.changeImage(0);
 
-        model.debugState.when((shop, commentController, comment, images) {
+        model.debugState.when((shop, commentController, comment, images,
+            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
           expect(images.length, 1);
           expect(images.first.path, 'path2');
         }, loading: () {}, error: () {});
