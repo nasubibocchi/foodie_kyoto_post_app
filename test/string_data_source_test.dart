@@ -25,15 +25,29 @@ void main() {
             stringStorage: ref.read(stringStorageProvider))))
   ]);
 
-  group('postImages', () {
+  setUpAll(() async {
     const shopId = 'shop_id_1';
     const path = 'path';
     const fileName = '1';
 
+    final file = File(path);
+
+    await _storage
+        .ref()
+        .child('shops/$shopId/images/$fileName.png')
+        .putFile(file);
+  });
+
+  group('postImages', () {
+    const shopId = 'shop_id_1';
+    const path = 'path';
+    const fileName = '2';
+
     test('post with valid path and shop id', () async {
-      when(_stringStorage.postImages(path: path, shopId: shopId))
+      when(_stringStorage.postImages(
+              path: path, shopId: shopId, fileName: fileName))
           .thenAnswer((_) async {
-        return Success('shops/$shopId/images');
+        return Success('shops/$shopId/images/$fileName.png');
       });
 
       final model = container.read(stringDataSourceProvider);
@@ -42,7 +56,7 @@ void main() {
 
       result.whenWithResult(
         (path) {
-          expect(path.value, 'shops/$shopId/images');
+          expect(path.value, 'shops/$shopId/images/$fileName.png');
         },
         (e) => expect(e, Exception('Unhendled part, could be anything')),
       );
@@ -55,13 +69,14 @@ void main() {
     const fileName = '1';
 
     test('get images url with valid path and shopId', () async {
-      when(_stringStorage.getImagesUrl(path: path, shopId: shopId))
+      when(_stringStorage.getImagesUrl(
+              path: path, shopId: shopId, fileName: fileName))
           .thenAnswer((_) async {
-        final file = File(path);
-        await _storage.ref().child('shops/$shopId/images').putFile(file);
         // getDownloadURL(); で値が返ってこない
-        final url =
-            await _storage.ref().child('shops/$shopId/images').getDownloadURL();
+        final url = await _storage
+            .ref()
+            .child('shops/$shopId/images/$fileName.png')
+            .getDownloadURL();
 
         return Success(url);
       });
@@ -78,4 +93,25 @@ void main() {
       );
     });
   }, skip: true);
+
+  group('deleteImages', () {
+    test('description', () async {
+      const shopId = 'shop_id_1';
+      const path = 'path';
+
+      when(_stringStorage.deleteImages(path: path, shopId: shopId))
+          .thenAnswer((_) async {
+        _storage.ref().child('shops/$shopId/images/');
+        return Success('shops/$shopId/images/');
+      });
+
+      final model = container.read(stringDataSourceProvider);
+      final result = await model.deleteImages(path: path, shopId: shopId);
+
+      result.whenWithResult(
+        (success) => expect(success.value, 'shops/$shopId/images/'),
+        (e) => expect(e, Exception('Unhendled part, could be anything')),
+      );
+    });
+  });
 }

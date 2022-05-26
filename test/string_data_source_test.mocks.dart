@@ -30,16 +30,28 @@ class MockStringStorage extends _i1.Mock implements _i3.StringStorage {
   }
 
   @override
-  _i4.Future<_i2.Result<String?>> postImages({String? path, String? shopId}) =>
+  _i4.Future<_i2.Result<String?>> postImages(
+          {String? path, String? shopId, String? fileName}) =>
       (super.noSuchMethod(
-          Invocation.method(#postImages, [], {#path: path, #shopId: shopId}),
-          returnValue: Future<_i2.Result<String?>>.value(
-              _FakeResult_0<String?>())) as _i4.Future<_i2.Result<String?>>);
+              Invocation.method(#postImages, [],
+                  {#path: path, #shopId: shopId, #fileName: fileName}),
+              returnValue:
+                  Future<_i2.Result<String?>>.value(_FakeResult_0<String?>()))
+          as _i4.Future<_i2.Result<String?>>);
   @override
   _i4.Future<_i2.Result<String?>> getImagesUrl(
-          {String? path, String? shopId}) =>
+          {String? path, String? shopId, String? fileName}) =>
       (super.noSuchMethod(
-          Invocation.method(#getImagesUrl, [], {#path: path, #shopId: shopId}),
-          returnValue: Future<_i2.Result<String?>>.value(
-              _FakeResult_0<String?>())) as _i4.Future<_i2.Result<String?>>);
+              Invocation.method(#getImagesUrl, [],
+                  {#path: path, #shopId: shopId, #fileName: fileName}),
+              returnValue:
+                  Future<_i2.Result<String?>>.value(_FakeResult_0<String?>()))
+          as _i4.Future<_i2.Result<String?>>);
+  @override
+  _i4.Future<_i2.Result<String>> deleteImages({String? path, String? shopId}) =>
+      (super.noSuchMethod(
+          Invocation.method(#deleteImages, [], {#path: path, #shopId: shopId}),
+          returnValue:
+              Future<_i2.Result<String>>.value(_FakeResult_0<String>())) as _i4
+          .Future<_i2.Result<String>>);
 }
