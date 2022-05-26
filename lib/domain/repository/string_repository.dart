@@ -12,4 +12,7 @@ abstract class StringRepository {
 
   Future<Result<String?>> getImagesUrl(
       {required String path, required String shopId, required String fileName});
+
+  Future<Result<String>> deleteImages(
+      {required String path, required String shopId});
 }

@@ -37,4 +37,13 @@ class StringRepositoryImpl implements StringRepository {
       return Error(Exception(e));
     });
   }
+
+  @override
+  Future<Result<String>> deleteImages(
+      {required String path, required String shopId}) async {
+    final result = await _dataSource.deleteImages(path: path, shopId: shopId);
+
+    return result.whenWithResult(
+        (success) => Success(success.value), (e) => Error(Exception(e)));
+  }
 }
