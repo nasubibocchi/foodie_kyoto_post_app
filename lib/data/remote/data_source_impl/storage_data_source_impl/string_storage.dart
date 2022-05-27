@@ -22,7 +22,10 @@ class StringStorage {
     try {
       await _storage
           .ref()
-          .child('shops/$shopId/images/$fileName.png')
+          .child('shops')
+          .child(shopId)
+          .child('images')
+          .child('$fileName.png')
           .putFile(file);
       return Success('shops/$shopId/images/$fileName.png');
     } on Exception catch (e) {
@@ -37,7 +40,10 @@ class StringStorage {
     try {
       final url = await _storage
           .ref()
-          .child('shops/$shopId/images/$fileName.png')
+          .child('shops')
+          .child(shopId)
+          .child('images')
+          .child('$fileName.png')
           .getDownloadURL();
       return Success(url);
     } on Exception catch (e) {
@@ -47,7 +53,25 @@ class StringStorage {
 
   Future<Result<String>> deleteImages({required String shopId}) async {
     try {
-      await _storage.ref().child('shops/$shopId/images/').delete();
+      final fileList = await _storage
+          .ref()
+          .child('shops')
+          .child(shopId)
+          .child('images')
+          .listAll();
+
+      if (fileList.items.isNotEmpty) {
+        for (int i = 0; i < fileList.items.length; i++) {
+          await _storage
+              .ref()
+              .child('shops')
+              .child(shopId)
+              .child('images')
+              .child('$i.png')
+              .delete();
+        }
+      }
+
       return Success('shops/$shopId/images/');
     } on Exception catch (e) {
       return Error(e);
