@@ -52,7 +52,9 @@ class ShopFirestore {
         'position': position.data,
         'comment': shopData['comment'],
         'images': shopData['images'],
-        'tags': shopData['tags'],
+        'service_tags': shopData['service_tags'],
+        'area_tags': shopData['area_tags'],
+        'food_tags': shopData['food_tags'],
       };
       await ref.add(geoShopData);
       return Success(null);
