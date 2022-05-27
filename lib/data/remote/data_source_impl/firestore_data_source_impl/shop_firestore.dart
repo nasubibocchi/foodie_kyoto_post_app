@@ -55,6 +55,7 @@ class ShopFirestore {
         'service_tags': shopData['service_tags'],
         'area_tags': shopData['area_tags'],
         'food_tags': shopData['food_tags'],
+        'post_user': shopData['post_user'],
       };
       await ref.add(geoShopData);
       return Success(null);
