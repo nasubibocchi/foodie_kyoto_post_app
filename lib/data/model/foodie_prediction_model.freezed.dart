@@ -66,32 +66,33 @@ class _$FoodiePredictionModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$FoodiePredictionModelCopyWith<$Res>
+abstract class _$$_FoodiePredictionModelCopyWith<$Res>
     implements $FoodiePredictionModelCopyWith<$Res> {
-  factory _$FoodiePredictionModelCopyWith(_FoodiePredictionModel value,
-          $Res Function(_FoodiePredictionModel) then) =
-      __$FoodiePredictionModelCopyWithImpl<$Res>;
+  factory _$$_FoodiePredictionModelCopyWith(_$_FoodiePredictionModel value,
+          $Res Function(_$_FoodiePredictionModel) then) =
+      __$$_FoodiePredictionModelCopyWithImpl<$Res>;
   @override
   $Res call({String description, String placeId});
 }
 
 /// @nodoc
-class __$FoodiePredictionModelCopyWithImpl<$Res>
+class __$$_FoodiePredictionModelCopyWithImpl<$Res>
     extends _$FoodiePredictionModelCopyWithImpl<$Res>
-    implements _$FoodiePredictionModelCopyWith<$Res> {
-  __$FoodiePredictionModelCopyWithImpl(_FoodiePredictionModel _value,
-      $Res Function(_FoodiePredictionModel) _then)
-      : super(_value, (v) => _then(v as _FoodiePredictionModel));
+    implements _$$_FoodiePredictionModelCopyWith<$Res> {
+  __$$_FoodiePredictionModelCopyWithImpl(_$_FoodiePredictionModel _value,
+      $Res Function(_$_FoodiePredictionModel) _then)
+      : super(_value, (v) => _then(v as _$_FoodiePredictionModel));
 
   @override
-  _FoodiePredictionModel get _value => super._value as _FoodiePredictionModel;
+  _$_FoodiePredictionModel get _value =>
+      super._value as _$_FoodiePredictionModel;
 
   @override
   $Res call({
     Object? description = freezed,
     Object? placeId = freezed,
   }) {
-    return _then(_FoodiePredictionModel(
+    return _then(_$_FoodiePredictionModel(
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -127,7 +128,7 @@ class _$_FoodiePredictionModel extends _FoodiePredictionModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _FoodiePredictionModel &&
+            other is _$_FoodiePredictionModel &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.placeId, placeId));
@@ -142,8 +143,8 @@ class _$_FoodiePredictionModel extends _FoodiePredictionModel {
 
   @JsonKey(ignore: true)
   @override
-  _$FoodiePredictionModelCopyWith<_FoodiePredictionModel> get copyWith =>
-      __$FoodiePredictionModelCopyWithImpl<_FoodiePredictionModel>(
+  _$$_FoodiePredictionModelCopyWith<_$_FoodiePredictionModel> get copyWith =>
+      __$$_FoodiePredictionModelCopyWithImpl<_$_FoodiePredictionModel>(
           this, _$identity);
 
   @override
@@ -167,6 +168,6 @@ abstract class _FoodiePredictionModel extends FoodiePredictionModel {
   String get placeId => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$FoodiePredictionModelCopyWith<_FoodiePredictionModel> get copyWith =>
+  _$$_FoodiePredictionModelCopyWith<_$_FoodiePredictionModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
