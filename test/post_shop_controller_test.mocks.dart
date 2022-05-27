@@ -3,8 +3,8 @@
 // Do not manually edit this file.
 
 import 'dart:async' as _i5;
-import 'dart:convert' as _i11;
-import 'dart:typed_data' as _i12;
+import 'dart:convert' as _i10;
+import 'dart:typed_data' as _i11;
 
 import 'package:foodie_kyoto_post_app/data/model/result.dart' as _i2;
 import 'package:foodie_kyoto_post_app/domain/entity/foodie_prediction.dart'
@@ -15,7 +15,7 @@ import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart'
     as _i7;
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart'
     as _i4;
-import 'package:image_picker/image_picker.dart' as _i10;
+import 'package:image_picker/image_picker.dart' as _i12;
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -32,12 +32,12 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeResult_0<T> extends _i1.Fake implements _i2.Result<T> {}
 
-class _FakeLostData_1 extends _i1.Fake implements _i3.LostData {}
+class _FakeDateTime_1 extends _i1.Fake implements DateTime {}
 
-class _FakeLostDataResponse_2 extends _i1.Fake implements _i3.LostDataResponse {
+class _FakeLostData_2 extends _i1.Fake implements _i3.LostData {}
+
+class _FakeLostDataResponse_3 extends _i1.Fake implements _i3.LostDataResponse {
 }
-
-class _FakeDateTime_3 extends _i1.Fake implements DateTime {}
 
 /// A class which mocks [ShopUseCase].
 ///
@@ -101,10 +101,56 @@ class MockPlacesUseCase extends _i1.Mock implements _i7.PlacesUseCase {
           as _i5.Future<_i2.Result<_i9.ShopDetail?>>);
 }
 
+/// A class which mocks [XFile].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockXFile extends _i1.Mock implements _i3.XFile {
+  MockXFile() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  String get path =>
+      (super.noSuchMethod(Invocation.getter(#path), returnValue: '') as String);
+  @override
+  String get name =>
+      (super.noSuchMethod(Invocation.getter(#name), returnValue: '') as String);
+  @override
+  _i5.Future<void> saveTo(String? path) =>
+      (super.noSuchMethod(Invocation.method(#saveTo, [path]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
+  @override
+  _i5.Future<int> length() =>
+      (super.noSuchMethod(Invocation.method(#length, []),
+          returnValue: Future<int>.value(0)) as _i5.Future<int>);
+  @override
+  _i5.Future<String> readAsString(
+          {_i10.Encoding? encoding = const _i10.Utf8Codec()}) =>
+      (super.noSuchMethod(
+          Invocation.method(#readAsString, [], {#encoding: encoding}),
+          returnValue: Future<String>.value('')) as _i5.Future<String>);
+  @override
+  _i5.Future<_i11.Uint8List> readAsBytes() =>
+      (super.noSuchMethod(Invocation.method(#readAsBytes, []),
+              returnValue: Future<_i11.Uint8List>.value(_i11.Uint8List(0)))
+          as _i5.Future<_i11.Uint8List>);
+  @override
+  _i5.Stream<_i11.Uint8List> openRead([int? start, int? end]) =>
+      (super.noSuchMethod(Invocation.method(#openRead, [start, end]),
+              returnValue: Stream<_i11.Uint8List>.empty())
+          as _i5.Stream<_i11.Uint8List>);
+  @override
+  _i5.Future<DateTime> lastModified() =>
+      (super.noSuchMethod(Invocation.method(#lastModified, []),
+              returnValue: Future<DateTime>.value(_FakeDateTime_1()))
+          as _i5.Future<DateTime>);
+}
+
 /// A class which mocks [ImagePicker].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockImagePicker extends _i1.Mock implements _i10.ImagePicker {
+class MockImagePicker extends _i1.Mock implements _i12.ImagePicker {
   MockImagePicker() {
     _i1.throwOnMissingStub(this);
   }
@@ -153,7 +199,7 @@ class MockImagePicker extends _i1.Mock implements _i10.ImagePicker {
   @override
   _i5.Future<_i3.LostData> getLostData() =>
       (super.noSuchMethod(Invocation.method(#getLostData, []),
-              returnValue: Future<_i3.LostData>.value(_FakeLostData_1()))
+              returnValue: Future<_i3.LostData>.value(_FakeLostData_2()))
           as _i5.Future<_i3.LostData>);
   @override
   _i5.Future<_i3.XFile?> pickImage(
@@ -198,52 +244,6 @@ class MockImagePicker extends _i1.Mock implements _i10.ImagePicker {
   _i5.Future<_i3.LostDataResponse> retrieveLostData() =>
       (super.noSuchMethod(Invocation.method(#retrieveLostData, []),
               returnValue:
-                  Future<_i3.LostDataResponse>.value(_FakeLostDataResponse_2()))
+                  Future<_i3.LostDataResponse>.value(_FakeLostDataResponse_3()))
           as _i5.Future<_i3.LostDataResponse>);
-}
-
-/// A class which mocks [XFile].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockXFile extends _i1.Mock implements _i3.XFile {
-  MockXFile() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  String get path =>
-      (super.noSuchMethod(Invocation.getter(#path), returnValue: '') as String);
-  @override
-  String get name =>
-      (super.noSuchMethod(Invocation.getter(#name), returnValue: '') as String);
-  @override
-  _i5.Future<void> saveTo(String? path) =>
-      (super.noSuchMethod(Invocation.method(#saveTo, [path]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
-  @override
-  _i5.Future<int> length() =>
-      (super.noSuchMethod(Invocation.method(#length, []),
-          returnValue: Future<int>.value(0)) as _i5.Future<int>);
-  @override
-  _i5.Future<String> readAsString(
-          {_i11.Encoding? encoding = const _i11.Utf8Codec()}) =>
-      (super.noSuchMethod(
-          Invocation.method(#readAsString, [], {#encoding: encoding}),
-          returnValue: Future<String>.value('')) as _i5.Future<String>);
-  @override
-  _i5.Future<_i12.Uint8List> readAsBytes() =>
-      (super.noSuchMethod(Invocation.method(#readAsBytes, []),
-              returnValue: Future<_i12.Uint8List>.value(_i12.Uint8List(0)))
-          as _i5.Future<_i12.Uint8List>);
-  @override
-  _i5.Stream<_i12.Uint8List> openRead([int? start, int? end]) =>
-      (super.noSuchMethod(Invocation.method(#openRead, [start, end]),
-              returnValue: Stream<_i12.Uint8List>.empty())
-          as _i5.Stream<_i12.Uint8List>);
-  @override
-  _i5.Future<DateTime> lastModified() =>
-      (super.noSuchMethod(Invocation.method(#lastModified, []),
-              returnValue: Future<DateTime>.value(_FakeDateTime_3()))
-          as _i5.Future<DateTime>);
 }
