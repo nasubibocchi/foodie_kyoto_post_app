@@ -49,7 +49,8 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop, commentController, comment, images) {
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
         expect(shop?.shopId, 'shop_id_1');
         expect(shop?.name, 'name');
         expect(shop?.comment, 'comment');
@@ -67,7 +68,9 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop, commentController, comment, images) {},
+      model.debugState.when(
+          (shop, commentController, comment, images, selectedServiceTags,
+              selectedAreaTags, selectedFoodTags) {},
           loading: () {}, error: () {
         expect(state, PostShopState.error());
       });
@@ -91,7 +94,8 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop, commentController, comment, images) async {
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) async {
         expect(shop?.name, 'name');
         expect(shop?.latitude, 135.0);
         expect(shop?.longitude, 45.0);
@@ -130,7 +134,8 @@ void main() {
       await model.initShopState();
 
       model.editComment('modified comment');
-      model.debugState.when((shop, commentController, comment, images) {
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
         expect(shop?.comment, 'comment');
         expect(comment, 'modified comment');
       }, loading: () {}, error: () {});
@@ -178,7 +183,8 @@ void main() {
 
       await model.selectImages();
 
-      model.debugState.when((shop, commentController, comment, images) {
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
         expect(images.length, 2);
         expect(images.first.path, '');
       }, loading: () {}, error: () {});
@@ -205,7 +211,8 @@ void main() {
         final model = container.read(postShopProvider(shopId).notifier);
         await model.initShopState();
 
-        model.debugState.when((shop, commentController, comment, images) {
+        model.debugState.when((shop, commentController, comment, images,
+            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
           expect(images.first.path, MockXFile().path);
         }, loading: () {}, error: () {});
 
@@ -215,11 +222,155 @@ void main() {
 
         await model.changeImage(0);
 
-        model.debugState.when((shop, commentController, comment, images) {
+        model.debugState.when((shop, commentController, comment, images,
+            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
           expect(images.length, 1);
           expect(images.first.path, 'path2');
         }, loading: () {}, error: () {});
       });
     }, skip: true);
+
+    group('add and remove serviceTag', () {
+      test('when _PostShopState', () async {
+        const shopId = 'shop_id_1';
+        when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+            .thenAnswer((_) async {
+          return Success(Shop(
+              name: 'name',
+              shopId: 'shop_id_1',
+              latitude: 45.0,
+              longitude: 135.0,
+              comment: 'comment',
+              images: ['path1'],
+              serviceTags: <int>[],
+              areaTags: <int>[],
+              foodTags: <int>[],
+              postUser: 'user1'));
+        });
+
+        final model = container.read(postShopProvider(shopId).notifier);
+        await model.initShopState();
+
+        model.debugState.when((shop, commentController, comment, images,
+            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+          expect(selectedServiceTags.length, 0);
+          expect(selectedServiceTags, []);
+        }, loading: () {}, error: () {});
+
+        model.addServiceTag(1);
+
+        model.debugState.when((shop, commentController, comment, images,
+            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+          expect(selectedServiceTags.length, 1);
+          expect(selectedServiceTags, [1]);
+        }, loading: () {}, error: () {});
+
+        model.removeServiceTag(1);
+
+        model.debugState.when((shop, commentController, comment, images,
+            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+          expect(selectedServiceTags.length, 0);
+          expect(selectedServiceTags, []);
+        }, loading: () {}, error: () {});
+
+        model.removeServiceTag(1);
+
+        model.debugState.when((shop, commentController, comment, images,
+            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+          expect(selectedServiceTags.length, 0);
+          expect(selectedServiceTags, []);
+        }, loading: () {}, error: () {});
+      });
+    });
+  });
+
+  group('add or remove area tag', () {
+    test('when _PostShopState', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(Shop(
+            name: 'name',
+            shopId: 'shop_id_1',
+            latitude: 45.0,
+            longitude: 135.0,
+            comment: 'comment',
+            images: ['path1'],
+            serviceTags: <int>[],
+            areaTags: <int>[],
+            foodTags: <int>[],
+            postUser: 'user1'));
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedAreaTags.length, 0);
+        expect(selectedAreaTags, []);
+      }, loading: () {}, error: () {});
+
+      model.addAreaTag(1);
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedAreaTags.length, 1);
+        expect(selectedAreaTags, [1]);
+      }, loading: () {}, error: () {});
+
+      model.removeAreaTag(1);
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedAreaTags.length, 0);
+        expect(selectedAreaTags, []);
+      }, loading: () {}, error: () {});
+    });
+  });
+
+  group('add or remove food tag', () {
+    test('when _PostShopState', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(Shop(
+            name: 'name',
+            shopId: 'shop_id_1',
+            latitude: 45.0,
+            longitude: 135.0,
+            comment: 'comment',
+            images: ['path1'],
+            serviceTags: <int>[],
+            areaTags: <int>[],
+            foodTags: <int>[],
+            postUser: 'user1'));
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedFoodTags.length, 0);
+        expect(selectedFoodTags, []);
+      }, loading: () {}, error: () {});
+
+      model.addFoodTag(1);
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedFoodTags.length, 1);
+        expect(selectedFoodTags, [1]);
+      }, loading: () {}, error: () {});
+
+      model.removeFoodTag(1);
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedFoodTags.length, 0);
+        expect(selectedFoodTags, []);
+      }, loading: () {}, error: () {});
+    });
   });
 }

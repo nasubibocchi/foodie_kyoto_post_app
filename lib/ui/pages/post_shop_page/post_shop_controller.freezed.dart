@@ -18,8 +18,14 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PostShopState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
@@ -27,8 +33,14 @@ mixin _$PostShopState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)?
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -36,8 +48,14 @@ mixin _$PostShopState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)?
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -94,7 +112,10 @@ abstract class _$$_PostShopStateCopyWith<$Res> {
       {Shop? shop,
       TextEditingController commentController,
       String? comment,
-      List<XFile> images});
+      List<XFile> images,
+      List<int> selectedServiceTags,
+      List<int> selectedAreaTags,
+      List<int> selectedFoodTags});
 }
 
 /// @nodoc
@@ -114,6 +135,9 @@ class __$$_PostShopStateCopyWithImpl<$Res>
     Object? commentController = freezed,
     Object? comment = freezed,
     Object? images = freezed,
+    Object? selectedServiceTags = freezed,
+    Object? selectedAreaTags = freezed,
+    Object? selectedFoodTags = freezed,
   }) {
     return _then(_$_PostShopState(
       shop: shop == freezed
@@ -132,6 +156,18 @@ class __$$_PostShopStateCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<XFile>,
+      selectedServiceTags: selectedServiceTags == freezed
+          ? _value._selectedServiceTags
+          : selectedServiceTags // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      selectedAreaTags: selectedAreaTags == freezed
+          ? _value._selectedAreaTags
+          : selectedAreaTags // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      selectedFoodTags: selectedFoodTags == freezed
+          ? _value._selectedFoodTags
+          : selectedFoodTags // ignore: cast_nullable_to_non_nullable
+              as List<int>,
     ));
   }
 }
@@ -143,8 +179,14 @@ class _$_PostShopState implements _PostShopState {
       {required this.shop,
       required this.commentController,
       required this.comment,
-      final List<XFile> images = const []})
-      : _images = images;
+      final List<XFile> images = const [],
+      final List<int> selectedServiceTags = const [],
+      final List<int> selectedAreaTags = const [],
+      final List<int> selectedFoodTags = const []})
+      : _images = images,
+        _selectedServiceTags = selectedServiceTags,
+        _selectedAreaTags = selectedAreaTags,
+        _selectedFoodTags = selectedFoodTags;
 
   @override
   final Shop? shop;
@@ -160,9 +202,33 @@ class _$_PostShopState implements _PostShopState {
     return EqualUnmodifiableListView(_images);
   }
 
+  final List<int> _selectedServiceTags;
+  @override
+  @JsonKey()
+  List<int> get selectedServiceTags {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedServiceTags);
+  }
+
+  final List<int> _selectedAreaTags;
+  @override
+  @JsonKey()
+  List<int> get selectedAreaTags {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedAreaTags);
+  }
+
+  final List<int> _selectedFoodTags;
+  @override
+  @JsonKey()
+  List<int> get selectedFoodTags {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedFoodTags);
+  }
+
   @override
   String toString() {
-    return 'PostShopState(shop: $shop, commentController: $commentController, comment: $comment, images: $images)';
+    return 'PostShopState(shop: $shop, commentController: $commentController, comment: $comment, images: $images, selectedServiceTags: $selectedServiceTags, selectedAreaTags: $selectedAreaTags, selectedFoodTags: $selectedFoodTags)';
   }
 
   @override
@@ -174,7 +240,13 @@ class _$_PostShopState implements _PostShopState {
             const DeepCollectionEquality()
                 .equals(other.commentController, commentController) &&
             const DeepCollectionEquality().equals(other.comment, comment) &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedServiceTags, _selectedServiceTags) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedAreaTags, _selectedAreaTags) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedFoodTags, _selectedFoodTags));
   }
 
   @override
@@ -183,7 +255,10 @@ class _$_PostShopState implements _PostShopState {
       const DeepCollectionEquality().hash(shop),
       const DeepCollectionEquality().hash(commentController),
       const DeepCollectionEquality().hash(comment),
-      const DeepCollectionEquality().hash(_images));
+      const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_selectedServiceTags),
+      const DeepCollectionEquality().hash(_selectedAreaTags),
+      const DeepCollectionEquality().hash(_selectedFoodTags));
 
   @JsonKey(ignore: true)
   @override
@@ -193,39 +268,60 @@ class _$_PostShopState implements _PostShopState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
   }) {
-    return $default(shop, commentController, comment, images);
+    return $default(shop, commentController, comment, images,
+        selectedServiceTags, selectedAreaTags, selectedFoodTags);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)?
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
   }) {
-    return $default?.call(shop, commentController, comment, images);
+    return $default?.call(shop, commentController, comment, images,
+        selectedServiceTags, selectedAreaTags, selectedFoodTags);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)?
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(shop, commentController, comment, images);
+      return $default(shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags);
     }
     return orElse();
   }
@@ -270,13 +366,19 @@ abstract class _PostShopState implements PostShopState {
       {required final Shop? shop,
       required final TextEditingController commentController,
       required final String? comment,
-      final List<XFile> images}) = _$_PostShopState;
+      final List<XFile> images,
+      final List<int> selectedServiceTags,
+      final List<int> selectedAreaTags,
+      final List<int> selectedFoodTags}) = _$_PostShopState;
 
   Shop? get shop => throw _privateConstructorUsedError;
   TextEditingController get commentController =>
       throw _privateConstructorUsedError;
   String? get comment => throw _privateConstructorUsedError;
   List<XFile> get images => throw _privateConstructorUsedError;
+  List<int> get selectedServiceTags => throw _privateConstructorUsedError;
+  List<int> get selectedAreaTags => throw _privateConstructorUsedError;
+  List<int> get selectedFoodTags => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$$_PostShopStateCopyWith<_$_PostShopState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -323,8 +425,14 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
@@ -335,8 +443,14 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)?
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -347,8 +461,14 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)?
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -440,8 +560,14 @@ class _$_PostShopStateError implements _PostShopStateError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
@@ -452,8 +578,14 @@ class _$_PostShopStateError implements _PostShopStateError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)?
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -464,8 +596,14 @@ class _$_PostShopStateError implements _PostShopStateError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Shop? shop, TextEditingController commentController,
-            String? comment, List<XFile> images)?
+    TResult Function(
+            Shop? shop,
+            TextEditingController commentController,
+            String? comment,
+            List<XFile> images,
+            List<int> selectedServiceTags,
+            List<int> selectedAreaTags,
+            List<int> selectedFoodTags)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
