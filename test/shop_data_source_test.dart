@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
@@ -32,7 +33,7 @@ Future<void> main() async {
       'shop_id': 'shop_id_1',
       'position': {
         'geohash': 'xn0x1ktq9',
-        'geopoint': {'latitude': 35.006323, 'longitude': 135.765321},
+        'geopoint': const GeoPoint(35.006323, 135.765321),
       },
       'comment': 'comment_1',
       'images': ['image1', 'image2'],
@@ -50,7 +51,7 @@ Future<void> main() async {
       'shop_id': 'shop_id_2',
       'position': {
         'geohash': 'xn0x1ktq9',
-        'geopoint': {'latitude': 35.006323, 'longitude': 135.765321},
+        'geopoint': const GeoPoint(35.006323, 135.765321),
       },
       'comment': 'comment_2',
       'images': ['image1', 'image2'],
@@ -148,7 +149,7 @@ Future<void> main() async {
           'shop_id': 'shop_id_3',
           'position': {
             'geohash': 'xn0x1ktq9',
-            'geopoint': {'latitude': 50.0, 'longitude': 100.0},
+            'geopoint': const GeoPoint(50.0, 100.0),
           },
           'comment': 'comment_3',
           'images': ['image1', 'image2'],
