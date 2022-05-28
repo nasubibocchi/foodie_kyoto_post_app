@@ -5,6 +5,7 @@ import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/string_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,17 +15,18 @@ import 'package:mockito/mockito.dart';
 
 import 'post_shop_controller_test.mocks.dart';
 
-@GenerateMocks([ShopUseCase, PlacesUseCase, ImagePicker, XFile])
+@GenerateMocks([ShopUseCase, PlacesUseCase, StringUseCase, XFile, ImagePicker])
 void main() {
   final _shopUseCase = MockShopUseCase();
   final _placesUseCase = MockPlacesUseCase();
+  final _stringUseCase = MockStringUseCase();
   final _picker = MockImagePicker();
 
   final container = ProviderContainer(overrides: [
     postShopProvider.overrideWithProvider(StateNotifierProvider.family
         .autoDispose<PostShopController, PostShopState, String>(
-            (ref, _shopId) =>
-                PostShopController(_shopUseCase, _placesUseCase, _shopId))),
+            (ref, _shopId) => PostShopController(
+                _shopUseCase, _placesUseCase, _stringUseCase, _shopId))),
   ]);
 
   group('init shop state', () {
