@@ -48,10 +48,9 @@ class MockStringStorage extends _i1.Mock implements _i3.StringStorage {
                   Future<_i2.Result<String?>>.value(_FakeResult_0<String?>()))
           as _i4.Future<_i2.Result<String?>>);
   @override
-  _i4.Future<_i2.Result<String>> deleteImages({String? path, String? shopId}) =>
-      (super.noSuchMethod(
-          Invocation.method(#deleteImages, [], {#path: path, #shopId: shopId}),
-          returnValue:
-              Future<_i2.Result<String>>.value(_FakeResult_0<String>())) as _i4
-          .Future<_i2.Result<String>>);
+  _i4.Future<_i2.Result<String>> deleteImages({String? shopId}) => (super
+          .noSuchMethod(Invocation.method(#deleteImages, [], {#shopId: shopId}),
+              returnValue:
+                  Future<_i2.Result<String>>.value(_FakeResult_0<String>()))
+      as _i4.Future<_i2.Result<String>>);
 }
