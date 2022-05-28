@@ -3,8 +3,8 @@
 // Do not manually edit this file.
 
 import 'dart:async' as _i5;
-import 'dart:convert' as _i11;
-import 'dart:typed_data' as _i12;
+import 'dart:convert' as _i10;
+import 'dart:typed_data' as _i11;
 
 import 'package:foodie_kyoto_post_app/data/model/result.dart' as _i2;
 import 'package:foodie_kyoto_post_app/domain/entity/foodie_prediction.dart'
@@ -176,6 +176,7 @@ class MockXFile extends _i1.Mock implements _i3.XFile {
       (super.noSuchMethod(Invocation.method(#openRead, [start, end]),
               returnValue: Stream<_i12.Uint8List>.empty())
           as _i5.Stream<_i12.Uint8List>);
+
   @override
   _i5.Future<DateTime> lastModified() =>
       (super.noSuchMethod(Invocation.method(#lastModified, []),
