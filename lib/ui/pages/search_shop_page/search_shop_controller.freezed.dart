@@ -71,11 +71,11 @@ class _$SearchShopStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$SearchShopStateCopyWith<$Res>
+abstract class _$$_SearchShopStateCopyWith<$Res>
     implements $SearchShopStateCopyWith<$Res> {
-  factory _$SearchShopStateCopyWith(
-          _SearchShopState value, $Res Function(_SearchShopState) then) =
-      __$SearchShopStateCopyWithImpl<$Res>;
+  factory _$$_SearchShopStateCopyWith(
+          _$_SearchShopState value, $Res Function(_$_SearchShopState) then) =
+      __$$_SearchShopStateCopyWithImpl<$Res>;
   @override
   $Res call(
       {String? searchText,
@@ -84,15 +84,15 @@ abstract class _$SearchShopStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$SearchShopStateCopyWithImpl<$Res>
+class __$$_SearchShopStateCopyWithImpl<$Res>
     extends _$SearchShopStateCopyWithImpl<$Res>
-    implements _$SearchShopStateCopyWith<$Res> {
-  __$SearchShopStateCopyWithImpl(
-      _SearchShopState _value, $Res Function(_SearchShopState) _then)
-      : super(_value, (v) => _then(v as _SearchShopState));
+    implements _$$_SearchShopStateCopyWith<$Res> {
+  __$$_SearchShopStateCopyWithImpl(
+      _$_SearchShopState _value, $Res Function(_$_SearchShopState) _then)
+      : super(_value, (v) => _then(v as _$_SearchShopState));
 
   @override
-  _SearchShopState get _value => super._value as _SearchShopState;
+  _$_SearchShopState get _value => super._value as _$_SearchShopState;
 
   @override
   $Res call({
@@ -100,13 +100,13 @@ class __$SearchShopStateCopyWithImpl<$Res>
     Object? searchResultList = freezed,
     Object? searchController = freezed,
   }) {
-    return _then(_SearchShopState(
+    return _then(_$_SearchShopState(
       searchText: searchText == freezed
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
               as String?,
       searchResultList: searchResultList == freezed
-          ? _value.searchResultList
+          ? _value._searchResultList
           : searchResultList // ignore: cast_nullable_to_non_nullable
               as List<FoodiePrediction>?,
       searchController: searchController == freezed
@@ -149,11 +149,11 @@ class _$_SearchShopState implements _SearchShopState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SearchShopState &&
+            other is _$_SearchShopState &&
             const DeepCollectionEquality()
                 .equals(other.searchText, searchText) &&
             const DeepCollectionEquality()
-                .equals(other.searchResultList, searchResultList) &&
+                .equals(other._searchResultList, _searchResultList) &&
             const DeepCollectionEquality()
                 .equals(other.searchController, searchController));
   }
@@ -162,13 +162,13 @@ class _$_SearchShopState implements _SearchShopState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(searchText),
-      const DeepCollectionEquality().hash(searchResultList),
+      const DeepCollectionEquality().hash(_searchResultList),
       const DeepCollectionEquality().hash(searchController));
 
   @JsonKey(ignore: true)
   @override
-  _$SearchShopStateCopyWith<_SearchShopState> get copyWith =>
-      __$SearchShopStateCopyWithImpl<_SearchShopState>(this, _$identity);
+  _$$_SearchShopStateCopyWith<_$_SearchShopState> get copyWith =>
+      __$$_SearchShopStateCopyWithImpl<_$_SearchShopState>(this, _$identity);
 }
 
 abstract class _SearchShopState implements SearchShopState {
@@ -188,6 +188,6 @@ abstract class _SearchShopState implements SearchShopState {
       throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SearchShopStateCopyWith<_SearchShopState> get copyWith =>
+  _$$_SearchShopStateCopyWith<_$_SearchShopState> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -14,7 +14,7 @@ import 'package:mockito/mockito.dart';
 
 import 'post_shop_controller_test.mocks.dart';
 
-@GenerateMocks([ShopUseCase, PlacesUseCase, ImagePicker, XFile])
+@GenerateMocks([ShopUseCase, PlacesUseCase, XFile, ImagePicker])
 void main() {
   final _shopUseCase = MockShopUseCase();
   final _placesUseCase = MockPlacesUseCase();

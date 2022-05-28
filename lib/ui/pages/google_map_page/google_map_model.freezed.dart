@@ -74,29 +74,29 @@ class _$GoogleMapStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$GoogleMapStateCopyWith<$Res> {
-  factory _$GoogleMapStateCopyWith(
-          _GoogleMapState value, $Res Function(_GoogleMapState) then) =
-      __$GoogleMapStateCopyWithImpl<$Res>;
+abstract class _$$_GoogleMapStateCopyWith<$Res> {
+  factory _$$_GoogleMapStateCopyWith(
+          _$_GoogleMapState value, $Res Function(_$_GoogleMapState) then) =
+      __$$_GoogleMapStateCopyWithImpl<$Res>;
   $Res call({GoogleMapController? googleMapController});
 }
 
 /// @nodoc
-class __$GoogleMapStateCopyWithImpl<$Res>
+class __$$_GoogleMapStateCopyWithImpl<$Res>
     extends _$GoogleMapStateCopyWithImpl<$Res>
-    implements _$GoogleMapStateCopyWith<$Res> {
-  __$GoogleMapStateCopyWithImpl(
-      _GoogleMapState _value, $Res Function(_GoogleMapState) _then)
-      : super(_value, (v) => _then(v as _GoogleMapState));
+    implements _$$_GoogleMapStateCopyWith<$Res> {
+  __$$_GoogleMapStateCopyWithImpl(
+      _$_GoogleMapState _value, $Res Function(_$_GoogleMapState) _then)
+      : super(_value, (v) => _then(v as _$_GoogleMapState));
 
   @override
-  _GoogleMapState get _value => super._value as _GoogleMapState;
+  _$_GoogleMapState get _value => super._value as _$_GoogleMapState;
 
   @override
   $Res call({
     Object? googleMapController = freezed,
   }) {
-    return _then(_GoogleMapState(
+    return _then(_$_GoogleMapState(
       googleMapController: googleMapController == freezed
           ? _value.googleMapController
           : googleMapController // ignore: cast_nullable_to_non_nullable
@@ -122,7 +122,7 @@ class _$_GoogleMapState implements _GoogleMapState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _GoogleMapState &&
+            other is _$_GoogleMapState &&
             const DeepCollectionEquality()
                 .equals(other.googleMapController, googleMapController));
   }
@@ -133,8 +133,8 @@ class _$_GoogleMapState implements _GoogleMapState {
 
   @JsonKey(ignore: true)
   @override
-  _$GoogleMapStateCopyWith<_GoogleMapState> get copyWith =>
-      __$GoogleMapStateCopyWithImpl<_GoogleMapState>(this, _$identity);
+  _$$_GoogleMapStateCopyWith<_$_GoogleMapState> get copyWith =>
+      __$$_GoogleMapStateCopyWithImpl<_$_GoogleMapState>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -206,27 +206,28 @@ abstract class _GoogleMapState implements GoogleMapState {
   GoogleMapController? get googleMapController =>
       throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  _$GoogleMapStateCopyWith<_GoogleMapState> get copyWith =>
+  _$$_GoogleMapStateCopyWith<_$_GoogleMapState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$GoogleMapStateCreatingCopyWith<$Res> {
-  factory _$GoogleMapStateCreatingCopyWith(_GoogleMapStateCreating value,
-          $Res Function(_GoogleMapStateCreating) then) =
-      __$GoogleMapStateCreatingCopyWithImpl<$Res>;
+abstract class _$$_GoogleMapStateCreatingCopyWith<$Res> {
+  factory _$$_GoogleMapStateCreatingCopyWith(_$_GoogleMapStateCreating value,
+          $Res Function(_$_GoogleMapStateCreating) then) =
+      __$$_GoogleMapStateCreatingCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$GoogleMapStateCreatingCopyWithImpl<$Res>
+class __$$_GoogleMapStateCreatingCopyWithImpl<$Res>
     extends _$GoogleMapStateCopyWithImpl<$Res>
-    implements _$GoogleMapStateCreatingCopyWith<$Res> {
-  __$GoogleMapStateCreatingCopyWithImpl(_GoogleMapStateCreating _value,
-      $Res Function(_GoogleMapStateCreating) _then)
-      : super(_value, (v) => _then(v as _GoogleMapStateCreating));
+    implements _$$_GoogleMapStateCreatingCopyWith<$Res> {
+  __$$_GoogleMapStateCreatingCopyWithImpl(_$_GoogleMapStateCreating _value,
+      $Res Function(_$_GoogleMapStateCreating) _then)
+      : super(_value, (v) => _then(v as _$_GoogleMapStateCreating));
 
   @override
-  _GoogleMapStateCreating get _value => super._value as _GoogleMapStateCreating;
+  _$_GoogleMapStateCreating get _value =>
+      super._value as _$_GoogleMapStateCreating;
 }
 
 /// @nodoc
@@ -242,7 +243,8 @@ class _$_GoogleMapStateCreating implements _GoogleMapStateCreating {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _GoogleMapStateCreating);
+        (other.runtimeType == runtimeType &&
+            other is _$_GoogleMapStateCreating);
   }
 
   @override
