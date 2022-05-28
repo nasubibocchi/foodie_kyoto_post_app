@@ -5,11 +5,11 @@ import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/data/remote/storage_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final stringStorageProvider = Provider<StringStorage>(
-    (ref) => StringStorage(storage: ref.read(storageProvider)));
+final shopImageStorageProvider = Provider<ShopImageStorage>(
+    (ref) => ShopImageStorage(storage: ref.read(storageProvider)));
 
-class StringStorage {
-  StringStorage({required FirebaseStorage storage}) : _storage = storage;
+class ShopImageStorage {
+  ShopImageStorage({required FirebaseStorage storage}) : _storage = storage;
 
   final FirebaseStorage _storage;
 

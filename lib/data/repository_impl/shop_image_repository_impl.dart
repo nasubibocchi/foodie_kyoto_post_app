@@ -1,12 +1,12 @@
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
-import 'package:foodie_kyoto_post_app/data/remote/data_source/string_data_source.dart';
-import 'package:foodie_kyoto_post_app/domain/repository/string_repository.dart';
+import 'package:foodie_kyoto_post_app/data/remote/data_source/shop_image_data_source.dart';
+import 'package:foodie_kyoto_post_app/domain/repository/shop_image_repository.dart';
 
-class StringRepositoryImpl implements StringRepository {
-  StringRepositoryImpl({required StringDataSource dataSource})
+class ShopImageRepositoryImpl implements ShopImageRepository {
+  ShopImageRepositoryImpl({required ShopImageDataSource dataSource})
       : _dataSource = dataSource;
 
-  final StringDataSource _dataSource;
+  final ShopImageDataSource _dataSource;
 
   @override
   Future<Result<String?>> getImagesUrl(

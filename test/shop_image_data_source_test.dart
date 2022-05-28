@@ -3,26 +3,26 @@ import 'dart:io';
 import 'package:firebase_storage_mocks/firebase_storage_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
-import 'package:foodie_kyoto_post_app/data/remote/data_source/string_data_source.dart';
-import 'package:foodie_kyoto_post_app/data/remote/data_source_impl/model_data_source_impl/string_data_source_impl.dart';
-import 'package:foodie_kyoto_post_app/data/remote/data_source_impl/storage_data_source_impl/string_storage.dart';
+import 'package:foodie_kyoto_post_app/data/remote/data_source/shop_image_data_source.dart';
+import 'package:foodie_kyoto_post_app/data/remote/data_source_impl/model_data_source_impl/shop_image_data_source_impl.dart';
+import 'package:foodie_kyoto_post_app/data/remote/data_source_impl/storage_data_source_impl/shop_image_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'string_data_source_test.mocks.dart';
+import 'shop_image_data_source_test.mocks.dart';
 
-@GenerateMocks([StringStorage])
+@GenerateMocks([ShopImageStorage])
 void main() {
   final _storage = MockFirebaseStorage();
-  final _stringStorage = MockStringStorage();
+  final _shopImageStorage = MockShopImageStorage();
 
   final container = ProviderContainer(overrides: [
-    stringStorageProvider.overrideWithProvider(
-        Provider<StringStorage>((ref) => StringStorage(storage: _storage))),
-    stringDataSourceProvider.overrideWithProvider(
-        Provider<StringDataSourceImpl>((ref) => StringDataSourceImpl(
-            stringStorage: ref.read(stringStorageProvider))))
+    shopImageStorageProvider.overrideWithProvider(Provider<ShopImageStorage>(
+        (ref) => ShopImageStorage(storage: _storage))),
+    shopImageDataSourceProvider.overrideWithProvider(
+        Provider<ShopImageDataSourceImpl>((ref) => ShopImageDataSourceImpl(
+            stringStorage: ref.read(shopImageStorageProvider))))
   ]);
 
   setUpAll(() async {
@@ -65,7 +65,7 @@ void main() {
     const fileName = '2';
 
     test('post with valid path and shop id', () async {
-      when(_stringStorage.postImages(
+      when(_shopImageStorage.postImages(
               path: path, shopId: shopId, fileName: fileName))
           .thenAnswer((_) async {
         final file = File(path);
@@ -79,7 +79,7 @@ void main() {
         return Success('shops/$shopId/images/$fileName.png');
       });
 
-      final model = container.read(stringDataSourceProvider);
+      final model = container.read(shopImageDataSourceProvider);
       final result = await model.postImages(
           path: path, shopId: shopId, fileName: fileName);
 
@@ -100,7 +100,7 @@ void main() {
       const fileName = '1';
 
       test('get images url with valid path and shopId', () async {
-        when(_stringStorage.getImagesUrl(
+        when(_shopImageStorage.getImagesUrl(
                 path: path, shopId: shopId, fileName: fileName))
             .thenAnswer((_) async {
           // getDownloadURL(); で値が返ってこない
@@ -115,7 +115,7 @@ void main() {
           return Success(url);
         });
 
-        final model = container.read(stringDataSourceProvider);
+        final model = container.read(shopImageDataSourceProvider);
         final result = await model.getImagesUrl(
             path: path, shopId: shopId, fileName: fileName);
 
@@ -136,7 +136,8 @@ void main() {
       test('when there are images in designated path', () async {
         const shopId = 'shop_id_1';
 
-        when(_stringStorage.deleteImages(shopId: shopId)).thenAnswer((_) async {
+        when(_shopImageStorage.deleteImages(shopId: shopId))
+            .thenAnswer((_) async {
           // listAll(); で値が返ってこない
           final fileList = await _storage
               .ref()
@@ -159,7 +160,7 @@ void main() {
           return Success('shops/$shopId/images/');
         });
 
-        final model = container.read(stringDataSourceProvider);
+        final model = container.read(shopImageDataSourceProvider);
         final result = await model.deleteImages(shopId: shopId);
 
         result.whenWithResult(

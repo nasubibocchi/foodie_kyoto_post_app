@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/shop_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
-import 'package:foodie_kyoto_post_app/domain/use_case/string_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -40,15 +40,15 @@ enum PostResults {
 
 // shopのstateを変更するのは「投稿」ボタンをタップ直後、Firestoreに保存する直前だけにする。
 class PostShopController extends StateNotifier<PostShopState> {
-  PostShopController(
-      this._shopUseCase, this._placesUseCase, this._stringUseCase, this._shopId)
+  PostShopController(this._shopUseCase, this._placesUseCase,
+      this._shopImageUseCase, this._shopId)
       : super(PostShopState.loading()) {
     initShopState();
   }
 
   final ShopUseCase _shopUseCase;
   final PlacesUseCase _placesUseCase;
-  final StringUseCase _stringUseCase;
+  final ShopImageUseCase _shopImageUseCase;
   final String _shopId;
 
   final ImagePicker _picker = ImagePicker();
@@ -250,7 +250,8 @@ class PostShopController extends StateNotifier<PostShopState> {
       }
       // コメントが空白、または画像を設定しないまま保存しない
 
-      final deleteResult = await _stringUseCase.deleteImages(shopId: _shopId);
+      final deleteResult =
+          await _shopImageUseCase.deleteImages(shopId: _shopId);
 
       return deleteResult.whenWithResult((success) async {
         final imagesUrl = await getImageUrlFromStorage(
@@ -287,13 +288,13 @@ class PostShopController extends StateNotifier<PostShopState> {
   Future<List<String>> getImageUrlFromStorage(List<String> imagePaths) async {
     if (state is _PostShopState) {
       for (int i = 0; i < imagePaths.length; i++) {
-        await _stringUseCase.postImages(
+        await _shopImageUseCase.postImages(
             path: imagePaths[i], shopId: _shopId, fileName: '$i');
       }
 
       final List<String> _imageUrlList = <String>[];
       for (int i = 0; i < imagePaths.length; i++) {
-        final urlResult = await _stringUseCase.getImagesUrl(
+        final urlResult = await _shopImageUseCase.getImagesUrl(
             path: imagePaths[i], shopId: _shopId, fileName: '$i');
         urlResult.whenWithResult((url) {
           if (url.value != null) {

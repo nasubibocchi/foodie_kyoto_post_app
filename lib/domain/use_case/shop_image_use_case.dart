@@ -1,15 +1,15 @@
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
-import 'package:foodie_kyoto_post_app/domain/repository/string_repository.dart';
+import 'package:foodie_kyoto_post_app/domain/repository/shop_image_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final stringUseCaseProvider = Provider<StringUseCase>(
-    (ref) => StringUseCase(repository: ref.read(stringRepositoryProvider)));
+final shopImageUseCaseProvider = Provider<ShopImageUseCase>((ref) =>
+    ShopImageUseCase(repository: ref.read(shopImageRepositoryProvider)));
 
-class StringUseCase {
-  StringUseCase({required StringRepository repository})
+class ShopImageUseCase {
+  ShopImageUseCase({required ShopImageRepository repository})
       : _repository = repository;
 
-  final StringRepository _repository;
+  final ShopImageRepository _repository;
 
   Future<Result<String?>> postImages(
           {required String path,

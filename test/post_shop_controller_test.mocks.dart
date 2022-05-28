@@ -13,10 +13,10 @@ import 'package:foodie_kyoto_post_app/domain/entity/shop.dart' as _i6;
 import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart' as _i9;
 import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart'
     as _i7;
+import 'package:foodie_kyoto_post_app/domain/use_case/shop_image_use_case.dart'
+    as _i10;
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart'
     as _i4;
-import 'package:foodie_kyoto_post_app/domain/use_case/string_use_case.dart'
-    as _i10;
 import 'package:image_picker/image_picker.dart' as _i13;
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart'
     as _i3;
@@ -103,11 +103,11 @@ class MockPlacesUseCase extends _i1.Mock implements _i7.PlacesUseCase {
           as _i5.Future<_i2.Result<_i9.ShopDetail?>>);
 }
 
-/// A class which mocks [StringUseCase].
+/// A class which mocks [ShopImageUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStringUseCase extends _i1.Mock implements _i10.StringUseCase {
-  MockStringUseCase() {
+class MockShopImageUseCase extends _i1.Mock implements _i10.ShopImageUseCase {
+  MockShopImageUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
