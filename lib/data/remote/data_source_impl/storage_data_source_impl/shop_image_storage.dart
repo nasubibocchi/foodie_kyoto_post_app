@@ -17,8 +17,12 @@ class ShopImageStorage {
 
   // 現状リファレンス先の削除〜画像追加＋パス名取得までを切り離して実行することが
   // ないので、パス名はここで定義して各関数で呼び出す。
-  String defineStorageReference(String shopId, String fileName) {
-    return '$shopRef/$shopId/$imageRef/$fileName.png';
+  String defineStorageReference(String shopId, String? fileName) {
+    if (fileName == null) {
+      return '$shopRef/$shopId/$imageRef';
+    } else {
+      return '$shopRef/$shopId/$imageRef/$fileName.png';
+    }
   }
 
   Future<Result<String?>> postImages(
@@ -51,12 +55,8 @@ class ShopImageStorage {
 
   Future<Result<String>> deleteImages({required String shopId}) async {
     try {
-      final fileList = await _storage
-          .ref()
-          .child(shopRef)
-          .child(shopId)
-          .child(imageRef)
-          .listAll();
+      final directoryRef = defineStorageReference(shopId, null);
+      final fileList = await _storage.ref().child(directoryRef).listAll();
 
       if (fileList.items.isNotEmpty) {
         for (int i = 0; i < fileList.items.length; i++) {
@@ -65,7 +65,7 @@ class ShopImageStorage {
         }
       }
 
-      return Success('$shopRef/$shopId/$imageRef/');
+      return Success(directoryRef);
     } on Exception catch (e) {
       return Error(e);
     }
