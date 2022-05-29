@@ -30,6 +30,11 @@ class MockShopImageStorage extends _i1.Mock implements _i3.ShopImageStorage {
   }
 
   @override
+  String defineStorageReference(String? shopId, String? fileName) =>
+      (super.noSuchMethod(
+          Invocation.method(#defineStorageReference, [shopId, fileName]),
+          returnValue: '') as String);
+  @override
   _i4.Future<_i2.Result<String?>> postImages(
           {String? path, String? shopId, String? fileName}) =>
       (super.noSuchMethod(
