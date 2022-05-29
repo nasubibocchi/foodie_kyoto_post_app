@@ -12,6 +12,14 @@ class ShopImageStorage {
   ShopImageStorage({required FirebaseStorage storage}) : _storage = storage;
 
   final FirebaseStorage _storage;
+  static const shopRef = 'shops';
+  static const imageRef = 'images';
+
+  // 現状リファレンス先の削除〜画像追加＋パス名取得までを切り離して実行することが
+  // ないので、パス名はここで定義して各関数で呼び出す。
+  String defineStorageReference(String shopId, String fileName) {
+    return '$shopRef/$shopId/$imageRef/$fileName.png';
+  }
 
   Future<Result<String?>> postImages(
       {required String path,
@@ -20,14 +28,9 @@ class ShopImageStorage {
     final file = File(path);
 
     try {
-      await _storage
-          .ref()
-          .child('shops')
-          .child(shopId)
-          .child('images')
-          .child('$fileName.png')
-          .putFile(file);
-      return Success('shops/$shopId/images/$fileName.png');
+      final ref = defineStorageReference(shopId, fileName);
+      await _storage.ref().child(ref).putFile(file);
+      return Success(ref);
     } on Exception catch (e) {
       return Error(e);
     }
@@ -38,13 +41,8 @@ class ShopImageStorage {
       required String shopId,
       required String fileName}) async {
     try {
-      final url = await _storage
-          .ref()
-          .child('shops')
-          .child(shopId)
-          .child('images')
-          .child('$fileName.png')
-          .getDownloadURL();
+      final ref = defineStorageReference(shopId, fileName);
+      final url = await _storage.ref().child(ref).getDownloadURL();
       return Success(url);
     } on Exception catch (e) {
       return Error(e);
@@ -55,24 +53,19 @@ class ShopImageStorage {
     try {
       final fileList = await _storage
           .ref()
-          .child('shops')
+          .child(shopRef)
           .child(shopId)
-          .child('images')
+          .child(imageRef)
           .listAll();
 
       if (fileList.items.isNotEmpty) {
         for (int i = 0; i < fileList.items.length; i++) {
-          await _storage
-              .ref()
-              .child('shops')
-              .child(shopId)
-              .child('images')
-              .child('$i.png')
-              .delete();
+          final ref = defineStorageReference(shopId, '$i');
+          await _storage.ref().child(ref).delete();
         }
       }
 
-      return Success('shops/$shopId/images/');
+      return Success('$shopRef/$shopId/$imageRef/');
     } on Exception catch (e) {
       return Error(e);
     }
