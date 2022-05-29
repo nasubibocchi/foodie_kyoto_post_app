@@ -21,8 +21,14 @@ class PostShopPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(),
-      body: state.when((shop, commentController, comment, images,
-          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+      body: state.when((shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName) {
         return SingleChildScrollView(
           child: Column(
             children: [
@@ -152,7 +158,7 @@ class _ServiceTagsWidget extends ConsumerWidget {
 
     return state.when(
       (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags) {
+          selectedAreaTags, selectedFoodTags, postUserName) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -219,7 +225,7 @@ class _AreaTagsWidget extends ConsumerWidget {
 
     return state.when(
       (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags) {
+          selectedAreaTags, selectedFoodTags, postUserName) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -286,7 +292,7 @@ class _FoodTagsWidget extends ConsumerWidget {
 
     return state.when(
       (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags) {
+          selectedAreaTags, selectedFoodTags, postUserName) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -353,7 +359,7 @@ class _SelectedTagsWidget extends ConsumerWidget {
 
     return state.when(
       (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags) {
+          selectedAreaTags, selectedFoodTags, postUserName) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
