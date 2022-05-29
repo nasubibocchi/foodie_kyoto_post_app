@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:foodie_kyoto_post_app/constants/post_users_data.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
@@ -24,6 +25,7 @@ class PostShopState with _$PostShopState {
     @Default([]) List<int> selectedServiceTags,
     @Default([]) List<int> selectedAreaTags,
     @Default([]) List<int> selectedFoodTags,
+    @Default('') String postUserName,
   }) = _PostShopState;
 
   factory PostShopState.loading() = _PostShopStateLoading;
@@ -265,6 +267,25 @@ class PostShopController extends StateNotifier<PostShopState> {
     }
   }
 
+  void selectPostUser(int key) {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      final selectedUser = PostUsers.postUsers[key];
+
+      if (selectedUser != null) {
+        state = currentState.copyWith(postUserName: selectedUser);
+      }
+    }
+  }
+
+  void removeSelectedUser() {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+      state = currentState.copyWith(postUserName: '');
+    }
+  }
+
   Future<PostResults> postShop() async {
     if (state is _PostShopState) {
       final currentState = state as _PostShopState;
@@ -295,7 +316,7 @@ class PostShopController extends StateNotifier<PostShopState> {
               serviceTags: currentState.selectedServiceTags,
               areaTags: currentState.selectedAreaTags,
               foodTags: currentState.selectedFoodTags,
-              postUser: 'postUser');
+              postUser: currentState.postUserName);
           // 別issueで登録者ボタンを作るまではとりあえずStringを入れておく。
 
           final result = await _shopUseCase.postShop(shop: shop);
