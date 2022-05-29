@@ -2,22 +2,30 @@
 // in foodie_kyoto_post_app/test/post_shop_controller_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
-import 'dart:io' as _i11;
+import 'dart:async' as _i7;
+import 'dart:convert' as _i16;
+import 'dart:io' as _i5;
+import 'dart:typed_data' as _i17;
 
 import 'package:foodie_kyoto_post_app/data/model/result.dart' as _i2;
 import 'package:foodie_kyoto_post_app/domain/entity/foodie_prediction.dart'
-    as _i7;
-import 'package:foodie_kyoto_post_app/domain/entity/shop.dart' as _i5;
-import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart' as _i8;
-import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart'
     as _i10;
+import 'package:foodie_kyoto_post_app/domain/entity/shop.dart' as _i8;
+import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart' as _i11;
+import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart'
+    as _i13;
+import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart'
+    as _i14;
 import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart'
-    as _i6;
-import 'package:foodie_kyoto_post_app/domain/use_case/shop_image_use_case.dart'
     as _i9;
+import 'package:foodie_kyoto_post_app/domain/use_case/shop_image_use_case.dart'
+    as _i12;
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart'
-    as _i3;
+    as _i6;
+import 'package:http/src/base_request.dart' as _i18;
+import 'package:http/src/client.dart' as _i15;
+import 'package:http/src/response.dart' as _i3;
+import 'package:http/src/streamed_response.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -32,41 +40,55 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeResult_0<T> extends _i1.Fake implements _i2.Result<T> {}
 
+class _FakeResponse_1 extends _i1.Fake implements _i3.Response {}
+
+class _FakeStreamedResponse_2 extends _i1.Fake implements _i4.StreamedResponse {
+}
+
+class _FakeUri_3 extends _i1.Fake implements Uri {}
+
+class _FakeDirectory_4 extends _i1.Fake implements _i5.Directory {}
+
+class _FakeFileStat_5 extends _i1.Fake implements _i5.FileStat {}
+
+class _FakeFileSystemEntity_6 extends _i1.Fake implements _i5.FileSystemEntity {
+}
+
 /// A class which mocks [ShopUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockShopUseCase extends _i1.Mock implements _i3.ShopUseCase {
+class MockShopUseCase extends _i1.Mock implements _i6.ShopUseCase {
   MockShopUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Result<List<_i5.Shop>>> fetchShops(
+  _i7.Future<_i2.Result<List<_i8.Shop>>> fetchShops(
           {int? limit, String? cursor}) =>
       (super.noSuchMethod(
           Invocation.method(#fetchShops, [], {#limit: limit, #cursor: cursor}),
-          returnValue: Future<_i2.Result<List<_i5.Shop>>>.value(
-              _FakeResult_0<List<_i5.Shop>>())) as _i4
-          .Future<_i2.Result<List<_i5.Shop>>>);
+          returnValue: Future<_i2.Result<List<_i8.Shop>>>.value(
+              _FakeResult_0<List<_i8.Shop>>())) as _i7
+          .Future<_i2.Result<List<_i8.Shop>>>);
   @override
-  _i4.Future<_i2.Result<void>> postShop({_i5.Shop? shop}) =>
+  _i7.Future<_i2.Result<void>> postShop({_i8.Shop? shop}) =>
       (super.noSuchMethod(Invocation.method(#postShop, [], {#shop: shop}),
               returnValue:
                   Future<_i2.Result<void>>.value(_FakeResult_0<void>()))
-          as _i4.Future<_i2.Result<void>>);
+          as _i7.Future<_i2.Result<void>>);
   @override
-  _i4.Future<_i2.Result<_i5.Shop?>> fetchShopByShopId({String? shopId}) =>
+  _i7.Future<_i2.Result<_i8.Shop?>> fetchShopByShopId({String? shopId}) =>
       (super.noSuchMethod(
               Invocation.method(#fetchShopByShopId, [], {#shopId: shopId}),
-              returnValue: Future<_i2.Result<_i5.Shop?>>.value(
-                  _FakeResult_0<_i5.Shop?>()))
-          as _i4.Future<_i2.Result<_i5.Shop?>>);
+              returnValue: Future<_i2.Result<_i8.Shop?>>.value(
+                  _FakeResult_0<_i8.Shop?>()))
+          as _i7.Future<_i2.Result<_i8.Shop?>>);
 }
 
 /// A class which mocks [PlacesUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPlacesUseCase extends _i1.Mock implements _i6.PlacesUseCase {
+class MockPlacesUseCase extends _i1.Mock implements _i9.PlacesUseCase {
   MockPlacesUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -76,76 +98,284 @@ class MockPlacesUseCase extends _i1.Mock implements _i6.PlacesUseCase {
       Invocation.method(#initGooglePlaces, [], {#apiKey: apiKey}),
       returnValueForMissingStub: null);
   @override
-  _i4.Future<_i2.Result<List<_i7.FoodiePrediction>>> searchShopsByAutoComplete(
+  _i7.Future<_i2.Result<List<_i10.FoodiePrediction>>> searchShopsByAutoComplete(
           {String? body}) =>
       (super.noSuchMethod(
-              Invocation.method(#searchShopsByAutoComplete, [], {#body: body}),
-              returnValue: Future<_i2.Result<List<_i7.FoodiePrediction>>>.value(
-                  _FakeResult_0<List<_i7.FoodiePrediction>>()))
-          as _i4.Future<_i2.Result<List<_i7.FoodiePrediction>>>);
+          Invocation.method(#searchShopsByAutoComplete, [], {#body: body}),
+          returnValue: Future<_i2.Result<List<_i10.FoodiePrediction>>>.value(
+              _FakeResult_0<List<_i10.FoodiePrediction>>())) as _i7
+          .Future<_i2.Result<List<_i10.FoodiePrediction>>>);
   @override
-  _i4.Future<_i2.Result<_i8.ShopDetail?>> searchShopDetailsByPlaceId(
+  _i7.Future<_i2.Result<_i11.ShopDetail?>> searchShopDetailsByPlaceId(
           {String? placeId}) =>
       (super.noSuchMethod(
               Invocation.method(
                   #searchShopDetailsByPlaceId, [], {#placeId: placeId}),
-              returnValue: Future<_i2.Result<_i8.ShopDetail?>>.value(
-                  _FakeResult_0<_i8.ShopDetail?>()))
-          as _i4.Future<_i2.Result<_i8.ShopDetail?>>);
+              returnValue: Future<_i2.Result<_i11.ShopDetail?>>.value(
+                  _FakeResult_0<_i11.ShopDetail?>()))
+          as _i7.Future<_i2.Result<_i11.ShopDetail?>>);
 }
 
 /// A class which mocks [ShopImageUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockShopImageUseCase extends _i1.Mock implements _i9.ShopImageUseCase {
+class MockShopImageUseCase extends _i1.Mock implements _i12.ShopImageUseCase {
   MockShopImageUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Result<String?>> postImages(
+  _i7.Future<_i2.Result<String?>> postImages(
           {String? path, String? shopId, String? fileName}) =>
       (super.noSuchMethod(
               Invocation.method(#postImages, [],
                   {#path: path, #shopId: shopId, #fileName: fileName}),
               returnValue:
                   Future<_i2.Result<String?>>.value(_FakeResult_0<String?>()))
-          as _i4.Future<_i2.Result<String?>>);
+          as _i7.Future<_i2.Result<String?>>);
   @override
-  _i4.Future<_i2.Result<String?>> getImagesUrl(
+  _i7.Future<_i2.Result<String?>> getImagesUrl(
           {String? path, String? shopId, String? fileName}) =>
       (super.noSuchMethod(
               Invocation.method(#getImagesUrl, [],
                   {#path: path, #shopId: shopId, #fileName: fileName}),
               returnValue:
                   Future<_i2.Result<String?>>.value(_FakeResult_0<String?>()))
-          as _i4.Future<_i2.Result<String?>>);
+          as _i7.Future<_i2.Result<String?>>);
   @override
-  _i4.Future<_i2.Result<String>> deleteImages({String? shopId}) => (super
+  _i7.Future<_i2.Result<String>> deleteImages({String? shopId}) => (super
           .noSuchMethod(Invocation.method(#deleteImages, [], {#shopId: shopId}),
               returnValue:
                   Future<_i2.Result<String>>.value(_FakeResult_0<String>()))
-      as _i4.Future<_i2.Result<String>>);
+      as _i7.Future<_i2.Result<String>>);
 }
 
 /// A class which mocks [ImageFileUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockImageFileUseCase extends _i1.Mock implements _i10.ImageFileUseCase {
+class MockImageFileUseCase extends _i1.Mock implements _i13.ImageFileUseCase {
   MockImageFileUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Result<List<_i11.File>>> pickMultiImage() =>
+  _i7.Future<_i2.Result<List<_i5.File>>> pickMultiImage() =>
       (super.noSuchMethod(Invocation.method(#pickMultiImage, []),
-              returnValue: Future<_i2.Result<List<_i11.File>>>.value(
-                  _FakeResult_0<List<_i11.File>>()))
-          as _i4.Future<_i2.Result<List<_i11.File>>>);
+              returnValue: Future<_i2.Result<List<_i5.File>>>.value(
+                  _FakeResult_0<List<_i5.File>>()))
+          as _i7.Future<_i2.Result<List<_i5.File>>>);
   @override
-  _i4.Future<_i2.Result<_i11.File?>> pickImage() => (super.noSuchMethod(
+  _i7.Future<_i2.Result<_i5.File?>> pickImage() => (super.noSuchMethod(
           Invocation.method(#pickImage, []),
           returnValue:
-              Future<_i2.Result<_i11.File?>>.value(_FakeResult_0<_i11.File?>()))
-      as _i4.Future<_i2.Result<_i11.File?>>);
+              Future<_i2.Result<_i5.File?>>.value(_FakeResult_0<_i5.File?>()))
+      as _i7.Future<_i2.Result<_i5.File?>>);
+}
+
+/// A class which mocks [PathUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPathUseCase extends _i1.Mock implements _i14.PathUseCase {
+  MockPathUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i7.Future<_i2.Result<_i5.Directory>> getTempDirectory() =>
+      (super.noSuchMethod(Invocation.method(#getTempDirectory, []),
+              returnValue: Future<_i2.Result<_i5.Directory>>.value(
+                  _FakeResult_0<_i5.Directory>()))
+          as _i7.Future<_i2.Result<_i5.Directory>>);
+}
+
+/// A class which mocks [Client].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockClient extends _i1.Mock implements _i15.Client {
+  MockClient() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i7.Future<_i3.Response> head(Uri? url, {Map<String, String>? headers}) =>
+      (super.noSuchMethod(Invocation.method(#head, [url], {#headers: headers}),
+              returnValue: Future<_i3.Response>.value(_FakeResponse_1()))
+          as _i7.Future<_i3.Response>);
+  @override
+  _i7.Future<_i3.Response> get(Uri? url, {Map<String, String>? headers}) =>
+      (super.noSuchMethod(Invocation.method(#get, [url], {#headers: headers}),
+              returnValue: Future<_i3.Response>.value(_FakeResponse_1()))
+          as _i7.Future<_i3.Response>);
+  @override
+  _i7.Future<_i3.Response> post(Uri? url,
+          {Map<String, String>? headers,
+          Object? body,
+          _i16.Encoding? encoding}) =>
+      (super.noSuchMethod(
+              Invocation.method(#post, [url],
+                  {#headers: headers, #body: body, #encoding: encoding}),
+              returnValue: Future<_i3.Response>.value(_FakeResponse_1()))
+          as _i7.Future<_i3.Response>);
+  @override
+  _i7.Future<_i3.Response> put(Uri? url,
+          {Map<String, String>? headers,
+          Object? body,
+          _i16.Encoding? encoding}) =>
+      (super.noSuchMethod(
+              Invocation.method(#put, [url],
+                  {#headers: headers, #body: body, #encoding: encoding}),
+              returnValue: Future<_i3.Response>.value(_FakeResponse_1()))
+          as _i7.Future<_i3.Response>);
+  @override
+  _i7.Future<_i3.Response> patch(Uri? url,
+          {Map<String, String>? headers,
+          Object? body,
+          _i16.Encoding? encoding}) =>
+      (super.noSuchMethod(
+              Invocation.method(#patch, [url],
+                  {#headers: headers, #body: body, #encoding: encoding}),
+              returnValue: Future<_i3.Response>.value(_FakeResponse_1()))
+          as _i7.Future<_i3.Response>);
+  @override
+  _i7.Future<_i3.Response> delete(Uri? url,
+          {Map<String, String>? headers,
+          Object? body,
+          _i16.Encoding? encoding}) =>
+      (super.noSuchMethod(
+              Invocation.method(#delete, [url],
+                  {#headers: headers, #body: body, #encoding: encoding}),
+              returnValue: Future<_i3.Response>.value(_FakeResponse_1()))
+          as _i7.Future<_i3.Response>);
+  @override
+  _i7.Future<String> read(Uri? url, {Map<String, String>? headers}) =>
+      (super.noSuchMethod(Invocation.method(#read, [url], {#headers: headers}),
+          returnValue: Future<String>.value('')) as _i7.Future<String>);
+  @override
+  _i7.Future<_i17.Uint8List> readBytes(Uri? url,
+          {Map<String, String>? headers}) =>
+      (super.noSuchMethod(
+              Invocation.method(#readBytes, [url], {#headers: headers}),
+              returnValue: Future<_i17.Uint8List>.value(_i17.Uint8List(0)))
+          as _i7.Future<_i17.Uint8List>);
+  @override
+  _i7.Future<_i4.StreamedResponse> send(_i18.BaseRequest? request) =>
+      (super.noSuchMethod(Invocation.method(#send, [request]),
+              returnValue:
+                  Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_2()))
+          as _i7.Future<_i4.StreamedResponse>);
+  @override
+  void close() => super.noSuchMethod(Invocation.method(#close, []),
+      returnValueForMissingStub: null);
+}
+
+/// A class which mocks [Directory].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDirectory extends _i1.Mock implements _i5.Directory {
+  MockDirectory() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  String get path =>
+      (super.noSuchMethod(Invocation.getter(#path), returnValue: '') as String);
+  @override
+  Uri get uri =>
+      (super.noSuchMethod(Invocation.getter(#uri), returnValue: _FakeUri_3())
+          as Uri);
+  @override
+  _i5.Directory get absolute =>
+      (super.noSuchMethod(Invocation.getter(#absolute),
+          returnValue: _FakeDirectory_4()) as _i5.Directory);
+  @override
+  bool get isAbsolute =>
+      (super.noSuchMethod(Invocation.getter(#isAbsolute), returnValue: false)
+          as bool);
+  @override
+  _i5.Directory get parent => (super.noSuchMethod(Invocation.getter(#parent),
+      returnValue: _FakeDirectory_4()) as _i5.Directory);
+  @override
+  _i7.Future<_i5.Directory> create({bool? recursive = false}) => (super
+          .noSuchMethod(Invocation.method(#create, [], {#recursive: recursive}),
+              returnValue: Future<_i5.Directory>.value(_FakeDirectory_4()))
+      as _i7.Future<_i5.Directory>);
+  @override
+  void createSync({bool? recursive = false}) => super.noSuchMethod(
+      Invocation.method(#createSync, [], {#recursive: recursive}),
+      returnValueForMissingStub: null);
+  @override
+  _i7.Future<_i5.Directory> createTemp([String? prefix]) =>
+      (super.noSuchMethod(Invocation.method(#createTemp, [prefix]),
+              returnValue: Future<_i5.Directory>.value(_FakeDirectory_4()))
+          as _i7.Future<_i5.Directory>);
+  @override
+  _i5.Directory createTempSync([String? prefix]) =>
+      (super.noSuchMethod(Invocation.method(#createTempSync, [prefix]),
+          returnValue: _FakeDirectory_4()) as _i5.Directory);
+  @override
+  _i7.Future<String> resolveSymbolicLinks() =>
+      (super.noSuchMethod(Invocation.method(#resolveSymbolicLinks, []),
+          returnValue: Future<String>.value('')) as _i7.Future<String>);
+  @override
+  String resolveSymbolicLinksSync() =>
+      (super.noSuchMethod(Invocation.method(#resolveSymbolicLinksSync, []),
+          returnValue: '') as String);
+  @override
+  _i7.Future<_i5.Directory> rename(String? newPath) =>
+      (super.noSuchMethod(Invocation.method(#rename, [newPath]),
+              returnValue: Future<_i5.Directory>.value(_FakeDirectory_4()))
+          as _i7.Future<_i5.Directory>);
+  @override
+  _i5.Directory renameSync(String? newPath) =>
+      (super.noSuchMethod(Invocation.method(#renameSync, [newPath]),
+          returnValue: _FakeDirectory_4()) as _i5.Directory);
+  @override
+  _i7.Stream<_i5.FileSystemEntity> list(
+          {bool? recursive = false, bool? followLinks = true}) =>
+      (super.noSuchMethod(
+              Invocation.method(#list, [],
+                  {#recursive: recursive, #followLinks: followLinks}),
+              returnValue: Stream<_i5.FileSystemEntity>.empty())
+          as _i7.Stream<_i5.FileSystemEntity>);
+  @override
+  List<_i5.FileSystemEntity> listSync(
+          {bool? recursive = false, bool? followLinks = true}) =>
+      (super.noSuchMethod(
+          Invocation.method(#listSync, [],
+              {#recursive: recursive, #followLinks: followLinks}),
+          returnValue: <_i5.FileSystemEntity>[]) as List<_i5.FileSystemEntity>);
+  @override
+  _i7.Future<bool> exists() =>
+      (super.noSuchMethod(Invocation.method(#exists, []),
+          returnValue: Future<bool>.value(false)) as _i7.Future<bool>);
+  @override
+  bool existsSync() => (super.noSuchMethod(Invocation.method(#existsSync, []),
+      returnValue: false) as bool);
+  @override
+  _i7.Future<_i5.FileStat> stat() =>
+      (super.noSuchMethod(Invocation.method(#stat, []),
+              returnValue: Future<_i5.FileStat>.value(_FakeFileStat_5()))
+          as _i7.Future<_i5.FileStat>);
+  @override
+  _i5.FileStat statSync() =>
+      (super.noSuchMethod(Invocation.method(#statSync, []),
+          returnValue: _FakeFileStat_5()) as _i5.FileStat);
+  @override
+  _i7.Future<_i5.FileSystemEntity> delete({bool? recursive = false}) => (super
+          .noSuchMethod(Invocation.method(#delete, [], {#recursive: recursive}),
+              returnValue:
+                  Future<_i5.FileSystemEntity>.value(_FakeFileSystemEntity_6()))
+      as _i7.Future<_i5.FileSystemEntity>);
+  @override
+  void deleteSync({bool? recursive = false}) => super.noSuchMethod(
+      Invocation.method(#deleteSync, [], {#recursive: recursive}),
+      returnValueForMissingStub: null);
+  @override
+  _i7.Stream<_i5.FileSystemEvent> watch(
+          {int? events = 15, bool? recursive = false}) =>
+      (super.noSuchMethod(
+              Invocation.method(
+                  #watch, [], {#events: events, #recursive: recursive}),
+              returnValue: Stream<_i5.FileSystemEvent>.empty())
+          as _i7.Stream<_i5.FileSystemEvent>);
 }

@@ -1,46 +1,71 @@
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'post_shop_controller_test.mocks.dart';
 
-@GenerateMocks([ShopUseCase, PlacesUseCase, ShopImageUseCase, ImageFileUseCase])
+@GenerateMocks([
+  ShopUseCase,
+  PlacesUseCase,
+  ShopImageUseCase,
+  ImageFileUseCase,
+  PathUseCase,
+  http.Client,
+  Directory,
+])
 void main() {
   final _shopUseCase = MockShopUseCase();
   final _placesUseCase = MockPlacesUseCase();
   final _shopImageUseCase = MockShopImageUseCase();
   final _imageFileUseCase = MockImageFileUseCase();
+  final _pathUseCase = MockPathUseCase();
+  final _client = MockClient();
 
   final container = ProviderContainer(overrides: [
     postShopProvider.overrideWithProvider(StateNotifierProvider.family
         .autoDispose<PostShopController, PostShopState, String>(
             (ref, _shopId) => PostShopController(_shopUseCase, _placesUseCase,
-                _shopImageUseCase, _imageFileUseCase, _shopId))),
+                _shopImageUseCase, _imageFileUseCase, _pathUseCase, _shopId))),
   ]);
 
-  setUpAll(() {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    const MethodChannel channel =
-        MethodChannel('plugins.flutter.io/path_provider_macos');
-    channel.setMockMethodCallHandler((methodCall) async {
-      if (methodCall.method == 'getTemporaryDirectory') {
-        return 'temporary_path';
-      }
-    });
-  });
+  const imagePath = 'https://path1';
+  final shop = Shop(
+      name: 'name',
+      shopId: 'shop_id_1',
+      latitude: 45.0,
+      longitude: 135.0,
+      comment: 'comment',
+      images: [],
+      serviceTags: <int>[],
+      areaTags: <int>[],
+      foodTags: <int>[],
+      postUser: 'user1');
+
+  final shopWithImage = Shop(
+      name: 'name',
+      shopId: 'shop_id_1',
+      latitude: 45.0,
+      longitude: 135.0,
+      comment: 'comment',
+      images: [imagePath],
+      serviceTags: <int>[],
+      areaTags: <int>[],
+      foodTags: <int>[],
+      postUser: 'user1');
 
   group('init shop state', () {
     const shopId = 'shop_id_1';
@@ -48,17 +73,7 @@ void main() {
     test('when there is a shop to return', () async {
       when(_shopUseCase.fetchShopByShopId(shopId: shopId))
           .thenAnswer((_) async {
-        return Success(Shop(
-            name: 'name',
-            shopId: 'shop_id_1',
-            latitude: 45.0,
-            longitude: 135.0,
-            comment: 'comment',
-            images: [],
-            serviceTags: <int>[],
-            areaTags: <int>[],
-            foodTags: <int>[],
-            postUser: 'user1'));
+        return Success(shop);
       });
 
       final model = container.read(postShopProvider(shopId).notifier);
@@ -127,22 +142,42 @@ void main() {
     });
   });
 
+  group(
+    'urlToFile',
+    () {
+      test('there is File to return', () async {
+        const shopId = 'shop_id_1';
+
+        final url = Uri.parse(imagePath);
+
+        when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+            .thenAnswer((_) async {
+          return Success(shopWithImage);
+        });
+
+        when(_pathUseCase.getTempDirectory()).thenAnswer((_) async {
+          return Success(MockDirectory());
+        });
+
+        when(_client.get(url)).thenAnswer((_) async {
+          return http.Response(imagePath, 200);
+        });
+
+        final model = container.read(postShopProvider(shopId).notifier);
+        final result = await model.urlToFile(imagePath, 'fileName');
+
+        expect(result, isA<File>());
+      });
+    },
+    skip: true,
+  );
+
   group('edit comment', () {
     test('when input some comment', () async {
       const shopId = 'shop_id_1';
       when(_shopUseCase.fetchShopByShopId(shopId: shopId))
           .thenAnswer((_) async {
-        return Success(Shop(
-            name: 'name',
-            shopId: 'shop_id_1',
-            latitude: 45.0,
-            longitude: 135.0,
-            comment: 'comment',
-            images: [],
-            serviceTags: <int>[],
-            areaTags: <int>[],
-            foodTags: <int>[],
-            postUser: 'user1'));
+        return Success(shop);
       });
 
       final model = container.read(postShopProvider(shopId).notifier);
@@ -157,44 +192,30 @@ void main() {
     });
   });
 
-  group(
-    'selectImages',
-    () {
-      test('with selected Files', () async {
-        const shopId = 'shop_id_1';
-        when(_shopUseCase.fetchShopByShopId(shopId: shopId))
-            .thenAnswer((_) async {
-          return Success(Shop(
-              name: 'name',
-              shopId: 'shop_id_1',
-              latitude: 45.0,
-              longitude: 135.0,
-              comment: 'comment',
-              images: [],
-              serviceTags: <int>[],
-              areaTags: <int>[],
-              foodTags: <int>[],
-              postUser: 'user1'));
-        });
-
-        final model = container.read(postShopProvider(shopId).notifier);
-        await model.initShopState();
-
-        when(_imageFileUseCase.pickMultiImage()).thenAnswer((_) async {
-          return Success([File('path1'), File('path2')]);
-        });
-
-        await model.selectImages();
-
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(images.length, 2);
-          expect(images.first.path, '');
-        }, loading: () {}, error: () {});
+  group('selectImages', () {
+    test('with selected Files', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
       });
-    },
-    skip: true,
-  );
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      when(_imageFileUseCase.pickMultiImage()).thenAnswer((_) async {
+        return Success([File('path1'), File('path2')]);
+      });
+
+      await model.selectImages();
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(images.length, 2);
+        expect(images.first.path, 'path1');
+      }, loading: () {}, error: () {});
+    });
+  });
 
   group(
     'changeImage',
@@ -203,17 +224,15 @@ void main() {
         const shopId = 'shop_id_1';
         when(_shopUseCase.fetchShopByShopId(shopId: shopId))
             .thenAnswer((_) async {
-          return Success(Shop(
-              name: 'name',
-              shopId: 'shop_id_1',
-              latitude: 45.0,
-              longitude: 135.0,
-              comment: 'comment',
-              images: ['path1'],
-              serviceTags: <int>[],
-              areaTags: <int>[],
-              foodTags: <int>[],
-              postUser: 'user1'));
+          return Success(shopWithImage);
+        });
+
+        final url = Uri.parse('path1');
+        when(http.get(url)).thenAnswer((_) async {
+          return http.Response('path1', 200);
+        });
+        when(_pathUseCase.getTempDirectory()).thenAnswer((_) async {
+          return Success(Directory('path1'));
         });
 
         final model = container.read(postShopProvider(shopId).notifier);
@@ -225,7 +244,7 @@ void main() {
         }, loading: () {}, error: () {});
 
         when(_imageFileUseCase.pickImage()).thenAnswer((_) async {
-          return Success(File('path1'));
+          return Success(File('path2'));
         });
 
         await model.changeImage(0);
@@ -240,158 +259,116 @@ void main() {
     skip: true,
   );
 
-  group(
-    'add and remove serviceTag',
-    () {
-      test('when _PostShopState', () async {
-        const shopId = 'shop_id_1';
-        when(_shopUseCase.fetchShopByShopId(shopId: shopId))
-            .thenAnswer((_) async {
-          return Success(Shop(
-              name: 'name',
-              shopId: 'shop_id_1',
-              latitude: 45.0,
-              longitude: 135.0,
-              comment: 'comment',
-              images: ['path1'],
-              serviceTags: <int>[],
-              areaTags: <int>[],
-              foodTags: <int>[],
-              postUser: 'user1'));
-        });
-
-        final model = container.read(postShopProvider(shopId).notifier);
-        await model.initShopState();
-
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedServiceTags.length, 0);
-          expect(selectedServiceTags, []);
-        }, loading: () {}, error: () {});
-
-        model.addServiceTag(1);
-
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedServiceTags.length, 1);
-          expect(selectedServiceTags, [1]);
-        }, loading: () {}, error: () {});
-
-        model.removeServiceTag(1);
-
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedServiceTags.length, 0);
-          expect(selectedServiceTags, []);
-        }, loading: () {}, error: () {});
-
-        model.removeServiceTag(1);
-
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedServiceTags.length, 0);
-          expect(selectedServiceTags, []);
-        }, loading: () {}, error: () {});
+  group('add and remove serviceTag', () {
+    test('when _PostShopState', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
       });
-    },
-    skip: true,
-  );
 
-  group(
-    'add or remove area tag',
-    () {
-      test('when _PostShopState', () async {
-        const shopId = 'shop_id_1';
-        when(_shopUseCase.fetchShopByShopId(shopId: shopId))
-            .thenAnswer((_) async {
-          return Success(Shop(
-              name: 'name',
-              shopId: 'shop_id_1',
-              latitude: 45.0,
-              longitude: 135.0,
-              comment: 'comment',
-              images: ['path1'],
-              serviceTags: <int>[],
-              areaTags: <int>[],
-              foodTags: <int>[],
-              postUser: 'user1'));
-        });
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
 
-        final model = container.read(postShopProvider(shopId).notifier);
-        await model.initShopState();
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedServiceTags.length, 0);
+        expect(selectedServiceTags, []);
+      }, loading: () {}, error: () {});
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedAreaTags.length, 0);
-          expect(selectedAreaTags, []);
-        }, loading: () {}, error: () {});
+      model.addServiceTag(1);
 
-        model.addAreaTag(1);
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedServiceTags.length, 1);
+        expect(selectedServiceTags, [1]);
+      }, loading: () {}, error: () {});
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedAreaTags.length, 1);
-          expect(selectedAreaTags, [1]);
-        }, loading: () {}, error: () {});
+      model.removeServiceTag(1);
 
-        model.removeAreaTag(1);
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedServiceTags.length, 0);
+        expect(selectedServiceTags, []);
+      }, loading: () {}, error: () {});
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedAreaTags.length, 0);
-          expect(selectedAreaTags, []);
-        }, loading: () {}, error: () {});
+      model.removeServiceTag(1);
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedServiceTags.length, 0);
+        expect(selectedServiceTags, []);
+      }, loading: () {}, error: () {});
+    });
+  });
+
+  group('add or remove area tag', () {
+    test('when _PostShopState', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
       });
-    },
-    skip: true,
-  );
 
-  group(
-    'add or remove food tag',
-    () {
-      test('when _PostShopState', () async {
-        const shopId = 'shop_id_1';
-        when(_shopUseCase.fetchShopByShopId(shopId: shopId))
-            .thenAnswer((_) async {
-          return Success(Shop(
-              name: 'name',
-              shopId: 'shop_id_1',
-              latitude: 45.0,
-              longitude: 135.0,
-              comment: 'comment',
-              images: ['path1'],
-              serviceTags: <int>[],
-              areaTags: <int>[],
-              foodTags: <int>[],
-              postUser: 'user1'));
-        });
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
 
-        final model = container.read(postShopProvider(shopId).notifier);
-        await model.initShopState();
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedAreaTags.length, 0);
+        expect(selectedAreaTags, []);
+      }, loading: () {}, error: () {});
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedFoodTags.length, 0);
-          expect(selectedFoodTags, []);
-        }, loading: () {}, error: () {});
+      model.addAreaTag(1);
 
-        model.addFoodTag(1);
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedAreaTags.length, 1);
+        expect(selectedAreaTags, [1]);
+      }, loading: () {}, error: () {});
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedFoodTags.length, 1);
-          expect(selectedFoodTags, [1]);
-        }, loading: () {}, error: () {});
+      model.removeAreaTag(1);
 
-        model.removeFoodTag(1);
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedAreaTags.length, 0);
+        expect(selectedAreaTags, []);
+      }, loading: () {}, error: () {});
+    });
+  });
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
-          expect(selectedFoodTags.length, 0);
-          expect(selectedFoodTags, []);
-        }, loading: () {}, error: () {});
+  group('add or remove food tag', () {
+    test('when _PostShopState', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
       });
-    },
-    skip: true,
-  );
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedFoodTags.length, 0);
+        expect(selectedFoodTags, []);
+      }, loading: () {}, error: () {});
+
+      model.addFoodTag(1);
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedFoodTags.length, 1);
+        expect(selectedFoodTags, [1]);
+      }, loading: () {}, error: () {});
+
+      model.removeFoodTag(1);
+
+      model.debugState.when((shop, commentController, comment, images,
+          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        expect(selectedFoodTags.length, 0);
+        expect(selectedFoodTags, []);
+      }, loading: () {}, error: () {});
+    });
+  });
 }

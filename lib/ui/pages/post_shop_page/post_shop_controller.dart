@@ -4,12 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
 part 'post_shop_controller.freezed.dart';
@@ -40,8 +40,13 @@ enum PostResults {
 
 // shopのstateを変更するのは「投稿」ボタンをタップ直後、Firestoreに保存する直前だけにする。
 class PostShopController extends StateNotifier<PostShopState> {
-  PostShopController(this._shopUseCase, this._placesUseCase,
-      this._shopImageUseCase, this._imageFileUseCase, this._shopId)
+  PostShopController(
+      this._shopUseCase,
+      this._placesUseCase,
+      this._shopImageUseCase,
+      this._imageFileUseCase,
+      this._pathUseCase,
+      this._shopId)
       : super(PostShopState.loading()) {
     initShopState();
   }
@@ -50,6 +55,7 @@ class PostShopController extends StateNotifier<PostShopState> {
   final PlacesUseCase _placesUseCase;
   final ShopImageUseCase _shopImageUseCase;
   final ImageFileUseCase _imageFileUseCase;
+  final PathUseCase _pathUseCase;
   final String _shopId;
 
   Future<void> initShopState() async {
@@ -60,8 +66,10 @@ class PostShopController extends StateNotifier<PostShopState> {
         final List<File> _images = [];
         final shopImages = data.value!.images;
         for (int i = 0; i < shopImages.length; i++) {
-          final _image = await _urlToXFile(shopImages[i], '$i');
-          _images.add(_image);
+          final _image = await urlToFile(shopImages[i], '$i');
+          if (_image != null) {
+            _images.add(_image);
+          }
         }
 
         state = PostShopState(
@@ -110,18 +118,27 @@ class PostShopController extends StateNotifier<PostShopState> {
     });
   }
 
-  Future<File> _urlToXFile(String imageUrl, String fileName) async {
-    Directory tempDir = await getTemporaryDirectory();
-    String tempPath = tempDir.path;
+  Future<File?> urlToFile(String imageUrl, String fileName) async {
+    final tempDirResult = await _pathUseCase.getTempDirectory();
 
-    final File file = File('$tempPath/$fileName.png');
+    return tempDirResult.whenWithResult(
+      (path) async {
+        String tempPath = path.value.path;
 
-    final url = Uri.parse(imageUrl);
-    final http.Response response = await http.get(url);
+        final File file = File('$tempPath/$fileName.png');
 
-    await file.writeAsBytes(response.bodyBytes);
+        final url = Uri.parse(imageUrl);
+        final http.Response response = await http.get(url);
 
-    return file;
+        await file.writeAsBytes(response.bodyBytes);
+
+        return file;
+      },
+      (e) {
+        state = PostShopState.error();
+        return null;
+      },
+    );
   }
 
   void editComment(String body) {
