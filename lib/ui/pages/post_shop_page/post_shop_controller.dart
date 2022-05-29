@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,7 +20,7 @@ class PostShopState with _$PostShopState {
     required Shop? shop,
     required TextEditingController commentController,
     required String? comment,
-    @Default([]) List<XFile> images,
+    @Default([]) List<File> images,
     @Default([]) List<int> selectedServiceTags,
     @Default([]) List<int> selectedAreaTags,
     @Default([]) List<int> selectedFoodTags,
@@ -41,7 +41,7 @@ enum PostResults {
 // shopのstateを変更するのは「投稿」ボタンをタップ直後、Firestoreに保存する直前だけにする。
 class PostShopController extends StateNotifier<PostShopState> {
   PostShopController(this._shopUseCase, this._placesUseCase,
-      this._shopImageUseCase, this._shopId)
+      this._shopImageUseCase, this._imageFileUseCase, this._shopId)
       : super(PostShopState.loading()) {
     initShopState();
   }
@@ -49,16 +49,15 @@ class PostShopController extends StateNotifier<PostShopState> {
   final ShopUseCase _shopUseCase;
   final PlacesUseCase _placesUseCase;
   final ShopImageUseCase _shopImageUseCase;
+  final ImageFileUseCase _imageFileUseCase;
   final String _shopId;
-
-  final ImagePicker _picker = ImagePicker();
 
   Future<void> initShopState() async {
     final shopResult = await _shopUseCase.fetchShopByShopId(shopId: _shopId);
 
     shopResult.whenWithResult((data) async {
       if (data.value != null) {
-        final List<XFile> _images = [];
+        final List<File> _images = [];
         final shopImages = data.value!.images;
         for (int i = 0; i < shopImages.length; i++) {
           final _image = await _urlToXFile(shopImages[i], '$i');
@@ -111,7 +110,7 @@ class PostShopController extends StateNotifier<PostShopState> {
     });
   }
 
-  Future<XFile> _urlToXFile(String imageUrl, String fileName) async {
+  Future<File> _urlToXFile(String imageUrl, String fileName) async {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
 
@@ -122,8 +121,7 @@ class PostShopController extends StateNotifier<PostShopState> {
 
     await file.writeAsBytes(response.bodyBytes);
 
-    final xFile = XFile(file.path);
-    return xFile;
+    return file;
   }
 
   void editComment(String body) {
@@ -155,12 +153,18 @@ class PostShopController extends StateNotifier<PostShopState> {
   Future<void> selectImages() async {
     if (state is _PostShopState) {
       final currentState = state as _PostShopState;
-      List<XFile> _imageList = currentState.images;
+      List<File> _imageList = currentState.images;
 
-      final _images = await _picker.pickMultiImage();
-      if (_images != null) {
-        state = currentState.copyWith(images: _imageList + _images);
-      }
+      final imagesResult = await _imageFileUseCase.pickMultiImage();
+
+      imagesResult.whenWithResult(
+        (images) {
+          if (images.value.isNotEmpty) {
+            state = currentState.copyWith(images: _imageList + images.value);
+          }
+        },
+        (e) => state = PostShopState.error(),
+      );
     }
   }
 
@@ -168,13 +172,19 @@ class PostShopController extends StateNotifier<PostShopState> {
     if (state is _PostShopState) {
       final currentState = state as _PostShopState;
 
-      List<XFile>? dupImages = currentState.images;
+      final List<File> dupImages = List.of(currentState.images);
 
-      final _image = await _picker.pickImage(source: ImageSource.gallery);
-      if (_image != null) {
-        dupImages[index] = _image;
-        state = currentState.copyWith(images: dupImages);
-      }
+      final imageResult = await _imageFileUseCase.pickImage();
+
+      imageResult.whenWithResult(
+        (image) {
+          if (image.value != null) {
+            dupImages[index] = image.value!;
+            state = currentState.copyWith(images: dupImages);
+          }
+        },
+        (e) => state = PostShopState.error(),
+      );
     }
   }
 

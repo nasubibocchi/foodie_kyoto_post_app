@@ -22,7 +22,7 @@ mixin _$PostShopState {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)
@@ -37,7 +37,7 @@ mixin _$PostShopState {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)?
@@ -52,7 +52,7 @@ mixin _$PostShopState {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)?
@@ -112,7 +112,7 @@ abstract class _$$_PostShopStateCopyWith<$Res> {
       {Shop? shop,
       TextEditingController commentController,
       String? comment,
-      List<XFile> images,
+      List<File> images,
       List<int> selectedServiceTags,
       List<int> selectedAreaTags,
       List<int> selectedFoodTags});
@@ -155,7 +155,7 @@ class __$$_PostShopStateCopyWithImpl<$Res>
       images: images == freezed
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<XFile>,
+              as List<File>,
       selectedServiceTags: selectedServiceTags == freezed
           ? _value._selectedServiceTags
           : selectedServiceTags // ignore: cast_nullable_to_non_nullable
@@ -179,7 +179,7 @@ class _$_PostShopState implements _PostShopState {
       {required this.shop,
       required this.commentController,
       required this.comment,
-      final List<XFile> images = const [],
+      final List<File> images = const [],
       final List<int> selectedServiceTags = const [],
       final List<int> selectedAreaTags = const [],
       final List<int> selectedFoodTags = const []})
@@ -194,10 +194,10 @@ class _$_PostShopState implements _PostShopState {
   final TextEditingController commentController;
   @override
   final String? comment;
-  final List<XFile> _images;
+  final List<File> _images;
   @override
   @JsonKey()
-  List<XFile> get images {
+  List<File> get images {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_images);
   }
@@ -272,7 +272,7 @@ class _$_PostShopState implements _PostShopState {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)
@@ -291,7 +291,7 @@ class _$_PostShopState implements _PostShopState {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)?
@@ -310,7 +310,7 @@ class _$_PostShopState implements _PostShopState {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)?
@@ -366,7 +366,7 @@ abstract class _PostShopState implements PostShopState {
       {required final Shop? shop,
       required final TextEditingController commentController,
       required final String? comment,
-      final List<XFile> images,
+      final List<File> images,
       final List<int> selectedServiceTags,
       final List<int> selectedAreaTags,
       final List<int> selectedFoodTags}) = _$_PostShopState;
@@ -375,7 +375,7 @@ abstract class _PostShopState implements PostShopState {
   TextEditingController get commentController =>
       throw _privateConstructorUsedError;
   String? get comment => throw _privateConstructorUsedError;
-  List<XFile> get images => throw _privateConstructorUsedError;
+  List<File> get images => throw _privateConstructorUsedError;
   List<int> get selectedServiceTags => throw _privateConstructorUsedError;
   List<int> get selectedAreaTags => throw _privateConstructorUsedError;
   List<int> get selectedFoodTags => throw _privateConstructorUsedError;
@@ -429,7 +429,7 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)
@@ -447,7 +447,7 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)?
@@ -465,7 +465,7 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)?
@@ -564,7 +564,7 @@ class _$_PostShopStateError implements _PostShopStateError {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)
@@ -582,7 +582,7 @@ class _$_PostShopStateError implements _PostShopStateError {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)?
@@ -600,7 +600,7 @@ class _$_PostShopStateError implements _PostShopStateError {
             Shop? shop,
             TextEditingController commentController,
             String? comment,
-            List<XFile> images,
+            List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags)?
