@@ -25,7 +25,8 @@ mixin _$PostShopState {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)
+            List<int> selectedFoodTags,
+            String postUserName)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
@@ -40,7 +41,8 @@ mixin _$PostShopState {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)?
+            List<int> selectedFoodTags,
+            String postUserName)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -55,7 +57,8 @@ mixin _$PostShopState {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)?
+            List<int> selectedFoodTags,
+            String postUserName)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -115,7 +118,8 @@ abstract class _$$_PostShopStateCopyWith<$Res> {
       List<File> images,
       List<int> selectedServiceTags,
       List<int> selectedAreaTags,
-      List<int> selectedFoodTags});
+      List<int> selectedFoodTags,
+      String postUserName});
 }
 
 /// @nodoc
@@ -138,6 +142,7 @@ class __$$_PostShopStateCopyWithImpl<$Res>
     Object? selectedServiceTags = freezed,
     Object? selectedAreaTags = freezed,
     Object? selectedFoodTags = freezed,
+    Object? postUserName = freezed,
   }) {
     return _then(_$_PostShopState(
       shop: shop == freezed
@@ -168,6 +173,10 @@ class __$$_PostShopStateCopyWithImpl<$Res>
           ? _value._selectedFoodTags
           : selectedFoodTags // ignore: cast_nullable_to_non_nullable
               as List<int>,
+      postUserName: postUserName == freezed
+          ? _value.postUserName
+          : postUserName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -182,7 +191,8 @@ class _$_PostShopState implements _PostShopState {
       final List<File> images = const [],
       final List<int> selectedServiceTags = const [],
       final List<int> selectedAreaTags = const [],
-      final List<int> selectedFoodTags = const []})
+      final List<int> selectedFoodTags = const [],
+      this.postUserName = ''})
       : _images = images,
         _selectedServiceTags = selectedServiceTags,
         _selectedAreaTags = selectedAreaTags,
@@ -227,8 +237,12 @@ class _$_PostShopState implements _PostShopState {
   }
 
   @override
+  @JsonKey()
+  final String postUserName;
+
+  @override
   String toString() {
-    return 'PostShopState(shop: $shop, commentController: $commentController, comment: $comment, images: $images, selectedServiceTags: $selectedServiceTags, selectedAreaTags: $selectedAreaTags, selectedFoodTags: $selectedFoodTags)';
+    return 'PostShopState(shop: $shop, commentController: $commentController, comment: $comment, images: $images, selectedServiceTags: $selectedServiceTags, selectedAreaTags: $selectedAreaTags, selectedFoodTags: $selectedFoodTags, postUserName: $postUserName)';
   }
 
   @override
@@ -246,7 +260,9 @@ class _$_PostShopState implements _PostShopState {
             const DeepCollectionEquality()
                 .equals(other._selectedAreaTags, _selectedAreaTags) &&
             const DeepCollectionEquality()
-                .equals(other._selectedFoodTags, _selectedFoodTags));
+                .equals(other._selectedFoodTags, _selectedFoodTags) &&
+            const DeepCollectionEquality()
+                .equals(other.postUserName, postUserName));
   }
 
   @override
@@ -258,7 +274,8 @@ class _$_PostShopState implements _PostShopState {
       const DeepCollectionEquality().hash(_images),
       const DeepCollectionEquality().hash(_selectedServiceTags),
       const DeepCollectionEquality().hash(_selectedAreaTags),
-      const DeepCollectionEquality().hash(_selectedFoodTags));
+      const DeepCollectionEquality().hash(_selectedFoodTags),
+      const DeepCollectionEquality().hash(postUserName));
 
   @JsonKey(ignore: true)
   @override
@@ -275,13 +292,14 @@ class _$_PostShopState implements _PostShopState {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)
+            List<int> selectedFoodTags,
+            String postUserName)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
   }) {
     return $default(shop, commentController, comment, images,
-        selectedServiceTags, selectedAreaTags, selectedFoodTags);
+        selectedServiceTags, selectedAreaTags, selectedFoodTags, postUserName);
   }
 
   @override
@@ -294,13 +312,14 @@ class _$_PostShopState implements _PostShopState {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)?
+            List<int> selectedFoodTags,
+            String postUserName)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
   }) {
     return $default?.call(shop, commentController, comment, images,
-        selectedServiceTags, selectedAreaTags, selectedFoodTags);
+        selectedServiceTags, selectedAreaTags, selectedFoodTags, postUserName);
   }
 
   @override
@@ -313,15 +332,23 @@ class _$_PostShopState implements _PostShopState {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)?
+            List<int> selectedFoodTags,
+            String postUserName)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(shop, commentController, comment, images,
-          selectedServiceTags, selectedAreaTags, selectedFoodTags);
+      return $default(
+          shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName);
     }
     return orElse();
   }
@@ -369,7 +396,8 @@ abstract class _PostShopState implements PostShopState {
       final List<File> images,
       final List<int> selectedServiceTags,
       final List<int> selectedAreaTags,
-      final List<int> selectedFoodTags}) = _$_PostShopState;
+      final List<int> selectedFoodTags,
+      final String postUserName}) = _$_PostShopState;
 
   Shop? get shop => throw _privateConstructorUsedError;
   TextEditingController get commentController =>
@@ -379,6 +407,7 @@ abstract class _PostShopState implements PostShopState {
   List<int> get selectedServiceTags => throw _privateConstructorUsedError;
   List<int> get selectedAreaTags => throw _privateConstructorUsedError;
   List<int> get selectedFoodTags => throw _privateConstructorUsedError;
+  String get postUserName => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$$_PostShopStateCopyWith<_$_PostShopState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -432,7 +461,8 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)
+            List<int> selectedFoodTags,
+            String postUserName)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
@@ -450,7 +480,8 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)?
+            List<int> selectedFoodTags,
+            String postUserName)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -468,7 +499,8 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)?
+            List<int> selectedFoodTags,
+            String postUserName)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -567,7 +599,8 @@ class _$_PostShopStateError implements _PostShopStateError {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)
+            List<int> selectedFoodTags,
+            String postUserName)
         $default, {
     required TResult Function() loading,
     required TResult Function() error,
@@ -585,7 +618,8 @@ class _$_PostShopStateError implements _PostShopStateError {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)?
+            List<int> selectedFoodTags,
+            String postUserName)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,
@@ -603,7 +637,8 @@ class _$_PostShopStateError implements _PostShopStateError {
             List<File> images,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
-            List<int> selectedFoodTags)?
+            List<int> selectedFoodTags,
+            String postUserName)?
         $default, {
     TResult Function()? loading,
     TResult Function()? error,

@@ -64,8 +64,14 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop, commentController, comment, images,
-          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+      model.debugState.when((shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName) {
         expect(shop?.shopId, 'shop_id_1');
         expect(shop?.name, 'name');
         expect(shop?.comment, 'comment');
@@ -85,7 +91,7 @@ void main() {
 
       model.debugState.when(
           (shop, commentController, comment, images, selectedServiceTags,
-              selectedAreaTags, selectedFoodTags) {},
+              selectedAreaTags, selectedFoodTags, postUserName) {},
           loading: () {}, error: () {
         expect(state, PostShopState.error());
       });
@@ -109,8 +115,14 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop, commentController, comment, images,
-          selectedServiceTags, selectedAreaTags, selectedFoodTags) async {
+      model.debugState.when((shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName) async {
         expect(shop?.name, 'name');
         expect(shop?.latitude, 135.0);
         expect(shop?.longitude, 45.0);
@@ -149,8 +161,14 @@ void main() {
       await model.initShopState();
 
       model.editComment('modified comment');
-      model.debugState.when((shop, commentController, comment, images,
-          selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+      model.debugState.when((shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName) {
         expect(shop?.comment, 'comment');
         expect(comment, 'modified comment');
       }, loading: () {}, error: () {});
@@ -186,8 +204,14 @@ void main() {
 
         await model.selectImages();
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(images.length, 2);
           expect(images.first.path, '');
         }, loading: () {}, error: () {});
@@ -219,8 +243,14 @@ void main() {
         final model = container.read(postShopProvider(shopId).notifier);
         await model.initShopState();
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(images.first.path, 'path1');
         }, loading: () {}, error: () {});
 
@@ -230,8 +260,14 @@ void main() {
 
         await model.changeImage(0);
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(images.length, 1);
           expect(images.first.path, 'path2');
         }, loading: () {}, error: () {});
@@ -263,32 +299,56 @@ void main() {
         final model = container.read(postShopProvider(shopId).notifier);
         await model.initShopState();
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedServiceTags.length, 0);
           expect(selectedServiceTags, []);
         }, loading: () {}, error: () {});
 
         model.addServiceTag(1);
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedServiceTags.length, 1);
           expect(selectedServiceTags, [1]);
         }, loading: () {}, error: () {});
 
         model.removeServiceTag(1);
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedServiceTags.length, 0);
           expect(selectedServiceTags, []);
         }, loading: () {}, error: () {});
 
         model.removeServiceTag(1);
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedServiceTags.length, 0);
           expect(selectedServiceTags, []);
         }, loading: () {}, error: () {});
@@ -320,24 +380,42 @@ void main() {
         final model = container.read(postShopProvider(shopId).notifier);
         await model.initShopState();
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedAreaTags.length, 0);
           expect(selectedAreaTags, []);
         }, loading: () {}, error: () {});
 
         model.addAreaTag(1);
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedAreaTags.length, 1);
           expect(selectedAreaTags, [1]);
         }, loading: () {}, error: () {});
 
         model.removeAreaTag(1);
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedAreaTags.length, 0);
           expect(selectedAreaTags, []);
         }, loading: () {}, error: () {});
@@ -369,24 +447,42 @@ void main() {
         final model = container.read(postShopProvider(shopId).notifier);
         await model.initShopState();
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedFoodTags.length, 0);
           expect(selectedFoodTags, []);
         }, loading: () {}, error: () {});
 
         model.addFoodTag(1);
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedFoodTags.length, 1);
           expect(selectedFoodTags, [1]);
         }, loading: () {}, error: () {});
 
         model.removeFoodTag(1);
 
-        model.debugState.when((shop, commentController, comment, images,
-            selectedServiceTags, selectedAreaTags, selectedFoodTags) {
+        model.debugState.when((shop,
+            commentController,
+            comment,
+            images,
+            selectedServiceTags,
+            selectedAreaTags,
+            selectedFoodTags,
+            postUserName) {
           expect(selectedFoodTags.length, 0);
           expect(selectedFoodTags, []);
         }, loading: () {}, error: () {});
