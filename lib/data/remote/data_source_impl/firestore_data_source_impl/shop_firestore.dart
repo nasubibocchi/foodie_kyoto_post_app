@@ -40,7 +40,7 @@ class ShopFirestore {
 
   Future<Result<void>> postShop(
       {required Map<String, dynamic> shopData}) async {
-    final ref = _firestore.collection('shops').doc(shopData['shopId']);
+    final ref = _firestore.collection('shops').doc(shopData['shop_id']);
     final geo = Geoflutterfire();
     final position = geo.point(
         latitude: shopData['latitude'], longitude: shopData['longitude']);
