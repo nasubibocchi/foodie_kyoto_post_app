@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 @immutable
@@ -16,7 +17,7 @@ class ShopModel {
 
   factory ShopModel.fromJson(Map<String, Object?> json) {
     final position = json['position'] as Map<String, dynamic>;
-    final geoPoint = position['geopoint'];
+    final GeoPoint geoPoint = position['geopoint'];
 
     final dynamicImages = json['images'] as List<dynamic>;
     final images = dynamicImages.cast<String>();
@@ -33,8 +34,8 @@ class ShopModel {
     return ShopModel(
         name: json['name'] as String,
         shopId: json['shop_id'] as String,
-        latitude: geoPoint['latitude'] as double,
-        longitude: geoPoint['longitude'] as double,
+        latitude: geoPoint.latitude,
+        longitude: geoPoint.longitude,
         comment: json['comment'] as String,
         images: images,
         serviceTags: serviceTags,

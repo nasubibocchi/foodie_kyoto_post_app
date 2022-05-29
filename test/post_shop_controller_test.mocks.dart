@@ -3,8 +3,8 @@
 // Do not manually edit this file.
 
 import 'dart:async' as _i5;
-import 'dart:convert' as _i10;
-import 'dart:typed_data' as _i11;
+import 'dart:convert' as _i11;
+import 'dart:typed_data' as _i12;
 
 import 'package:foodie_kyoto_post_app/data/model/result.dart' as _i2;
 import 'package:foodie_kyoto_post_app/domain/entity/foodie_prediction.dart'
@@ -13,9 +13,11 @@ import 'package:foodie_kyoto_post_app/domain/entity/shop.dart' as _i6;
 import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart' as _i9;
 import 'package:foodie_kyoto_post_app/domain/use_case/places_use_case.dart'
     as _i7;
+import 'package:foodie_kyoto_post_app/domain/use_case/shop_image_use_case.dart'
+    as _i10;
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart'
     as _i4;
-import 'package:image_picker/image_picker.dart' as _i12;
+import 'package:image_picker/image_picker.dart' as _i13;
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -101,6 +103,40 @@ class MockPlacesUseCase extends _i1.Mock implements _i7.PlacesUseCase {
           as _i5.Future<_i2.Result<_i9.ShopDetail?>>);
 }
 
+/// A class which mocks [ShopImageUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockShopImageUseCase extends _i1.Mock implements _i10.ShopImageUseCase {
+  MockShopImageUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i2.Result<String?>> postImages(
+          {String? path, String? shopId, String? fileName}) =>
+      (super.noSuchMethod(
+              Invocation.method(#postImages, [],
+                  {#path: path, #shopId: shopId, #fileName: fileName}),
+              returnValue:
+                  Future<_i2.Result<String?>>.value(_FakeResult_0<String?>()))
+          as _i5.Future<_i2.Result<String?>>);
+  @override
+  _i5.Future<_i2.Result<String?>> getImagesUrl(
+          {String? path, String? shopId, String? fileName}) =>
+      (super.noSuchMethod(
+              Invocation.method(#getImagesUrl, [],
+                  {#path: path, #shopId: shopId, #fileName: fileName}),
+              returnValue:
+                  Future<_i2.Result<String?>>.value(_FakeResult_0<String?>()))
+          as _i5.Future<_i2.Result<String?>>);
+  @override
+  _i5.Future<_i2.Result<String>> deleteImages({String? shopId}) => (super
+          .noSuchMethod(Invocation.method(#deleteImages, [], {#shopId: shopId}),
+              returnValue:
+                  Future<_i2.Result<String>>.value(_FakeResult_0<String>()))
+      as _i5.Future<_i2.Result<String>>);
+}
+
 /// A class which mocks [XFile].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -126,20 +162,20 @@ class MockXFile extends _i1.Mock implements _i3.XFile {
           returnValue: Future<int>.value(0)) as _i5.Future<int>);
   @override
   _i5.Future<String> readAsString(
-          {_i10.Encoding? encoding = const _i10.Utf8Codec()}) =>
+          {_i11.Encoding? encoding = const _i11.Utf8Codec()}) =>
       (super.noSuchMethod(
           Invocation.method(#readAsString, [], {#encoding: encoding}),
           returnValue: Future<String>.value('')) as _i5.Future<String>);
   @override
-  _i5.Future<_i11.Uint8List> readAsBytes() =>
+  _i5.Future<_i12.Uint8List> readAsBytes() =>
       (super.noSuchMethod(Invocation.method(#readAsBytes, []),
-              returnValue: Future<_i11.Uint8List>.value(_i11.Uint8List(0)))
-          as _i5.Future<_i11.Uint8List>);
+              returnValue: Future<_i12.Uint8List>.value(_i12.Uint8List(0)))
+          as _i5.Future<_i12.Uint8List>);
   @override
-  _i5.Stream<_i11.Uint8List> openRead([int? start, int? end]) =>
+  _i5.Stream<_i12.Uint8List> openRead([int? start, int? end]) =>
       (super.noSuchMethod(Invocation.method(#openRead, [start, end]),
-              returnValue: Stream<_i11.Uint8List>.empty())
-          as _i5.Stream<_i11.Uint8List>);
+              returnValue: Stream<_i12.Uint8List>.empty())
+          as _i5.Stream<_i12.Uint8List>);
   @override
   _i5.Future<DateTime> lastModified() =>
       (super.noSuchMethod(Invocation.method(#lastModified, []),
@@ -150,7 +186,7 @@ class MockXFile extends _i1.Mock implements _i3.XFile {
 /// A class which mocks [ImagePicker].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockImagePicker extends _i1.Mock implements _i12.ImagePicker {
+class MockImagePicker extends _i1.Mock implements _i13.ImagePicker {
   MockImagePicker() {
     _i1.throwOnMissingStub(this);
   }
