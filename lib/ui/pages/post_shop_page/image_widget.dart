@@ -34,20 +34,31 @@ class ImageWidget extends ConsumerWidget {
                             padding: const EdgeInsets.all(4),
                             child: GestureDetector(
                                 onTap: () async {
-                                  try {
-                                    ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .changeImage(index);
-                                  } catch (e) {
-                                    await showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return const OkDialog(
-                                              title: 'エラー',
-                                              body:
-                                                  '画像選択に失敗しました。もう一度試してみてください。');
-                                        });
-                                  }
+                                  await showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return _ChangeOrDeleteDialog(
+                                            onTapChange: () async {
+                                              try {
+                                                ref
+                                                    .read(
+                                                        postShopProvider(shopId)
+                                                            .notifier)
+                                                    .changeImage(index);
+                                              } catch (e) {
+                                                await showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return const OkDialog(
+                                                        title: 'エラー',
+                                                        body:
+                                                            '画像選択に失敗しました。もう一度試してみてください。',
+                                                      );
+                                                    });
+                                              }
+                                            },
+                                            onTapDelete: () {});
+                                      });
                                 },
                                 child: Image.file(File(images[index].path))),
                           );
@@ -98,6 +109,51 @@ class ImageWidget extends ConsumerWidget {
       },
       loading: () => const SizedBox(),
       error: () => const SizedBox(),
+    );
+  }
+}
+
+class _ChangeOrDeleteDialog extends StatelessWidget {
+  const _ChangeOrDeleteDialog(
+      {Key? key, required this.onTapChange, required this.onTapDelete})
+      : super(key: key);
+
+  final VoidCallback onTapChange;
+  final VoidCallback onTapDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      actions: [
+        Align(
+          alignment: Alignment.topRight,
+          child: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.close, color: AppColors.appGrey)),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              children: [
+                TextButton(
+                    onPressed: onTapChange,
+                    child: const Text(
+                      '変更',
+                      style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+                    )),
+              ],
+            ),
+            const Divider(color: AppColors.appBeige, thickness: 1),
+            TextButton(
+                onPressed: onTapDelete,
+                child: const Text(
+                  '削除',
+                  style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+                )),
+          ],
+        ),
+      ],
     );
   }
 }
