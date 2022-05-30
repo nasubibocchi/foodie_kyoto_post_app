@@ -30,29 +30,43 @@ class ImageWidget extends ConsumerWidget {
                         controller: controller,
                         itemCount: images.length,
                         itemBuilder: (context, int index) {
-                          return GestureDetector(
-                              onTap: () async {
-                                try {
-                                  ref
-                                      .read(postShopProvider(shopId).notifier)
-                                      .changeImage(index);
-                                } catch (e) {
-                                  await showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return const OkDialog(
-                                            title: 'エラー',
-                                            body: '画像選択に失敗しました。もう一度試してみてください。');
-                                      });
-                                }
-                              },
-                              child: Image.file(File(images[index].path)));
+                          return Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: GestureDetector(
+                                onTap: () async {
+                                  try {
+                                    ref
+                                        .read(postShopProvider(shopId).notifier)
+                                        .changeImage(index);
+                                  } catch (e) {
+                                    await showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const OkDialog(
+                                              title: 'エラー',
+                                              body:
+                                                  '画像選択に失敗しました。もう一度試してみてください。');
+                                        });
+                                  }
+                                },
+                                child: Image.file(File(images[index].path))),
+                          );
                         }),
                   ),
                   const SizedBox(height: 8),
                   SmoothPageIndicator(
                     controller: controller,
                     count: images.length,
+                    effect: const SlideEffect(
+                      spacing: 8.0,
+                      radius: 12.0,
+                      dotWidth: 12.0,
+                      dotHeight: 12.0,
+                      paintStyle: PaintingStyle.fill,
+                      strokeWidth: 1.5,
+                      dotColor: AppColors.appDarkBeige,
+                      activeDotColor: AppColors.appOrange,
+                    ),
                   ),
                 ],
               )
