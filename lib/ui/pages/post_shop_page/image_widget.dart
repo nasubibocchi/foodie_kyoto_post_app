@@ -79,6 +79,33 @@ class ImageWidget extends ConsumerWidget {
                       activeDotColor: AppColors.appOrange,
                     ),
                   ),
+                  const SizedBox(height: 16),
+                  OutlinedButton.icon(
+                      onPressed: () async {
+                        try {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .selectImages();
+                        } catch (e) {
+                          await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const OkDialog(
+                                    title: 'エラー',
+                                    body: '画像選択に失敗しました。もう一度試してみてください。');
+                              });
+                        }
+                      },
+                      icon: const Icon(Icons.add,
+                          color: AppColors.appBlack, size: 16),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.appBlack),
+                        shape: const StadiumBorder(),
+                      ),
+                      label: const Text(
+                        '追加',
+                        style: TextStyle(color: AppColors.appBlack),
+                      )),
                 ],
               )
             : GestureDetector(
