@@ -8,4 +8,5 @@ class AppColors {
   static const appActiveButtonBeige = Color(0xFFF8F0E7);
   static const appInactiveButtonBeige = Color(0xFFFFFBF8);
   static const appGrey = Color(0xFF4D4639);
+  static const appOrange = Color(0xFFF76000);
 }
