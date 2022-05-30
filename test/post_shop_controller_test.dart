@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:foodie_kyoto_post_app/constants/post_users_data.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop_detail.dart';
@@ -465,6 +466,93 @@ void main() {
         expect(selectedFoodTags.length, 0);
         expect(selectedFoodTags, []);
       }, loading: () {}, error: () {});
+    });
+  });
+
+  group('selectPostUser', () {
+    test('when tap a user button1', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      model.debugState.when((shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName) {
+        expect(postUserName, '');
+      }, loading: () {}, error: () {});
+
+      model.selectPostUser(1);
+
+      model.debugState.when((shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName) {
+        expect(postUserName, PostUsers.postUsers[1]);
+      }, loading: () {
+        // ignore: avoid_print
+        print('test is not passed');
+      }, error: () {
+        // ignore: avoid_print
+        print('test is not passed');
+      });
+    });
+  });
+
+  group('removeSelectedUser', () {
+    test('when selected button is tapped', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      model.debugState.when((shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName) {
+        expect(postUserName, '');
+      }, loading: () {}, error: () {});
+
+      model.selectPostUser(1);
+      model.removeSelectedUser();
+
+      model.debugState.when((shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName) {
+        expect(postUserName, '');
+      }, loading: () {
+        // ignore: avoid_print
+        print('test is not passed');
+      }, error: () {
+        // ignore: avoid_print
+        print('test is not passed');
+      });
     });
   });
 }
