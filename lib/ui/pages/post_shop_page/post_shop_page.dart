@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
@@ -8,6 +6,7 @@ import 'package:foodie_kyoto_post_app/constants/tags_data.dart';
 import 'package:foodie_kyoto_post_app/ui/components/ok_dialog.dart';
 import 'package:foodie_kyoto_post_app/ui/components/tag_button.dart';
 import 'package:foodie_kyoto_post_app/ui/components/user_button.dart';
+import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/image_widget.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -36,61 +35,7 @@ class PostShopPage extends HookConsumerWidget {
             children: [
               Text(shop?.name ?? ''),
               const SizedBox(height: 20),
-              images.isNotEmpty
-                  ? SizedBox(
-                      height: 350,
-                      child: PageView.builder(
-                          itemCount: images.length,
-                          itemBuilder: (context, int index) {
-                            return GestureDetector(
-                                onTap: () async {
-                                  try {
-                                    ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .changeImage(index);
-                                  } catch (e) {
-                                    await showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return const OkDialog(
-                                              title: 'エラー',
-                                              body:
-                                                  '画像選択に失敗しました。もう一度試してみてください。');
-                                        });
-                                  }
-                                },
-                                child: Image.file(File(images[index].path)));
-                          }),
-                    )
-                  : GestureDetector(
-                      onTap: () async {
-                        try {
-                          ref
-                              .read(postShopProvider(shopId).notifier)
-                              .selectImages();
-                        } catch (e) {
-                          await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const OkDialog(
-                                    title: 'エラー',
-                                    body: '画像選択に失敗しました。もう一度試してみてください。');
-                              });
-                        }
-                      },
-                      child: Container(
-                        height: 350,
-                        width: 350,
-                        decoration:
-                            const BoxDecoration(color: AppColors.appBeige),
-                        child: const Center(
-                          child: Text(
-                            'タップして画像を追加',
-                            style: TextStyle(color: AppColors.appBlack),
-                          ),
-                        ),
-                      ),
-                    ),
+              ImageWidget(shopId: shopId),
               const SizedBox(height: 20),
               TextField(
                 controller: commentController,
