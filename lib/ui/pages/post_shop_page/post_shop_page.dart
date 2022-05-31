@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
 import 'package:foodie_kyoto_post_app/constants/post_users_data.dart';
 import 'package:foodie_kyoto_post_app/constants/tags_data.dart';
-import 'package:foodie_kyoto_post_app/ui/components/ok_dialog.dart';
 import 'package:foodie_kyoto_post_app/ui/components/tag_button.dart';
 import 'package:foodie_kyoto_post_app/ui/components/user_button.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/image_widget.dart';
-import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
+import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_button.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -53,32 +51,7 @@ class PostShopPage extends HookConsumerWidget {
               const SizedBox(height: 4),
               _PostUsersWidget(shopId: shopId),
               const SizedBox(height: 24),
-              ElevatedButton(
-                  onPressed: () {
-                    HapticFeedback.mediumImpact();
-                    ref
-                        .read(postShopProvider(shopId).notifier)
-                        .postShop()
-                        .then((postResults) async {
-                      if (postResults == PostResults.success) {
-                        await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const OkDialog(
-                                  title: 'SUCCESS!', body: '登録に成功しました。');
-                            });
-                      }
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: AppColors.appPink,
-                    shape: const StadiumBorder(),
-                    elevation: 2,
-                  ),
-                  child: const Text(
-                    '登録',
-                    style: TextStyle(color: AppColors.appBlack, fontSize: 16),
-                  )),
+              PostButton(shopId: shopId),
               const SizedBox(height: 24),
             ],
           ),

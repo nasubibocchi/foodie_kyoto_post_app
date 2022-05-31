@@ -19,10 +19,12 @@ class OkDialog extends StatelessWidget {
             fontWeight: FontWeight.bold),
       ),
       titlePadding: const EdgeInsets.all(24),
-      content: Center(
-        child: Text(
-          body,
-          style: const TextStyle(fontSize: 14, color: AppColors.appBlack),
+      content: SingleChildScrollView(
+        child: Center(
+          child: Text(
+            body,
+            style: const TextStyle(fontSize: 14, color: AppColors.appBlack),
+          ),
         ),
       ),
       actions: <Widget>[
