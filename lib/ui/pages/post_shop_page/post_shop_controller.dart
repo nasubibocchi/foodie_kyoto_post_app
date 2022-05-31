@@ -207,6 +207,18 @@ class PostShopController extends StateNotifier<PostShopState> {
     }
   }
 
+  void deleteSelectedImage(int index) {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+
+      final List<File> dupImages = List.of(currentState.images);
+
+      dupImages.removeAt(index);
+
+      state = currentState.copyWith(images: dupImages);
+    }
+  }
+
   void addServiceTag(int key) {
     if (state is _PostShopState) {
       final currentState = state as _PostShopState;

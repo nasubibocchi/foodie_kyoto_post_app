@@ -523,6 +523,44 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
+      when(_imageFileUseCase.pickMultiImage()).thenAnswer((_) async {
+        return Success([File('path1'), File('path2')]);
+      });
+
+      await model.selectImages();
+      model.deleteSelectedImage(0);
+
+      model.debugState.when((shop,
+          commentController,
+          comment,
+          images,
+          selectedServiceTags,
+          selectedAreaTags,
+          selectedFoodTags,
+          postUserName) {
+        expect(images.length, 1);
+        expect(images.first.path, 'path2');
+      }, loading: () {
+        // ignore: avoid_print
+        print('test is not passed');
+      }, error: () {
+        // ignore: avoid_print
+        print('test is not passed');
+      });
+    });
+  });
+
+  group('deleteImage', () {
+    test('when delete image button is tapped', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
       model.debugState.when((shop,
           commentController,
           comment,

@@ -39,25 +39,28 @@ class ImageWidget extends ConsumerWidget {
                                       builder: (context) {
                                         return _ChangeOrDeleteDialog(
                                             onTapChange: () async {
-                                              try {
-                                                ref
-                                                    .read(
-                                                        postShopProvider(shopId)
-                                                            .notifier)
-                                                    .changeImage(index);
-                                              } catch (e) {
-                                                await showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return const OkDialog(
-                                                        title: 'エラー',
-                                                        body:
-                                                            '画像選択に失敗しました。もう一度試してみてください。',
-                                                      );
-                                                    });
-                                              }
-                                            },
-                                            onTapDelete: () {});
+                                          try {
+                                            ref
+                                                .read(postShopProvider(shopId)
+                                                    .notifier)
+                                                .changeImage(index);
+                                          } catch (e) {
+                                            await showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return const OkDialog(
+                                                    title: 'エラー',
+                                                    body:
+                                                        '画像選択に失敗しました。もう一度試してみてください。',
+                                                  );
+                                                });
+                                          }
+                                        }, onTapDelete: () {
+                                          ref
+                                              .read(postShopProvider(shopId)
+                                                  .notifier)
+                                              .deleteSelectedImage(index);
+                                        });
                                       });
                                 },
                                 child: Image.file(File(images[index].path))),
