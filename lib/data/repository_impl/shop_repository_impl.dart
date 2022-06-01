@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/data/model/shop_model.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source/shop_data_source.dart';
@@ -8,6 +10,19 @@ class ShopRepositoryImpl implements ShopRepository {
   ShopRepositoryImpl({required ShopDataSource dataSource})
       : _dataSource = dataSource;
   final ShopDataSource _dataSource;
+
+  @override
+  StreamController<Stream<List<Shop>>> get shopRepositoryStreamController =>
+      _shopRepositoryStreamController;
+
+  final _shopRepositoryStreamController =
+      StreamController<Stream<List<Shop>>>();
+
+  @override
+  set shopRepositoryStreamController(
+          StreamController<Stream<List<Shop>>>?
+              _shopRepositoryStreamController) =>
+      _shopRepositoryStreamController;
 
   @override
   Future<Result<List<Shop>>> fetchShops(
@@ -76,6 +91,40 @@ class ShopRepositoryImpl implements ShopRepository {
         } else {
           return Success(null);
         }
+      },
+      (e) => Error(Exception(e)),
+    );
+  }
+
+  @override
+  Future<Result<String>> fetchShopInMapStream(
+      {required double latitude,
+      required double longitude,
+      required radius}) async {
+    final result = await _dataSource.fetchShopInMapStream(
+        latitude: latitude, longitude: longitude, radius: radius);
+
+    return result.whenWithResult(
+      (success) {
+        _dataSource.shopDataSourceStreamController?.stream.listen((event) {
+          final shopList = event.map((list) => list
+              .map((e) => Shop(
+                  name: e.name,
+                  shopId: e.shopId,
+                  latitude: e.latitude,
+                  longitude: e.longitude,
+                  comment: e.comment,
+                  images: e.images,
+                  serviceTags: e.serviceTags,
+                  areaTags: e.areaTags,
+                  foodTags: e.foodTags,
+                  postUser: e.postUser))
+              .toList());
+
+          _shopRepositoryStreamController.add(shopList);
+        });
+
+        return Success('SUCCESS');
       },
       (e) => Error(Exception(e)),
     );
