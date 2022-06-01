@@ -41,7 +41,9 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
             });
           });
         },
-        (e) {},
+        (e) {
+          state = GoogleMapState.error();
+        },
       );
     }
   }
