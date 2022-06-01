@@ -2,12 +2,12 @@
 // in foodie_kyoto_post_app/test/shop_data_source_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i2;
 
 import 'package:cloud_firestore/cloud_firestore.dart' as _i5;
-import 'package:foodie_kyoto_post_app/data/model/result.dart' as _i2;
+import 'package:foodie_kyoto_post_app/data/model/result.dart' as _i3;
 import 'package:foodie_kyoto_post_app/data/remote/data_source_impl/firestore_data_source_impl/shop_firestore.dart'
-    as _i3;
+    as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -20,38 +20,62 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeResult_0<T> extends _i1.Fake implements _i2.Result<T> {}
+class _FakeStreamController_0<T> extends _i1.Fake
+    implements _i2.StreamController<T> {}
+
+class _FakeResult_1<T> extends _i1.Fake implements _i3.Result<T> {}
 
 /// A class which mocks [ShopFirestore].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockShopFirestore extends _i1.Mock implements _i3.ShopFirestore {
+class MockShopFirestore extends _i1.Mock implements _i4.ShopFirestore {
   MockShopFirestore() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>>> fetchShops(
+  _i2.StreamController<
+          _i2.Stream<List<_i5.DocumentSnapshot<Map<String, Object?>>>>>
+      get shopFirestoreStreamController => (super.noSuchMethod(
+              Invocation.getter(#shopFirestoreStreamController),
+              returnValue: _FakeStreamController_0<
+                  _i2.Stream<List<_i5.DocumentSnapshot<Map<String, Object?>>>>>())
+          as _i2.StreamController<
+              _i2.Stream<List<_i5.DocumentSnapshot<Map<String, Object?>>>>>);
+  @override
+  _i2.Future<_i3.Result<_i5.QuerySnapshot<Map<String, dynamic>>>> fetchShops(
           {int? limit, String? cursor}) =>
       (super.noSuchMethod(
           Invocation.method(#fetchShops, [], {#limit: limit, #cursor: cursor}),
           returnValue: Future<
-                  _i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>>>.value(
-              _FakeResult_0<_i5.QuerySnapshot<Map<String, dynamic>>>())) as _i4
-          .Future<_i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>>>);
+                  _i3.Result<_i5.QuerySnapshot<Map<String, dynamic>>>>.value(
+              _FakeResult_1<_i5.QuerySnapshot<Map<String, dynamic>>>())) as _i2
+          .Future<_i3.Result<_i5.QuerySnapshot<Map<String, dynamic>>>>);
   @override
-  _i4.Future<_i2.Result<void>> postShop({Map<String, dynamic>? shopData}) =>
+  _i2.Future<_i3.Result<void>> postShop({Map<String, dynamic>? shopData}) =>
       (super.noSuchMethod(
               Invocation.method(#postShop, [], {#shopData: shopData}),
               returnValue:
-                  Future<_i2.Result<void>>.value(_FakeResult_0<void>()))
-          as _i4.Future<_i2.Result<void>>);
+                  Future<_i3.Result<void>>.value(_FakeResult_1<void>()))
+          as _i2.Future<_i3.Result<void>>);
   @override
-  _i4.Future<_i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>?>>
+  _i2.Future<_i3.Result<_i5.QuerySnapshot<Map<String, dynamic>>?>>
       fetchShopByShopId({String? shopId}) => (super.noSuchMethod(
           Invocation.method(#fetchShopByShopId, [], {#shopId: shopId}),
           returnValue: Future<
-                  _i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>?>>.value(
-              _FakeResult_0<_i5.QuerySnapshot<Map<String, dynamic>>?>())) as _i4
-          .Future<_i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>?>>);
+                  _i3.Result<_i5.QuerySnapshot<Map<String, dynamic>>?>>.value(
+              _FakeResult_1<_i5.QuerySnapshot<Map<String, dynamic>>?>())) as _i2
+          .Future<_i3.Result<_i5.QuerySnapshot<Map<String, dynamic>>?>>);
+  @override
+  _i2.Future<_i3.Result<String>> fetchShopInMapStream(
+          {double? latitude, double? longitude, dynamic radius}) =>
+      (super.noSuchMethod(
+              Invocation.method(#fetchShopInMapStream, [], {
+                #latitude: latitude,
+                #longitude: longitude,
+                #radius: radius
+              }),
+              returnValue:
+                  Future<_i3.Result<String>>.value(_FakeResult_1<String>()))
+          as _i2.Future<_i3.Result<String>>);
 }
