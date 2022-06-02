@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -13,7 +14,8 @@ class GoogleMapState with _$GoogleMapState {
   factory GoogleMapState(
       {required GoogleMapController googleMapController,
       @Default([]) List<Shop> shopList,
-      @Default(false) bool isShowingShopInformation}) = _GoogleMapState;
+      @Default(false) bool isShowingShopInformation,
+      required PageController infoPageController}) = _GoogleMapState;
 
   factory GoogleMapState.creating() = _GoogleMapStateCreating;
 
@@ -26,7 +28,9 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
   final ShopUseCase _shopUseCase;
 
   void onMapCreated(GoogleMapController controller) {
-    state = GoogleMapState(googleMapController: controller);
+    state = GoogleMapState(
+        googleMapController: controller,
+        infoPageController: PageController(initialPage: 0));
   }
 
   Future<void> fetchShopsStream() async {
@@ -66,11 +70,34 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
     }
   }
 
-  void setShowingShopInformation(bool isShowing) {
+  void setShowingShopInformation(bool isShowing, int index) {
     if (state is _GoogleMapState) {
       final currentState = state as _GoogleMapState;
 
-      state = currentState.copyWith(isShowingShopInformation: isShowing);
+      state = currentState.copyWith(
+        isShowingShopInformation: isShowing,
+        infoPageController: PageController(initialPage: index),
+      );
+    }
+  }
+
+  Future<void> onSwipeShopInfo(int index) async {
+    if (state is _GoogleMapState) {
+      final zoomLevel = await getZoomLevel();
+
+      final currentState = state as _GoogleMapState;
+
+      final latLng = LatLng(currentState.shopList[index].latitude,
+          currentState.shopList[index].longitude);
+
+      if (zoomLevel != null) {
+        final cameraPosition = CameraPosition(target: latLng, zoom: zoomLevel);
+        final cameraUpdate = CameraUpdate.newCameraPosition(cameraPosition);
+        final _markerId = MarkerId(currentState.shopList[index].shopId);
+
+        currentState.googleMapController.showMarkerInfoWindow(_markerId);
+        currentState.googleMapController.animateCamera(cameraUpdate);
+      }
     }
   }
 
