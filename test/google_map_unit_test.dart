@@ -24,21 +24,19 @@ void main() {
 
   group('Google map function tests', () {
     test('onMapCreated', () async {
-      GoogleMapController? controller;
-
       final state1 = container.read(googleMapProvider);
       // onMapCreatedが呼ばれる前はGoogleMapState.creating()であることを確認
       expect(state1, GoogleMapState.creating());
 
       final model = container.read(googleMapProvider.notifier);
-      model.onMapCreated(controller);
+      model.onMapCreated(_googleMapController);
 
       final state2 = container.read(googleMapProvider);
 
       // onMapCreatedが呼ばれた後はGoogleMapState()であることを確認
       model.debugState.when(
         (googleMapController, _) => expect(
-            state2, GoogleMapState(googleMapController: googleMapController)),
+            state2, GoogleMapState(googleMapController: _googleMapController)),
         creating: () {
           // ignore: avoid_print
           print('test is not passed');
@@ -66,7 +64,7 @@ void main() {
     });
   });
 
-  group('getRadiusMeter', () {
+  group('getRadiusKiloMeter', () {
     test('when the state is _GoogleMapState', () async {
       final model = container.read(googleMapProvider.notifier);
       model.onMapCreated(_googleMapController);
@@ -75,9 +73,10 @@ void main() {
         return 14.5;
       });
 
-      final result = await model.getMapRadiusMeter();
+      final result = await model.getMapRadiusKiloMeter();
+      final actual = result * 1000;
 
-      expect(result.round(), 1657);
+      expect(actual.round(), 1657);
     });
   });
 

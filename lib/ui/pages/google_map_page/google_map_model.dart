@@ -11,7 +11,7 @@ part 'google_map_model.freezed.dart';
 @freezed
 class GoogleMapState with _$GoogleMapState {
   factory GoogleMapState(
-      {GoogleMapController? googleMapController,
+      {required GoogleMapController googleMapController,
       @Default([]) List<Shop> shopList}) = _GoogleMapState;
 
   factory GoogleMapState.creating() = _GoogleMapStateCreating;
@@ -24,7 +24,7 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
 
   final ShopUseCase _shopUseCase;
 
-  void onMapCreated(controller) async {
+  void onMapCreated(GoogleMapController controller) {
     state = GoogleMapState(googleMapController: controller);
   }
 
@@ -32,30 +32,36 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
     if (state is _GoogleMapState) {
       final currentState = state as _GoogleMapState;
 
-      final radius = await getMapRadiusMeter();
-      final centerLatLng = await getCenterLocation();
+      // // 一旦京都市のデータ全件取得する。データが増えて来たら変更予定。
+      // final radius = await getMapRadiusKiloMeter();
+      // final centerLatLng = await getCenterLocation();
 
-      if (centerLatLng != null) {
-        final result = await _shopUseCase.fetchShopInMapStream(
-            latitude: centerLatLng.latitude,
-            longitude: centerLatLng.longitude,
-            radius: radius);
+      // if (centerLatLng != null) {
 
-        result.whenWithResult(
-          (success) {
-            _shopUseCase.shopUseCaseStreamController.stream.listen((event) {
-              event.listen((list) {
-                state = currentState.copyWith(shopList: list);
-              });
+      const kyotoRadius = 25.5;
+      const kyotoCenterLat = 35.0813;
+      const kyotoCenterLng = 135.4743;
+
+      final result = await _shopUseCase.fetchShopInMapStream(
+          latitude: kyotoCenterLat,
+          longitude: kyotoCenterLng,
+          radius: kyotoRadius);
+
+      result.whenWithResult(
+        (success) {
+          _shopUseCase.shopUseCaseStreamController.stream.listen((event) {
+            event.listen((list) {
+              state = currentState.copyWith(shopList: list);
             });
-          },
-          (e) {
-            state = GoogleMapState.error();
-          },
-        );
-      } else {
-        state = GoogleMapState.error();
-      }
+          });
+        },
+        (e) {
+          state = GoogleMapState.error();
+        },
+      );
+      // } else {
+      //   state = GoogleMapState.error();
+      // }
     }
   }
 
@@ -64,16 +70,13 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
       final currentState = state as _GoogleMapState;
       final controller = currentState.googleMapController;
 
-      final region = await controller?.getVisibleRegion();
-      if (region != null) {
-        final centerLat =
-            (region.northeast.latitude + region.southwest.latitude) / 2;
-        final centerLng =
-            (region.northeast.longitude + region.southwest.longitude) / 2;
+      final region = await controller.getVisibleRegion();
+      final centerLat =
+          (region.northeast.latitude + region.southwest.latitude) / 2;
+      final centerLng =
+          (region.northeast.longitude + region.southwest.longitude) / 2;
 
-        return LatLng(centerLat, centerLng);
-      }
-      return null;
+      return LatLng(centerLat, centerLng);
     }
     return null;
   }
@@ -83,13 +86,13 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
       final currentState = state as _GoogleMapState;
       final controller = currentState.googleMapController;
 
-      final zoomLevel = await controller?.getZoomLevel();
+      final zoomLevel = await controller.getZoomLevel();
       return zoomLevel;
     }
     return null;
   }
 
-  Future<double> getMapRadiusMeter() async {
+  Future<double> getMapRadiusKiloMeter() async {
     double mapRadiusM = 150000;
     final zoomLevel = await getZoomLevel();
     if (zoomLevel != null) {
@@ -98,6 +101,6 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
         mapRadiusM = mapRadiusM / pow(2, _zoomLevel - 8);
       }
     }
-    return mapRadiusM;
+    return mapRadiusM / 1000;
   }
 }

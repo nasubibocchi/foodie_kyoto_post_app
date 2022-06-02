@@ -38,7 +38,7 @@ class GoogleMapPage extends HookConsumerWidget {
                   markerId: MarkerId(e.shopId),
                   position: LatLng(e.latitude, e.longitude)))
               .toList()),
-          myLocationButtonEnabled: true,
+          myLocationEnabled: true,
         ),
         state.when(
           (_, __) => const SizedBox(),
