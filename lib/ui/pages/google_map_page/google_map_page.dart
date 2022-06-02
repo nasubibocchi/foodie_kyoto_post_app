@@ -59,6 +59,9 @@ class GoogleMapPage extends HookConsumerWidget {
                         child: PageView.builder(
                             itemCount: shopList.length,
                             scrollDirection: Axis.horizontal,
+                            onPageChanged: (index) => ref
+                                .read(googleMapProvider.notifier)
+                                .onSwipeShopInfo(index),
                             itemBuilder: (context, int index) {
                               return ShopInformationWidget(
                                 shop: shopList[index],

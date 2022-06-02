@@ -74,6 +74,26 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
     }
   }
 
+  Future<void> onSwipeShopInfo(int index) async {
+    if (state is _GoogleMapState) {
+      final zoomLevel = await getZoomLevel();
+
+      final currentState = state as _GoogleMapState;
+
+      final latLng = LatLng(currentState.shopList[index].latitude,
+          currentState.shopList[index].longitude);
+
+      if (zoomLevel != null) {
+        final cameraPosition = CameraPosition(target: latLng, zoom: zoomLevel);
+        final cameraUpdate = CameraUpdate.newCameraPosition(cameraPosition);
+        final _markerId = MarkerId(currentState.shopList[index].shopId);
+
+        currentState.googleMapController.showMarkerInfoWindow(_markerId);
+        currentState.googleMapController.animateCamera(cameraUpdate);
+      }
+    }
+  }
+
   Future<LatLng?> getCenterLocation() async {
     if (state is _GoogleMapState) {
       final currentState = state as _GoogleMapState;
