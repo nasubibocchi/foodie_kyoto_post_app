@@ -5,19 +5,21 @@ import 'package:foodie_kyoto_post_app/ui/pages/google_map_page/google_map_provid
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
 import 'google_map_unit_test.mocks.dart';
 
-@GenerateMocks([ShopUseCase])
+@GenerateMocks([ShopUseCase, GoogleMap, GoogleMapController])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final _shopUseCase = MockShopUseCase();
+  final _googleMapController = MockGoogleMapController();
 
   final container = ProviderContainer(overrides: [
     googleMapProvider.overrideWithProvider(
         StateNotifierProvider<GoogleMapPageController, GoogleMapState>(
             (ref) => GoogleMapPageController(_shopUseCase))),
-    // googleMapProvider.overrideWithValue(GoogleMapPageController()),
+    googleMapProvider.overrideWithValue(GoogleMapPageController(_shopUseCase)),
   ]);
 
   group('Google map function tests', () {
@@ -46,6 +48,54 @@ void main() {
           print('test is not passed');
         },
       );
+    });
+  });
+
+  group('getZoomLevel', () {
+    test('when the state is _GoogleMapState', () async {
+      final model = container.read(googleMapProvider.notifier);
+      model.onMapCreated(_googleMapController);
+
+      when(_googleMapController.getZoomLevel()).thenAnswer((_) async {
+        return 14.5;
+      });
+
+      final result = await model.getZoomLevel();
+
+      expect(result, 14.5);
+    });
+  });
+
+  group('getRadiusMeter', () {
+    test('when the state is _GoogleMapState', () async {
+      final model = container.read(googleMapProvider.notifier);
+      model.onMapCreated(_googleMapController);
+
+      when(_googleMapController.getZoomLevel()).thenAnswer((_) async {
+        return 14.5;
+      });
+
+      final result = await model.getMapRadiusMeter();
+
+      expect(result.round(), 1657);
+    });
+  });
+
+  group('getCenterLocation', () {
+    test('when the state is _GoogleMapState', () async {
+      final model = container.read(googleMapProvider.notifier);
+      model.onMapCreated(_googleMapController);
+
+      when(_googleMapController.getVisibleRegion()).thenAnswer((_) async {
+        return LatLngBounds(
+            southwest: const LatLng(35.0, 135.0),
+            northeast: const LatLng(35.5, 135.5));
+      });
+
+      final result = await model.getCenterLocation();
+
+      expect(result?.latitude, 35.25);
+      expect(result?.longitude, 135.25);
     });
   });
 }
