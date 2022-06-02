@@ -27,7 +27,7 @@ Future<void> main() async {
             ShopDataSourceImpl(shopFirestore: ref.read(shopFirestoreProvider))))
   ]);
 
-  await _firestore.collection('shops').add(
+  await _firestore.collection('shops').doc('shop_id_1').set(
     <String, dynamic>{
       'name': 'name_1',
       'shop_id': 'shop_id_1',
@@ -45,7 +45,7 @@ Future<void> main() async {
     },
   );
 
-  await _firestore.collection('shops').add(
+  await _firestore.collection('shops').doc('shop_id_2').set(
     <String, dynamic>{
       'name': 'name_2',
       'shop_id': 'shop_id_2',

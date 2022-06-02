@@ -31,6 +31,14 @@ class MockShopDataSource extends _i1.Mock implements _i3.ShopDataSource {
   }
 
   @override
+  set shopDataSourceStreamController(
+          _i4.StreamController<_i4.Stream<List<_i5.ShopModel>>>?
+              _shopDataSourceStreamController) =>
+      super.noSuchMethod(
+          Invocation.setter(
+              #shopDataSourceStreamController, _shopDataSourceStreamController),
+          returnValueForMissingStub: null);
+  @override
   _i4.Future<_i2.Result<List<_i5.ShopModel>>> fetchShops(
           {int? limit, String? cursor}) =>
       (super.noSuchMethod(
@@ -51,4 +59,16 @@ class MockShopDataSource extends _i1.Mock implements _i3.ShopDataSource {
               returnValue: Future<_i2.Result<_i5.ShopModel?>>.value(
                   _FakeResult_0<_i5.ShopModel?>()))
           as _i4.Future<_i2.Result<_i5.ShopModel?>>);
+  @override
+  _i4.Future<_i2.Result<String>> fetchShopInMapStream(
+          {double? latitude, double? longitude, dynamic radius}) =>
+      (super.noSuchMethod(
+              Invocation.method(#fetchShopInMapStream, [], {
+                #latitude: latitude,
+                #longitude: longitude,
+                #radius: radius
+              }),
+              returnValue:
+                  Future<_i2.Result<String>>.value(_FakeResult_0<String>()))
+          as _i4.Future<_i2.Result<String>>);
 }

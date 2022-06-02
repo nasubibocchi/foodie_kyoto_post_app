@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/data/remote/firestore_provider.dart';
@@ -11,6 +13,8 @@ class ShopFirestore {
   ShopFirestore({required FirebaseFirestore firestore})
       : _firestore = firestore;
   final FirebaseFirestore _firestore;
+  final shopFirestoreStreamController =
+      StreamController<Stream<List<DocumentSnapshot<Map<String, Object?>>>>>();
 
   Future<Result<QuerySnapshot<Map<String, dynamic>>>> fetchShops(
       {required int limit, String? cursor}) async {
@@ -73,6 +77,26 @@ class ShopFirestore {
           .get();
 
       return Success(shopData);
+    } on Exception catch (e) {
+      return Error(e);
+    }
+  }
+
+  Future<Result<String>> fetchShopInMapStream(
+      {required double latitude,
+      required double longitude,
+      required radius}) async {
+    try {
+      final _geo = Geoflutterfire();
+      final reference = _firestore.collection('shops');
+      final center = GeoFirePoint(latitude, longitude);
+      final stream = _geo
+          .collection(collectionRef: reference)
+          .within(center: center, radius: radius, field: 'position');
+
+      shopFirestoreStreamController.add(stream);
+
+      return Success('SUCCESS');
     } on Exception catch (e) {
       return Error(e);
     }

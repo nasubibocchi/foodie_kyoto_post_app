@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/data/model/shop_model.dart';
 import 'package:foodie_kyoto_post_app/data/remote/data_source/shop_data_source.dart';
@@ -7,6 +9,18 @@ class ShopDataSourceImpl implements ShopDataSource {
   ShopDataSourceImpl({required ShopFirestore shopFirestore})
       : _shopFirestore = shopFirestore;
   final ShopFirestore _shopFirestore;
+
+  @override
+  get shopDataSourceStreamController => _shopDataSourceStreamController;
+
+  final _shopDataSourceStreamController =
+      StreamController<Stream<List<ShopModel>>>();
+
+  @override
+  set shopDataSourceStreamController(
+          StreamController<Stream<List<ShopModel>>>?
+              _shopDataSourceStreamController) =>
+      _shopDataSourceStreamController;
 
   @override
   Future<Result<List<ShopModel>>> fetchShops(
@@ -44,6 +58,29 @@ class ShopDataSourceImpl implements ShopDataSource {
         } else {
           return Success(null);
         }
+      },
+      (e) => Error(Exception(e)),
+    );
+  }
+
+  @override
+  Future<Result<String>> fetchShopInMapStream(
+      {required double latitude,
+      required double longitude,
+      required radius}) async {
+    final shopResult = await _shopFirestore.fetchShopInMapStream(
+        latitude: latitude, longitude: longitude, radius: radius);
+
+    return shopResult.whenWithResult(
+      (success) {
+        _shopFirestore.shopFirestoreStreamController.stream.listen((event) {
+          final shopModel = event.map((list) =>
+              list.map((e) => ShopModel.fromJson(e.data()!)).toList());
+
+          _shopDataSourceStreamController.add(shopModel);
+        });
+
+        return Success('SUCCESS');
       },
       (e) => Error(Exception(e)),
     );
