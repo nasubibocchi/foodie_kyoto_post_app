@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart';
 
 import 'google_map_unit_test.mocks.dart';
 
-@GenerateMocks([ShopUseCase, GoogleMap, GoogleMapController])
+@GenerateMocks([ShopUseCase, GoogleMapController])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final _shopUseCase = MockShopUseCase();
