@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/shop_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -30,21 +32,72 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
     if (state is _GoogleMapState) {
       final currentState = state as _GoogleMapState;
 
-      final result = await _shopUseCase.fetchShopInMapStream(
-          latitude: 34.998899, longitude: 135.766671, radius: 500.0);
+      final radius = await getMapRadiusMeter();
+      final centerLatLng = await getCenterLocation();
 
-      result.whenWithResult(
-        (success) {
-          _shopUseCase.shopUseCaseStreamController.stream.listen((event) {
-            event.listen((list) {
-              state = currentState.copyWith(shopList: list);
+      if (centerLatLng != null) {
+        final result = await _shopUseCase.fetchShopInMapStream(
+            latitude: centerLatLng.latitude,
+            longitude: centerLatLng.longitude,
+            radius: radius);
+
+        result.whenWithResult(
+          (success) {
+            _shopUseCase.shopUseCaseStreamController.stream.listen((event) {
+              event.listen((list) {
+                state = currentState.copyWith(shopList: list);
+              });
             });
-          });
-        },
-        (e) {
-          state = GoogleMapState.error();
-        },
-      );
+          },
+          (e) {
+            state = GoogleMapState.error();
+          },
+        );
+      } else {
+        state = GoogleMapState.error();
+      }
     }
+  }
+
+  Future<LatLng?> getCenterLocation() async {
+    if (state is _GoogleMapState) {
+      final currentState = state as _GoogleMapState;
+      final controller = currentState.googleMapController;
+
+      final region = await controller?.getVisibleRegion();
+      if (region != null) {
+        final centerLat =
+            (region.northeast.latitude + region.southwest.latitude) / 2;
+        final centerLng =
+            (region.northeast.longitude + region.southwest.longitude) / 2;
+
+        return LatLng(centerLat, centerLng);
+      }
+      return null;
+    }
+    return null;
+  }
+
+  Future<double?> getZoomLevel() async {
+    if (state is _GoogleMapState) {
+      final currentState = state as _GoogleMapState;
+      final controller = currentState.googleMapController;
+
+      final zoomLevel = await controller?.getZoomLevel();
+      return zoomLevel;
+    }
+    return null;
+  }
+
+  Future<double> getMapRadiusMeter() async {
+    double mapRadiusM = 150000;
+    final zoomLevel = await getZoomLevel();
+    if (zoomLevel != null) {
+      final _zoomLevel = zoomLevel;
+      if (_zoomLevel > 8) {
+        mapRadiusM = mapRadiusM / pow(2, _zoomLevel - 8);
+      }
+    }
+    return mapRadiusM;
   }
 }
