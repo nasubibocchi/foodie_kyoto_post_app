@@ -35,7 +35,7 @@ void main() {
 
       // onMapCreatedが呼ばれた後はGoogleMapState()であることを確認
       model.debugState.when(
-        (googleMapController, _) => expect(
+        (googleMapController, _, __) => expect(
             state2, GoogleMapState(googleMapController: _googleMapController)),
         creating: () {
           // ignore: avoid_print

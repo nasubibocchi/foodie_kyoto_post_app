@@ -12,7 +12,8 @@ part 'google_map_model.freezed.dart';
 class GoogleMapState with _$GoogleMapState {
   factory GoogleMapState(
       {required GoogleMapController googleMapController,
-      @Default([]) List<Shop> shopList}) = _GoogleMapState;
+      @Default([]) List<Shop> shopList,
+      @Default(false) bool isShowingShopInformation}) = _GoogleMapState;
 
   factory GoogleMapState.creating() = _GoogleMapStateCreating;
 
@@ -62,6 +63,14 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
       // } else {
       //   state = GoogleMapState.error();
       // }
+    }
+  }
+
+  void setShowingShopInformation(bool isShowing) {
+    if (state is _GoogleMapState) {
+      final currentState = state as _GoogleMapState;
+
+      state = currentState.copyWith(isShowingShopInformation: isShowing);
     }
   }
 
