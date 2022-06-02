@@ -21,7 +21,7 @@ class GoogleMapPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(googleMapProvider);
     final shopList = ref.watch(googleMapProvider.select((s) => s.when(
-        (_, shopList, __) => shopList,
+        (_, shopList, __, ___) => shopList,
         creating: () => [],
         error: () => [])));
 
@@ -41,14 +41,14 @@ class GoogleMapPage extends HookConsumerWidget {
                     onTap: () {
                       ref
                           .read(googleMapProvider.notifier)
-                          .setShowingShopInformation(true);
+                          .setShowingShopInformation(true, shopList.indexOf(e));
                     },
                   ))
               .toList()),
           myLocationButtonEnabled: false,
         ),
         state.when(
-          (_, shopList, isShowingShopInformation) {
+          (_, shopList, isShowingShopInformation, infoPageController) {
             return isShowingShopInformation
                 ? Align(
                     alignment: Alignment.bottomCenter,
@@ -57,6 +57,7 @@ class GoogleMapPage extends HookConsumerWidget {
                       child: SizedBox(
                         height: 360,
                         child: PageView.builder(
+                            controller: infoPageController,
                             itemCount: shopList.length,
                             scrollDirection: Axis.horizontal,
                             onPageChanged: (index) => ref
@@ -67,7 +68,7 @@ class GoogleMapPage extends HookConsumerWidget {
                                 shop: shopList[index],
                                 onTapClose: () => ref
                                     .read(googleMapProvider.notifier)
-                                    .setShowingShopInformation(false),
+                                    .setShowingShopInformation(false, 0),
                               );
                             }),
                       ),
@@ -86,7 +87,7 @@ class GoogleMapPage extends HookConsumerWidget {
         ),
       ]),
       floatingActionButton: state.when(
-        (googleMapController, _, isShowingShopInformation) =>
+        (googleMapController, _, isShowingShopInformation, __) =>
             isShowingShopInformation
                 ? const SizedBox()
                 : Padding(

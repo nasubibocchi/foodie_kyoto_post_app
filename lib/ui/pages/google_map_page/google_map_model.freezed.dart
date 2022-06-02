@@ -18,8 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$GoogleMapState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)
         $default, {
     required TResult Function() creating,
     required TResult Function() error,
@@ -27,8 +30,11 @@ mixin _$GoogleMapState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)?
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)?
         $default, {
     TResult Function()? creating,
     TResult Function()? error,
@@ -36,8 +42,11 @@ mixin _$GoogleMapState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)?
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)?
         $default, {
     TResult Function()? creating,
     TResult Function()? error,
@@ -93,7 +102,8 @@ abstract class _$$_GoogleMapStateCopyWith<$Res> {
   $Res call(
       {GoogleMapController googleMapController,
       List<Shop> shopList,
-      bool isShowingShopInformation});
+      bool isShowingShopInformation,
+      PageController infoPageController});
 }
 
 /// @nodoc
@@ -112,6 +122,7 @@ class __$$_GoogleMapStateCopyWithImpl<$Res>
     Object? googleMapController = freezed,
     Object? shopList = freezed,
     Object? isShowingShopInformation = freezed,
+    Object? infoPageController = freezed,
   }) {
     return _then(_$_GoogleMapState(
       googleMapController: googleMapController == freezed
@@ -126,6 +137,10 @@ class __$$_GoogleMapStateCopyWithImpl<$Res>
           ? _value.isShowingShopInformation
           : isShowingShopInformation // ignore: cast_nullable_to_non_nullable
               as bool,
+      infoPageController: infoPageController == freezed
+          ? _value.infoPageController
+          : infoPageController // ignore: cast_nullable_to_non_nullable
+              as PageController,
     ));
   }
 }
@@ -136,7 +151,8 @@ class _$_GoogleMapState implements _GoogleMapState {
   _$_GoogleMapState(
       {required this.googleMapController,
       final List<Shop> shopList = const [],
-      this.isShowingShopInformation = false})
+      this.isShowingShopInformation = false,
+      required this.infoPageController})
       : _shopList = shopList;
 
   @override
@@ -152,10 +168,12 @@ class _$_GoogleMapState implements _GoogleMapState {
   @override
   @JsonKey()
   final bool isShowingShopInformation;
+  @override
+  final PageController infoPageController;
 
   @override
   String toString() {
-    return 'GoogleMapState(googleMapController: $googleMapController, shopList: $shopList, isShowingShopInformation: $isShowingShopInformation)';
+    return 'GoogleMapState(googleMapController: $googleMapController, shopList: $shopList, isShowingShopInformation: $isShowingShopInformation, infoPageController: $infoPageController)';
   }
 
   @override
@@ -167,7 +185,9 @@ class _$_GoogleMapState implements _GoogleMapState {
                 .equals(other.googleMapController, googleMapController) &&
             const DeepCollectionEquality().equals(other._shopList, _shopList) &&
             const DeepCollectionEquality().equals(
-                other.isShowingShopInformation, isShowingShopInformation));
+                other.isShowingShopInformation, isShowingShopInformation) &&
+            const DeepCollectionEquality()
+                .equals(other.infoPageController, infoPageController));
   }
 
   @override
@@ -175,7 +195,8 @@ class _$_GoogleMapState implements _GoogleMapState {
       runtimeType,
       const DeepCollectionEquality().hash(googleMapController),
       const DeepCollectionEquality().hash(_shopList),
-      const DeepCollectionEquality().hash(isShowingShopInformation));
+      const DeepCollectionEquality().hash(isShowingShopInformation),
+      const DeepCollectionEquality().hash(infoPageController));
 
   @JsonKey(ignore: true)
   @override
@@ -185,40 +206,51 @@ class _$_GoogleMapState implements _GoogleMapState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)
         $default, {
     required TResult Function() creating,
     required TResult Function() error,
   }) {
-    return $default(googleMapController, shopList, isShowingShopInformation);
+    return $default(googleMapController, shopList, isShowingShopInformation,
+        infoPageController);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)?
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)?
         $default, {
     TResult Function()? creating,
     TResult Function()? error,
   }) {
-    return $default?.call(
-        googleMapController, shopList, isShowingShopInformation);
+    return $default?.call(googleMapController, shopList,
+        isShowingShopInformation, infoPageController);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)?
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)?
         $default, {
     TResult Function()? creating,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(googleMapController, shopList, isShowingShopInformation);
+      return $default(googleMapController, shopList, isShowingShopInformation,
+          infoPageController);
     }
     return orElse();
   }
@@ -262,12 +294,14 @@ abstract class _GoogleMapState implements GoogleMapState {
   factory _GoogleMapState(
       {required final GoogleMapController googleMapController,
       final List<Shop> shopList,
-      final bool isShowingShopInformation}) = _$_GoogleMapState;
+      final bool isShowingShopInformation,
+      required final PageController infoPageController}) = _$_GoogleMapState;
 
   GoogleMapController get googleMapController =>
       throw _privateConstructorUsedError;
   List<Shop> get shopList => throw _privateConstructorUsedError;
   bool get isShowingShopInformation => throw _privateConstructorUsedError;
+  PageController get infoPageController => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$$_GoogleMapStateCopyWith<_$_GoogleMapState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -316,8 +350,11 @@ class _$_GoogleMapStateCreating implements _GoogleMapStateCreating {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)
         $default, {
     required TResult Function() creating,
     required TResult Function() error,
@@ -328,8 +365,11 @@ class _$_GoogleMapStateCreating implements _GoogleMapStateCreating {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)?
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)?
         $default, {
     TResult Function()? creating,
     TResult Function()? error,
@@ -340,8 +380,11 @@ class _$_GoogleMapStateCreating implements _GoogleMapStateCreating {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)?
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)?
         $default, {
     TResult Function()? creating,
     TResult Function()? error,
@@ -433,8 +476,11 @@ class _$_GoogleMapStateError implements _GoogleMapStateError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)
         $default, {
     required TResult Function() creating,
     required TResult Function() error,
@@ -445,8 +491,11 @@ class _$_GoogleMapStateError implements _GoogleMapStateError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)?
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)?
         $default, {
     TResult Function()? creating,
     TResult Function()? error,
@@ -457,8 +506,11 @@ class _$_GoogleMapStateError implements _GoogleMapStateError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(GoogleMapController googleMapController,
-            List<Shop> shopList, bool isShowingShopInformation)?
+    TResult Function(
+            GoogleMapController googleMapController,
+            List<Shop> shopList,
+            bool isShowingShopInformation,
+            PageController infoPageController)?
         $default, {
     TResult Function()? creating,
     TResult Function()? error,
