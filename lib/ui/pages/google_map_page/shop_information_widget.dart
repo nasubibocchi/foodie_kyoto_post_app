@@ -47,10 +47,14 @@ class ShopInformationWidget extends StatelessWidget {
                         }),
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    shop.name,
-                    style: const TextStyle(
-                        color: AppColors.appBlack, fontSize: 24),
+                  FittedBox(
+                    child: Text(
+                      shop.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.fade,
+                      style: const TextStyle(
+                          color: AppColors.appBlack, fontSize: 24),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   FittedBox(
