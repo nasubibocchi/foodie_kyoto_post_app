@@ -35,8 +35,11 @@ void main() {
 
       // onMapCreatedが呼ばれた後はGoogleMapState()であることを確認
       model.debugState.when(
-        (googleMapController, _, __) => expect(
-            state2, GoogleMapState(googleMapController: _googleMapController)),
+        (googleMapController, _, __, infoPageController) => expect(
+            state2,
+            GoogleMapState(
+                googleMapController: _googleMapController,
+                infoPageController: infoPageController)),
         creating: () {
           // ignore: avoid_print
           print('test is not passed');
