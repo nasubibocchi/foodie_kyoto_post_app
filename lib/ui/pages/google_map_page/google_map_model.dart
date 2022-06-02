@@ -32,38 +32,38 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
     if (state is _GoogleMapState) {
       final currentState = state as _GoogleMapState;
 
-      final radius = await getMapRadiusKiloMeter();
-      final centerLatLng = await getCenterLocation();
+      // // 一旦京都市のデータ全件取得する。データが増えて来たら変更予定。
+      // final radius = await getMapRadiusKiloMeter();
+      // final centerLatLng = await getCenterLocation();
 
-      if (centerLatLng != null) {
-        final result = await _shopUseCase.fetchShopInMapStream(
-            latitude: centerLatLng.latitude,
-            longitude: centerLatLng.longitude,
-            radius: radius);
+      // if (centerLatLng != null) {
 
-        result.whenWithResult(
-          (success) {
-            _shopUseCase.shopUseCaseStreamController.stream.listen((event) {
-              event.listen((list) {
-                state = currentState.copyWith(shopList: list);
-              });
+      const kyotoRadius = 25.5;
+      const kyotoCenterLat = 35.0813;
+      const kyotoCenterLng = 135.4743;
+
+      final result = await _shopUseCase.fetchShopInMapStream(
+          latitude: kyotoCenterLat,
+          longitude: kyotoCenterLng,
+          radius: kyotoRadius);
+
+      result.whenWithResult(
+        (success) {
+          _shopUseCase.shopUseCaseStreamController.stream.listen((event) {
+            event.listen((list) {
+              state = currentState.copyWith(shopList: list);
             });
-          },
-          (e) {
-            state = GoogleMapState.error();
-          },
-        );
-      } else {
-        state = GoogleMapState.error();
-      }
+          });
+        },
+        (e) {
+          state = GoogleMapState.error();
+        },
+      );
+      // } else {
+      //   state = GoogleMapState.error();
+      // }
     }
   }
-
-  // Future<void> onMoveCamera() async {
-  //   if (state is _GoogleMapState) {
-  //     await fetchShopsStream();
-  //   }
-  // }
 
   Future<LatLng?> getCenterLocation() async {
     if (state is _GoogleMapState) {
