@@ -20,14 +20,8 @@ class PostShopPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(),
-      body: state.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      body: state.when(
+          (shop, commentController, _, __, ___, ____, _____, ______, _______) {
         return SingleChildScrollView(
           child: Column(
             children: [
@@ -79,8 +73,8 @@ class _ServiceTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, selectedServiceTags, _____, ______, _______,
+          ________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -146,8 +140,7 @@ class _AreaTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, _____, selectedAreaTags, ______, _______, ________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -213,8 +206,7 @@ class _FoodTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, _____, ______, selectedFoodTags, _______, ________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -280,8 +272,8 @@ class _SelectedTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, selectedServiceTags, selectedAreaTags,
+          selectedFoodTags, _____, ______) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -381,8 +373,7 @@ class _PostUsersWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postShopProvider(shopId));
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, _____, ______, _______, postUserName, ________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
