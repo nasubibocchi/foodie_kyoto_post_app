@@ -311,6 +311,8 @@ class PostShopController extends StateNotifier<PostShopState> {
       }
       // コメントが空白、または画像を設定しないまま保存しない
 
+      state = currentState.copyWith(isPosting: true);
+
       final deleteResult =
           await _shopImageUseCase.deleteImages(shopId: _shopId);
 
@@ -333,14 +335,20 @@ class PostShopController extends StateNotifier<PostShopState> {
           // 別issueで登録者ボタンを作るまではとりあえずStringを入れておく。
 
           final result = await _shopUseCase.postShop(shop: shop);
+          state = currentState.copyWith(isPosting: false);
+
           return result.whenWithResult(
             (success) => PostResults.success,
             (e) => PostResults.error,
           );
         } else {
+          state = currentState.copyWith(isPosting: false);
           return PostResults.empty;
         }
-      }, (e) => PostResults.error);
+      }, (e) {
+        state = currentState.copyWith(isPosting: false);
+        return PostResults.error;
+      });
     } else {
       return PostResults.abort;
     }
