@@ -20,36 +20,44 @@ class PostShopPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(),
-      body: state.when(
-          (shop, commentController, _, __, ___, ____, _____, ______, _______) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              Text(shop?.name ?? ''),
-              const SizedBox(height: 20),
-              ImageWidget(shopId: shopId),
-              const SizedBox(height: 20),
-              TextField(
-                controller: commentController,
-                onChanged:
-                    ref.read(postShopProvider(shopId).notifier).editComment,
-              ),
-              const SizedBox(height: 4),
-              _ServiceTagsWidget(shopId: shopId),
-              const SizedBox(height: 4),
-              _AreaTagsWidget(shopId: shopId),
-              const SizedBox(height: 4),
-              _FoodTagsWidget(shopId: shopId),
-              const SizedBox(height: 4),
-              _SelectedTagsWidget(shopId: shopId),
-              const SizedBox(height: 4),
-              _PostUsersWidget(shopId: shopId),
-              const SizedBox(height: 24),
-              PostButton(shopId: shopId),
-              const SizedBox(height: 24),
-            ],
-          ),
-        );
+      body: state.when((shop, commentController, _, __, ___, ____, _____,
+          ______, isPosting) {
+        return isPosting
+            ? const Padding(
+                padding: EdgeInsets.all(16),
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child: CircularProgressIndicator(color: AppColors.appGrey)),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(shop?.name ?? ''),
+                    const SizedBox(height: 20),
+                    ImageWidget(shopId: shopId),
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: commentController,
+                      onChanged: ref
+                          .read(postShopProvider(shopId).notifier)
+                          .editComment,
+                    ),
+                    const SizedBox(height: 4),
+                    _ServiceTagsWidget(shopId: shopId),
+                    const SizedBox(height: 4),
+                    _AreaTagsWidget(shopId: shopId),
+                    const SizedBox(height: 4),
+                    _FoodTagsWidget(shopId: shopId),
+                    const SizedBox(height: 4),
+                    _SelectedTagsWidget(shopId: shopId),
+                    const SizedBox(height: 4),
+                    _PostUsersWidget(shopId: shopId),
+                    const SizedBox(height: 24),
+                    PostButton(shopId: shopId),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              );
       }, loading: () {
         return const Center(
           child: CircularProgressIndicator(color: AppColors.appGrey),
