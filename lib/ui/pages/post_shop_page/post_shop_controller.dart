@@ -26,6 +26,7 @@ class PostShopState with _$PostShopState {
     @Default([]) List<int> selectedAreaTags,
     @Default([]) List<int> selectedFoodTags,
     @Default('') String postUserName,
+    @Default(false) bool isPosting,
   }) = _PostShopState;
 
   factory PostShopState.loading() = _PostShopStateLoading;
