@@ -466,4 +466,59 @@ void main() {
       });
     });
   });
+
+  group('postShop', () {
+    test('when shop is null', () async {
+      const shopId = 'shop_id_1';
+      const _shop = null;
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(_shop);
+      });
+
+      when(_placesUseCase.searchShopDetailsByPlaceId(placeId: shopId))
+          .thenAnswer((_) async {
+        return Success(null);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      final result = await model.postShop();
+
+      expect(result, PostResults.abort);
+    });
+
+    test('when comment is empty string', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      model.editComment('');
+
+      final result = await model.postShop();
+
+      expect(result, PostResults.empty);
+    });
+
+    test('when image is empty list', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      final result = await model.postShop();
+
+      expect(result, PostResults.empty);
+    });
+  });
 }
