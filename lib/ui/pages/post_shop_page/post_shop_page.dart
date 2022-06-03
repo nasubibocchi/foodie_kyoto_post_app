@@ -10,15 +10,17 @@ import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PostShopPage extends HookConsumerWidget {
-  const PostShopPage({Key? key, required this.shopId}) : super(key: key);
+  PostShopPage({Key? key, required this.shopId}) : super(key: key);
 
   final String shopId;
+  final GlobalKey scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postShopProvider(shopId));
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(),
       body: state.when((shop, commentController, _, __, ___, ____, _____,
           ______, isPosting) {
@@ -53,7 +55,7 @@ class PostShopPage extends HookConsumerWidget {
                     const SizedBox(height: 4),
                     _PostUsersWidget(shopId: shopId),
                     const SizedBox(height: 24),
-                    PostButton(shopId: shopId),
+                    PostButton(scaffoldKey, shopId: shopId),
                     const SizedBox(height: 24),
                   ],
                 ),
