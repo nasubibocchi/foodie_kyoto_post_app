@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodie_kyoto_post_app/constants.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
+import 'package:go_router/go_router.dart';
 
 class ShopInformationWidget extends StatelessWidget {
   const ShopInformationWidget(
@@ -86,7 +88,9 @@ class ShopInformationWidget extends StatelessWidget {
                       )),
                   const SizedBox(width: 8),
                   ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () => context.go(
+                          '/${RouteNames.searchShopPage}/${RouteNames.postShopPage}',
+                          extra: shop.shopId),
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.appInactiveButtonBeige,
                       ),
