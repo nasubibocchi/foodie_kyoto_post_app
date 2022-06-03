@@ -25,12 +25,8 @@ class PostShopPage extends HookConsumerWidget {
       body: state.when((shop, commentController, _, __, ___, ____, _____,
           ______, isPosting) {
         return isPosting
-            ? const Padding(
-                padding: EdgeInsets.all(16),
-                child: Align(
-                    alignment: Alignment.topCenter,
-                    child: CircularProgressIndicator(color: AppColors.appGrey)),
-              )
+            ? const Center(
+                child: CircularProgressIndicator(color: AppColors.appGrey))
             : SingleChildScrollView(
                 child: Column(
                   children: [
