@@ -18,7 +18,7 @@ class ImageWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (_, __, ___, images, ____, _____, ______, _______, ________) {
+      (_, __, ___, images, ____, _____, ______, _______, ________, _________) {
         return images.isNotEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,

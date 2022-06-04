@@ -9,6 +9,7 @@ class Shop {
   final List<int> areaTags;
   final List<int> foodTags;
   final String postUser;
+  final int price;
 
   Shop({
     required this.name,
@@ -21,5 +22,6 @@ class Shop {
     required this.areaTags,
     required this.foodTags,
     required this.postUser,
+    required this.price,
   });
 }

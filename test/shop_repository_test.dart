@@ -38,6 +38,7 @@ void main() {
           'area_tags': [3, 4],
           'food_tags': [5, 6],
           'post_user': 'user1',
+          'price': 3000,
           'created_at': DateTime(2020, 1, 1),
         },
         {
@@ -53,6 +54,7 @@ void main() {
           'area_tags': [3, 4],
           'food_tags': [5, 6],
           'post_user': 'user1',
+          'price': 1000,
           'created_at': DateTime.now(),
         },
       ];
@@ -88,7 +90,8 @@ void main() {
             serviceTags: [1, 2],
             areaTags: [3, 4],
             foodTags: [5, 6],
-            postUser: 'user1');
+            postUser: 'user1',
+            price: 3000);
 
         const shopModel = ShopModel(
             name: 'name',
@@ -100,7 +103,8 @@ void main() {
             serviceTags: [1, 2],
             areaTags: [3, 4],
             foodTags: [5, 6],
-            postUser: 'user1');
+            postUser: 'user1',
+            price: 3000);
 
         when(_shopDataSource.postShop(shop: shopModel)).thenAnswer((_) async {
           return Success(null);
@@ -130,7 +134,8 @@ void main() {
             serviceTags: [1, 2],
             areaTags: [3, 4],
             foodTags: [5, 6],
-            postUser: 'user1'));
+            postUser: 'user1',
+            price: 3000));
       });
 
       final model = container.read(shopRepositoryProvider);
