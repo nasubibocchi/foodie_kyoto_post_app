@@ -11,7 +11,7 @@ class MenuRepositoryImpl implements MenuRepository {
   final MenuDataSource _dataSource;
 
   @override
-  Future<Result<Menu>> postMenu({required Menu menu}) async {
+  Future<Result<Menu>> createMenu({required Menu menu}) async {
     final menuModel = MenuModel(
         name: menu.name,
         shopId: menu.shopId,
@@ -20,7 +20,7 @@ class MenuRepositoryImpl implements MenuRepository {
         price: menu.price,
         review: menu.review);
 
-    final menuModelResult = await _dataSource.postMenu(menuModel: menuModel);
+    final menuModelResult = await _dataSource.createMenu(menuModel: menuModel);
 
     return menuModelResult.whenWithResult(
       (menuModel) => Success(

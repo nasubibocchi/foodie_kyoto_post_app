@@ -12,7 +12,7 @@ class MenuFirestore {
 
   final FirebaseFirestore _firestore;
 
-  Future<Result<Map<String, dynamic>>> postMenu(
+  Future<Result<Map<String, dynamic>>> createMenu(
       {required Map<String, dynamic> menuData}) async {
     final ref = _firestore
         .collection('shops')

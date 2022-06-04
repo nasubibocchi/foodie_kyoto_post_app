@@ -8,5 +8,5 @@ final menuRepositoryProvider = Provider<MenuRepositoryImpl>(
     (ref) => MenuRepositoryImpl(dataSource: ref.read(menuDataSourceProvider)));
 
 abstract class MenuRepository {
-  Future<Result<Menu>> postMenu({required Menu menu});
+  Future<Result<Menu>> createMenu({required Menu menu});
 }

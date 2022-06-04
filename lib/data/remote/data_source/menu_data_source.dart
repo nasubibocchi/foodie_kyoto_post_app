@@ -8,5 +8,5 @@ final menuDataSourceProvider = Provider<MenuDataSourceImpl>((ref) =>
     MenuDataSourceImpl(menuFirestore: ref.read(menuFirestoreProvider)));
 
 abstract class MenuDataSource {
-  Future<Result<MenuModel>> postMenu({required MenuModel menuModel});
+  Future<Result<MenuModel>> createMenu({required MenuModel menuModel});
 }

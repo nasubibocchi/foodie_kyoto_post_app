@@ -35,7 +35,7 @@ void main() {
     };
 
     test('it returns correct response when a menu posted', () async {
-      when(_menuFirestore.postMenu(menuData: menuData)).thenAnswer((_) async {
+      when(_menuFirestore.createMenu(menuData: menuData)).thenAnswer((_) async {
         final ref = _firestore
             .collection('shops')
             .doc(menuData['shop_id'] as String)
@@ -55,7 +55,7 @@ void main() {
 
       final model = container.read(menuDataSourceProvider);
       final result =
-          await model.postMenu(menuModel: MenuModel.fromJson(menuData));
+          await model.createMenu(menuModel: MenuModel.fromJson(menuData));
 
       result.whenWithResult((success) {
         expect(

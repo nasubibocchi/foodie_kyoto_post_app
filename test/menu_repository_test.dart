@@ -38,13 +38,13 @@ void main() {
         review: menu.review);
 
     test('it returns correct response when a menu posted', () async {
-      when(_menuDataSource.postMenu(menuModel: menuModel))
+      when(_menuDataSource.createMenu(menuModel: menuModel))
           .thenAnswer((_) async {
         return Success(menuModel);
       });
 
       final model = container.read(menuRepositoryProvider);
-      final result = await model.postMenu(menu: menu);
+      final result = await model.createMenu(menu: menu);
 
       result.whenWithResult((success) {
         expect(success.value.name, 'menu_name_1');

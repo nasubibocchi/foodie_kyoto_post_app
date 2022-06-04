@@ -7,6 +7,6 @@ class MenuUseCase {
 
   final MenuRepository _repository;
 
-  Future<Result<Menu>> postMenu({required Menu menu}) =>
-      _repository.postMenu(menu: menu);
+  Future<Result<Menu>> createMenu({required Menu menu}) =>
+      _repository.createMenu(menu: menu);
 }
