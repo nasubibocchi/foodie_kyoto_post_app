@@ -10,52 +10,52 @@ import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PostShopPage extends HookConsumerWidget {
-  const PostShopPage({Key? key, required this.shopId}) : super(key: key);
+  PostShopPage({Key? key, required this.shopId}) : super(key: key);
 
   final String shopId;
+  final GlobalKey scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postShopProvider(shopId));
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(),
-      body: state.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              Text(shop?.name ?? ''),
-              const SizedBox(height: 20),
-              ImageWidget(shopId: shopId),
-              const SizedBox(height: 20),
-              TextField(
-                controller: commentController,
-                onChanged:
-                    ref.read(postShopProvider(shopId).notifier).editComment,
-              ),
-              const SizedBox(height: 4),
-              _ServiceTagsWidget(shopId: shopId),
-              const SizedBox(height: 4),
-              _AreaTagsWidget(shopId: shopId),
-              const SizedBox(height: 4),
-              _FoodTagsWidget(shopId: shopId),
-              const SizedBox(height: 4),
-              _SelectedTagsWidget(shopId: shopId),
-              const SizedBox(height: 4),
-              _PostUsersWidget(shopId: shopId),
-              const SizedBox(height: 24),
-              PostButton(shopId: shopId),
-              const SizedBox(height: 24),
-            ],
-          ),
-        );
+      body: state.when((shop, commentController, _, __, ___, ____, _____,
+          ______, isPosting) {
+        return isPosting
+            ? const Center(
+                child: CircularProgressIndicator(color: AppColors.appGrey))
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(shop?.name ?? ''),
+                    const SizedBox(height: 20),
+                    ImageWidget(shopId: shopId),
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: commentController,
+                      onChanged: ref
+                          .read(postShopProvider(shopId).notifier)
+                          .editComment,
+                    ),
+                    const SizedBox(height: 4),
+                    _ServiceTagsWidget(shopId: shopId),
+                    const SizedBox(height: 4),
+                    _AreaTagsWidget(shopId: shopId),
+                    const SizedBox(height: 4),
+                    _FoodTagsWidget(shopId: shopId),
+                    const SizedBox(height: 4),
+                    _SelectedTagsWidget(shopId: shopId),
+                    const SizedBox(height: 4),
+                    _PostUsersWidget(shopId: shopId),
+                    const SizedBox(height: 24),
+                    PostButton(scaffoldKey, shopId: shopId),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              );
       }, loading: () {
         return const Center(
           child: CircularProgressIndicator(color: AppColors.appGrey),
@@ -79,8 +79,8 @@ class _ServiceTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, selectedServiceTags, _____, ______, _______,
+          ________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -146,8 +146,7 @@ class _AreaTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, _____, selectedAreaTags, ______, _______, ________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -213,8 +212,7 @@ class _FoodTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, _____, ______, selectedFoodTags, _______, ________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -280,8 +278,8 @@ class _SelectedTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, selectedServiceTags, selectedAreaTags,
+          selectedFoodTags, _____, ______) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -381,8 +379,7 @@ class _PostUsersWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postShopProvider(shopId));
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, ____, _____, ______, _______, postUserName, ________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,

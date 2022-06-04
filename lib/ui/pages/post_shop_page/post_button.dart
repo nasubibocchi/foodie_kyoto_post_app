@@ -8,60 +8,68 @@ import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PostButton extends ConsumerWidget {
-  const PostButton({Key? key, required this.shopId}) : super(key: key);
+  const PostButton(this.scaffoldKey, {Key? key, required this.shopId})
+      : super(key: key);
 
   final String shopId;
+  final GlobalKey scaffoldKey;
+
+  Future<bool> _canExecutePost(context) async {
+    bool canExecute = false;
+    await showDialog<bool>(
+        context: (context),
+        builder: (selectContext) {
+          return SelectDialog(null, body: 'お店を登録します', onPressed: () {
+            canExecute = true;
+            Navigator.of(selectContext).pop();
+          });
+        });
+    return canExecute;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton(
         onPressed: () async {
           HapticFeedback.mediumImpact();
-          await showDialog(
-              context: context,
-              builder: (context) {
-                return SelectDialog(
-                  null,
-                  body: 'お店を登録します',
-                  onPressed: () {
-                    ref
-                        .read(postShopProvider(shopId).notifier)
-                        .postShop()
-                        .then((postResults) async {
-                      final String body;
-                      final String title;
-                      switch (postResults) {
-                        case PostResults.success:
-                          body = '登録に成功しました。';
-                          title = 'SUCCESS!';
-                          break;
-                        case PostResults.empty:
-                          body = 'コメントと画像は設定してね';
-                          title = 'BLANK';
-                          break;
-                        case PostResults.abort:
-                          body = '準備が整っていなかった';
-                          title = 'ABORT';
-                          break;
-                        case PostResults.error:
-                          body = 'エラーが起きました';
-                          title = 'ERROR';
-                          break;
-                        default:
-                          body = '';
-                          title = '';
-                          break;
-                      }
+          final canExecute = await _canExecutePost(context);
+          if (canExecute) {
+            await ref
+                .read(postShopProvider(shopId).notifier)
+                .postShop()
+                .then((postResults) async {
+              final String body;
+              final String title;
+              switch (postResults) {
+                case PostResults.success:
+                  body = '登録に成功しました。';
+                  title = 'SUCCESS!';
+                  break;
+                case PostResults.empty:
+                  body = 'コメントと画像は設定してね';
+                  title = 'BLANK';
+                  break;
+                case PostResults.abort:
+                  body = '準備が整っていなかった';
+                  title = 'ABORT';
+                  break;
+                case PostResults.error:
+                  body = 'エラーが起きました';
+                  title = 'ERROR';
+                  break;
+                default:
+                  body = '';
+                  title = '';
+                  break;
+              }
 
-                      await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return OkDialog(title: title, body: body);
-                          });
-                    }).then((_) => Navigator.of(context).pop());
-                  },
-                );
-              });
+              await showDialog(
+                  context: scaffoldKey.currentContext!,
+                  builder: (context) {
+                    return OkDialog(title: title, body: body);
+                  });
+            });
+          }
         },
         style: ElevatedButton.styleFrom(
           primary: AppColors.appPink,

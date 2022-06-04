@@ -18,8 +18,7 @@ class ImageWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (shop, commentController, comment, images, selectedServiceTags,
-          selectedAreaTags, selectedFoodTags, postUserName) {
+      (_, __, ___, images, ____, _____, ______, _______, ________) {
         return images.isNotEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,

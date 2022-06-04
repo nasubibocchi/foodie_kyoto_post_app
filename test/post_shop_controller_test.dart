@@ -80,14 +80,8 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when(
+          (shop, _, __, ___, ____, _____, ______, _______, ________) {
         expect(shop?.shopId, 'shop_id_1');
         expect(shop?.name, 'name');
         expect(shop?.comment, 'comment');
@@ -106,8 +100,7 @@ void main() {
       final state = model.debugState;
 
       model.debugState.when(
-          (shop, commentController, comment, images, selectedServiceTags,
-              selectedAreaTags, selectedFoodTags, postUserName) {},
+          (shop, _, __, ___, ____, _____, ______, _______, ________) {},
           loading: () {}, error: () {
         expect(state, PostShopState.error());
       });
@@ -131,14 +124,8 @@ void main() {
 
       final state = model.debugState;
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) async {
+      model.debugState.when((shop, commentController, comment, _, __, ___, ____,
+          _____, ______) async {
         expect(shop?.name, 'name');
         expect(shop?.latitude, 135.0);
         expect(shop?.longitude, 45.0);
@@ -197,14 +184,8 @@ void main() {
       await model.initShopState();
 
       model.editComment('modified comment');
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when(
+          (shop, _, comment, __, ___, ____, _____, ______, _______) {
         expect(shop?.comment, 'comment');
         expect(comment, 'modified comment');
       }, loading: () {}, error: () {});
@@ -228,14 +209,8 @@ void main() {
 
       await model.selectImages();
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when(
+          (_, __, ___, images, ____, _____, ______, _______, ________) {
         expect(images.length, 2);
         expect(images.first.path, 'path1');
       }, loading: () {}, error: () {});
@@ -263,14 +238,8 @@ void main() {
         final model = container.read(postShopProvider(shopId).notifier);
         await model.initShopState();
 
-        model.debugState.when((shop,
-            commentController,
-            comment,
-            images,
-            selectedServiceTags,
-            selectedAreaTags,
-            selectedFoodTags,
-            postUserName) {
+        model.debugState.when(
+            (_, __, ___, images, ____, _____, ______, _______, ________) {
           expect(images.first.path, 'path1');
         }, loading: () {}, error: () {});
 
@@ -280,14 +249,8 @@ void main() {
 
         await model.changeImage(0);
 
-        model.debugState.when((shop,
-            commentController,
-            comment,
-            images,
-            selectedServiceTags,
-            selectedAreaTags,
-            selectedFoodTags,
-            postUserName) {
+        model.debugState.when(
+            (_, __, ___, images, ____, _____, ______, _______, ________) {
           expect(images.length, 1);
           expect(images.first.path, 'path2');
         }, loading: () {}, error: () {});
@@ -307,56 +270,32 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, selectedServiceTags, _____,
+          ______, _______, ________) {
         expect(selectedServiceTags.length, 0);
         expect(selectedServiceTags, []);
       }, loading: () {}, error: () {});
 
       model.addServiceTag(1);
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, selectedServiceTags, _____,
+          ______, _______, ________) {
         expect(selectedServiceTags.length, 1);
         expect(selectedServiceTags, [1]);
       }, loading: () {}, error: () {});
 
       model.removeServiceTag(1);
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, selectedServiceTags, _____,
+          ______, _______, ________) {
         expect(selectedServiceTags.length, 0);
         expect(selectedServiceTags, []);
       }, loading: () {}, error: () {});
 
       model.removeServiceTag(1);
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, selectedServiceTags, _____,
+          ______, _______, ________) {
         expect(selectedServiceTags.length, 0);
         expect(selectedServiceTags, []);
       }, loading: () {}, error: () {});
@@ -374,42 +313,24 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, _____, selectedAreaTags, ______,
+          _______, ________) {
         expect(selectedAreaTags.length, 0);
         expect(selectedAreaTags, []);
       }, loading: () {}, error: () {});
 
       model.addAreaTag(1);
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, _____, selectedAreaTags, ______,
+          _______, ________) {
         expect(selectedAreaTags.length, 1);
         expect(selectedAreaTags, [1]);
       }, loading: () {}, error: () {});
 
       model.removeAreaTag(1);
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, _____, selectedAreaTags, ______,
+          _______, ________) {
         expect(selectedAreaTags.length, 0);
         expect(selectedAreaTags, []);
       }, loading: () {}, error: () {});
@@ -427,42 +348,24 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, _____, ______, selectedFoodTags,
+          _______, ________) {
         expect(selectedFoodTags.length, 0);
         expect(selectedFoodTags, []);
       }, loading: () {}, error: () {});
 
       model.addFoodTag(1);
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, _____, ______, selectedFoodTags,
+          _______, ________) {
         expect(selectedFoodTags.length, 1);
         expect(selectedFoodTags, [1]);
       }, loading: () {}, error: () {});
 
       model.removeFoodTag(1);
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when((_, __, ___, ____, _____, ______, selectedFoodTags,
+          _______, ________) {
         expect(selectedFoodTags.length, 0);
         expect(selectedFoodTags, []);
       }, loading: () {}, error: () {});
@@ -480,27 +383,15 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when(
+          (_, __, ___, ____, _____, ______, _______, postUserName, ________) {
         expect(postUserName, '');
       }, loading: () {}, error: () {});
 
       model.selectPostUser(1);
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when(
+          (_, __, ___, ____, _____, ______, _______, postUserName, ________) {
         expect(postUserName, PostUsers.postUsers[1]);
       }, loading: () {
         // ignore: avoid_print
@@ -512,7 +403,7 @@ void main() {
     });
   });
 
-  group('removeSelectedUser', () {
+  group('deleteImage', () {
     test('when selected button is tapped', () async {
       const shopId = 'shop_id_1';
       when(_shopUseCase.fetchShopByShopId(shopId: shopId))
@@ -530,14 +421,8 @@ void main() {
       await model.selectImages();
       model.deleteSelectedImage(0);
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when(
+          (_, __, ___, images, ____, _____, ______, _______, ________) {
         expect(images.length, 1);
         expect(images.first.path, 'path2');
       }, loading: () {
@@ -550,7 +435,7 @@ void main() {
     });
   });
 
-  group('deleteImage', () {
+  group('removeSelectedUser', () {
     test('when delete image button is tapped', () async {
       const shopId = 'shop_id_1';
       when(_shopUseCase.fetchShopByShopId(shopId: shopId))
@@ -561,28 +446,16 @@ void main() {
       final model = container.read(postShopProvider(shopId).notifier);
       await model.initShopState();
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when(
+          (_, __, ___, ____, _____, ______, _______, postUserName, ________) {
         expect(postUserName, '');
       }, loading: () {}, error: () {});
 
       model.selectPostUser(1);
       model.removeSelectedUser();
 
-      model.debugState.when((shop,
-          commentController,
-          comment,
-          images,
-          selectedServiceTags,
-          selectedAreaTags,
-          selectedFoodTags,
-          postUserName) {
+      model.debugState.when(
+          (_, __, ___, ____, _____, ______, _______, postUserName, ________) {
         expect(postUserName, '');
       }, loading: () {
         // ignore: avoid_print
@@ -591,6 +464,61 @@ void main() {
         // ignore: avoid_print
         print('test is not passed');
       });
+    });
+  });
+
+  group('postShop', () {
+    test('when shop is null', () async {
+      const shopId = 'shop_id_1';
+      const _shop = null;
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(_shop);
+      });
+
+      when(_placesUseCase.searchShopDetailsByPlaceId(placeId: shopId))
+          .thenAnswer((_) async {
+        return Success(null);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      final result = await model.postShop();
+
+      expect(result, PostResults.abort);
+    });
+
+    test('when comment is empty string', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      model.editComment('');
+
+      final result = await model.postShop();
+
+      expect(result, PostResults.empty);
+    });
+
+    test('when image is empty list', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      final result = await model.postShop();
+
+      expect(result, PostResults.empty);
     });
   });
 }
