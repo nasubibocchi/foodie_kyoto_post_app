@@ -22,8 +22,8 @@ class PostShopPage extends HookConsumerWidget {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(),
-      body: state.when((shop, commentController, _, __, ___, ____, _____,
-          ______, _______, isPosting) {
+      body: state.when((shop, commentController, _, __, ___, priceController,
+          ____, _____, ______, _______, isPosting) {
         return isPosting
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.appGrey))
@@ -39,6 +39,50 @@ class PostShopPage extends HookConsumerWidget {
                       onChanged: ref
                           .read(postShopProvider(shopId).notifier)
                           .editComment,
+                    ),
+                    const SizedBox(height: 4),
+                    Container(
+                      decoration: const BoxDecoration(color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              '予算',
+                              style: TextStyle(
+                                  color: AppColors.appBlack, fontSize: 16),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: priceController,
+                                    textAlign: TextAlign.end,
+                                    decoration: const InputDecoration(
+                                      hintText: '￥予算を入力',
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      border: InputBorder.none,
+                                    ),
+                                    onChanged: ref
+                                        .read(postShopProvider(shopId).notifier)
+                                        .editPrice,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                const Text(
+                                  '円',
+                                  style: TextStyle(
+                                      color: AppColors.appBlack, fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 4),
                     _ServiceTagsWidget(shopId: shopId),
@@ -79,8 +123,8 @@ class _ServiceTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (_, __, ___, ____, _____, selectedServiceTags, ______, _______, ________,
-          _________) {
+      (_, __, ___, ____, _____, ______, selectedServiceTags, _______, ________,
+          _________, __________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -146,8 +190,8 @@ class _AreaTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (_, __, ___, ____, _____, ______, selectedAreaTags, _______, ________,
-          _________) {
+      (_, __, ___, ____, _____, ______, _______, selectedAreaTags, ________,
+          _________, __________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -213,8 +257,8 @@ class _FoodTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (_, __, ___, ____, _____, ______, _______, selectedFoodTags, ________,
-          _________) {
+      (_, __, ___, ____, _____, ______, _______, ________, selectedFoodTags,
+          _________, __________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -280,8 +324,8 @@ class _SelectedTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (_, __, ___, ____, _____, selectedServiceTags, selectedAreaTags,
-          selectedFoodTags, ______, _______) {
+      (_, __, ___, ____, _____, ______, selectedServiceTags, selectedAreaTags,
+          selectedFoodTags, _______, ________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -381,8 +425,8 @@ class _PostUsersWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postShopProvider(shopId));
     return state.when(
-      (_, __, ___, ____, _____, ______, _______, ________, postUserName,
-          _________) {
+      (_, __, ___, ____, _____, ______, _______, ________, _________,
+          postUserName, __________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
