@@ -550,5 +550,29 @@ void main() {
         print('test is not passed');
       });
     });
+
+    test('when text is empty', () async {
+      const shopId = 'shop_id_1';
+      when(_shopUseCase.fetchShopByShopId(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success(shop);
+      });
+
+      final model = container.read(postShopProvider(shopId).notifier);
+      await model.initShopState();
+
+      model.editPrice('');
+
+      model.debugState.when(
+          (_, __, ___, ____, price, _____, ______, _______, ________, _________,
+                  __________) =>
+              expect(price, 0), loading: () {
+        // ignore: avoid_print
+        print('test is not passed');
+      }, error: () {
+        // ignore: avoid_print
+        print('test is not passed');
+      });
+    });
   });
 }
