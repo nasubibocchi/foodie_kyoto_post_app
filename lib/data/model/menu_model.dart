@@ -10,9 +10,11 @@ class MenuModel with _$MenuModel {
     required String name,
     required String shopId,
     required List<String> images,
+    required List<String> movies,
     required List<int> foodTags,
     required int price,
     required String review,
+    required String postUser,
   }) = _MenuModel;
 
   const MenuModel._();
