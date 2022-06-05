@@ -75,7 +75,10 @@ class ShopInformationWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.go('/${RouteNames.postMenuPage}',
+                            extra: shop.shopId);
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.appInactiveButtonBeige,
                       ),
