@@ -25,17 +25,21 @@ void main() {
         name: 'menu_name_1',
         shopId: 'shop_id_1',
         images: ['image1', 'image2'],
+        movies: ['movie1', 'movie2'],
         foodTags: [1, 2, 3],
         price: 3000,
-        review: 'review1');
+        review: 'review1',
+        postUser: 'user1');
 
     final menuModel = MenuModel(
         name: menu.name,
         shopId: menu.shopId,
         images: menu.images,
+        movies: menu.movies,
         foodTags: menu.foodTags,
         price: menu.price,
-        review: menu.review);
+        review: menu.review,
+        postUser: menu.postUser);
 
     test('it returns correct response when a menu posted', () async {
       when(_menuDataSource.createMenu(menuModel: menuModel))

@@ -24,9 +24,11 @@ class MenuFirestore {
         'name': menuData['name'],
         'shop_id': menuData['shop_id'],
         'images': menuData['images'],
+        'movies': menuData['movies'],
         'food_tags': menuData['food_tags'],
         'price': menuData['price'],
         'review': menuData['review'],
+        'post_user': menuData['post_user'],
       });
 
       return Success(menuData);
