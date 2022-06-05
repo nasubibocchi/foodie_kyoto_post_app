@@ -16,9 +16,11 @@ class MenuRepositoryImpl implements MenuRepository {
         name: menu.name,
         shopId: menu.shopId,
         images: menu.images,
+        movies: menu.movies,
         foodTags: menu.foodTags,
         price: menu.price,
-        review: menu.review);
+        review: menu.review,
+        postUser: menu.postUser);
 
     final menuModelResult = await _dataSource.createMenu(menuModel: menuModel);
 
@@ -28,9 +30,11 @@ class MenuRepositoryImpl implements MenuRepository {
             name: menuModel.value.name,
             shopId: menuModel.value.shopId,
             images: menuModel.value.images,
+            movies: menuModel.value.movies,
             foodTags: menuModel.value.foodTags,
             price: menuModel.value.price,
-            review: menuModel.value.review),
+            review: menuModel.value.review,
+            postUser: menuModel.value.postUser),
       ),
       (e) => Error(Exception(e)),
     );
