@@ -63,7 +63,9 @@ class PostShopPage extends HookConsumerWidget {
                                   child: TextField(
                                     controller: priceController,
                                     textAlign: TextAlign.end,
-                                    keyboardType: TextInputType.number,
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(
+                                            signed: true, decimal: true),
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
