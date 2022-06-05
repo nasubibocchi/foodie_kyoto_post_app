@@ -23,6 +23,7 @@ class PostShopState with _$PostShopState {
     required String? comment,
     @Default([]) List<File> images,
     @Default(0) int price,
+    required TextEditingController priceController,
     @Default([]) List<int> selectedServiceTags,
     @Default([]) List<int> selectedAreaTags,
     @Default([]) List<int> selectedFoodTags,
@@ -85,6 +86,10 @@ class PostShopController extends StateNotifier<PostShopState> {
           comment: data.value!.comment,
           images: _images,
           price: data.value!.price,
+          priceController: TextEditingController.fromValue(TextEditingValue(
+              text: '${data.value!.price}',
+              selection: TextSelection.collapsed(
+                  offset: '${data.value!.price}'.length))),
           selectedServiceTags: data.value!.serviceTags,
           selectedAreaTags: data.value!.areaTags,
           selectedFoodTags: data.value!.foodTags,
@@ -113,6 +118,10 @@ class PostShopController extends StateNotifier<PostShopState> {
                       text: shop.comment,
                       selection: TextSelection.collapsed(
                           offset: shop.comment.length))),
+              priceController: TextEditingController.fromValue(TextEditingValue(
+                  text: '${shop.price}',
+                  selection:
+                      TextSelection.collapsed(offset: '${shop.price}'.length))),
               comment: shop.comment,
               images: []);
         } else {
@@ -220,6 +229,15 @@ class PostShopController extends StateNotifier<PostShopState> {
       dupImages.removeAt(index);
 
       state = currentState.copyWith(images: dupImages);
+    }
+  }
+
+  void editPrice(String number) {
+    if (state is _PostShopState) {
+      final currentState = state as _PostShopState;
+      final price = number == '' ? 0 : int.parse(number);
+
+      state = currentState.copyWith(price: price);
     }
   }
 

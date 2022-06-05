@@ -24,6 +24,7 @@ mixin _$PostShopState {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -42,6 +43,7 @@ mixin _$PostShopState {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -60,6 +62,7 @@ mixin _$PostShopState {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -123,6 +126,7 @@ abstract class _$$_PostShopStateCopyWith<$Res> {
       String? comment,
       List<File> images,
       int price,
+      TextEditingController priceController,
       List<int> selectedServiceTags,
       List<int> selectedAreaTags,
       List<int> selectedFoodTags,
@@ -148,6 +152,7 @@ class __$$_PostShopStateCopyWithImpl<$Res>
     Object? comment = freezed,
     Object? images = freezed,
     Object? price = freezed,
+    Object? priceController = freezed,
     Object? selectedServiceTags = freezed,
     Object? selectedAreaTags = freezed,
     Object? selectedFoodTags = freezed,
@@ -175,6 +180,10 @@ class __$$_PostShopStateCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int,
+      priceController: priceController == freezed
+          ? _value.priceController
+          : priceController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
       selectedServiceTags: selectedServiceTags == freezed
           ? _value._selectedServiceTags
           : selectedServiceTags // ignore: cast_nullable_to_non_nullable
@@ -208,6 +217,7 @@ class _$_PostShopState implements _PostShopState {
       required this.comment,
       final List<File> images = const [],
       this.price = 0,
+      required this.priceController,
       final List<int> selectedServiceTags = const [],
       final List<int> selectedAreaTags = const [],
       final List<int> selectedFoodTags = const [],
@@ -235,6 +245,8 @@ class _$_PostShopState implements _PostShopState {
   @override
   @JsonKey()
   final int price;
+  @override
+  final TextEditingController priceController;
   final List<int> _selectedServiceTags;
   @override
   @JsonKey()
@@ -268,7 +280,7 @@ class _$_PostShopState implements _PostShopState {
 
   @override
   String toString() {
-    return 'PostShopState(shop: $shop, commentController: $commentController, comment: $comment, images: $images, price: $price, selectedServiceTags: $selectedServiceTags, selectedAreaTags: $selectedAreaTags, selectedFoodTags: $selectedFoodTags, postUserName: $postUserName, isPosting: $isPosting)';
+    return 'PostShopState(shop: $shop, commentController: $commentController, comment: $comment, images: $images, price: $price, priceController: $priceController, selectedServiceTags: $selectedServiceTags, selectedAreaTags: $selectedAreaTags, selectedFoodTags: $selectedFoodTags, postUserName: $postUserName, isPosting: $isPosting)';
   }
 
   @override
@@ -282,6 +294,8 @@ class _$_PostShopState implements _PostShopState {
             const DeepCollectionEquality().equals(other.comment, comment) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             const DeepCollectionEquality().equals(other.price, price) &&
+            const DeepCollectionEquality()
+                .equals(other.priceController, priceController) &&
             const DeepCollectionEquality()
                 .equals(other._selectedServiceTags, _selectedServiceTags) &&
             const DeepCollectionEquality()
@@ -301,6 +315,7 @@ class _$_PostShopState implements _PostShopState {
       const DeepCollectionEquality().hash(comment),
       const DeepCollectionEquality().hash(_images),
       const DeepCollectionEquality().hash(price),
+      const DeepCollectionEquality().hash(priceController),
       const DeepCollectionEquality().hash(_selectedServiceTags),
       const DeepCollectionEquality().hash(_selectedAreaTags),
       const DeepCollectionEquality().hash(_selectedFoodTags),
@@ -321,6 +336,7 @@ class _$_PostShopState implements _PostShopState {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -336,6 +352,7 @@ class _$_PostShopState implements _PostShopState {
         comment,
         images,
         price,
+        priceController,
         selectedServiceTags,
         selectedAreaTags,
         selectedFoodTags,
@@ -352,6 +369,7 @@ class _$_PostShopState implements _PostShopState {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -367,6 +385,7 @@ class _$_PostShopState implements _PostShopState {
         comment,
         images,
         price,
+        priceController,
         selectedServiceTags,
         selectedAreaTags,
         selectedFoodTags,
@@ -383,6 +402,7 @@ class _$_PostShopState implements _PostShopState {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -400,6 +420,7 @@ class _$_PostShopState implements _PostShopState {
           comment,
           images,
           price,
+          priceController,
           selectedServiceTags,
           selectedAreaTags,
           selectedFoodTags,
@@ -451,6 +472,7 @@ abstract class _PostShopState implements PostShopState {
       required final String? comment,
       final List<File> images,
       final int price,
+      required final TextEditingController priceController,
       final List<int> selectedServiceTags,
       final List<int> selectedAreaTags,
       final List<int> selectedFoodTags,
@@ -463,6 +485,8 @@ abstract class _PostShopState implements PostShopState {
   String? get comment => throw _privateConstructorUsedError;
   List<File> get images => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
+  TextEditingController get priceController =>
+      throw _privateConstructorUsedError;
   List<int> get selectedServiceTags => throw _privateConstructorUsedError;
   List<int> get selectedAreaTags => throw _privateConstructorUsedError;
   List<int> get selectedFoodTags => throw _privateConstructorUsedError;
@@ -520,6 +544,7 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -541,6 +566,7 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -562,6 +588,7 @@ class _$_PostShopStateLoading implements _PostShopStateLoading {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -664,6 +691,7 @@ class _$_PostShopStateError implements _PostShopStateError {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -685,6 +713,7 @@ class _$_PostShopStateError implements _PostShopStateError {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
@@ -706,6 +735,7 @@ class _$_PostShopStateError implements _PostShopStateError {
             String? comment,
             List<File> images,
             int price,
+            TextEditingController priceController,
             List<int> selectedServiceTags,
             List<int> selectedAreaTags,
             List<int> selectedFoodTags,
