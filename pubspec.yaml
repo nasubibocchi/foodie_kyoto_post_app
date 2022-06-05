@@ -35,8 +35,8 @@ dependencies:
   flutter_dotenv: ^5.0.2
 
   # DI
-  flutter_hooks: ^0.18.2+1
-  hooks_riverpod: ^1.0.3
+  flutter_hooks: ^0.18.4
+  hooks_riverpod: ^1.0.4
 
   # Firebase
   firebase_core: ^1.13.1
