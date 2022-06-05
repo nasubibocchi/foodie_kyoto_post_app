@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
 import 'package:foodie_kyoto_post_app/constants/post_users_data.dart';
 import 'package:foodie_kyoto_post_app/constants/tags_data.dart';
@@ -62,6 +63,10 @@ class PostShopPage extends HookConsumerWidget {
                                   child: TextField(
                                     controller: priceController,
                                     textAlign: TextAlign.end,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
                                     decoration: const InputDecoration(
                                       hintText: '￥予算を入力',
                                       hintStyle: TextStyle(color: Colors.grey),

@@ -235,8 +235,9 @@ class PostShopController extends StateNotifier<PostShopState> {
   void editPrice(String number) {
     if (state is _PostShopState) {
       final currentState = state as _PostShopState;
+      final price = number == '' ? 0 : int.parse(number);
 
-      state = currentState.copyWith(price: int.parse(number));
+      state = currentState.copyWith(price: price);
     }
   }
 
