@@ -23,7 +23,7 @@ class PostShopPage extends HookConsumerWidget {
       key: scaffoldKey,
       appBar: AppBar(),
       body: state.when((shop, commentController, _, __, ___, ____, _____,
-          ______, isPosting) {
+          ______, _______, isPosting) {
         return isPosting
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.appGrey))
@@ -79,8 +79,8 @@ class _ServiceTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (_, __, ___, ____, selectedServiceTags, _____, ______, _______,
-          ________) {
+      (_, __, ___, ____, _____, selectedServiceTags, ______, _______, ________,
+          _________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -146,7 +146,8 @@ class _AreaTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (_, __, ___, ____, _____, selectedAreaTags, ______, _______, ________) {
+      (_, __, ___, ____, _____, ______, selectedAreaTags, _______, ________,
+          _________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -212,7 +213,8 @@ class _FoodTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (_, __, ___, ____, _____, ______, selectedFoodTags, _______, ________) {
+      (_, __, ___, ____, _____, ______, _______, selectedFoodTags, ________,
+          _________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -278,8 +280,8 @@ class _SelectedTagsWidget extends ConsumerWidget {
     final state = ref.watch(postShopProvider(shopId));
 
     return state.when(
-      (_, __, ___, ____, selectedServiceTags, selectedAreaTags,
-          selectedFoodTags, _____, ______) {
+      (_, __, ___, ____, _____, selectedServiceTags, selectedAreaTags,
+          selectedFoodTags, ______, _______) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -379,7 +381,8 @@ class _PostUsersWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postShopProvider(shopId));
     return state.when(
-      (_, __, ___, ____, _____, ______, _______, postUserName, ________) {
+      (_, __, ___, ____, _____, ______, _______, ________, postUserName,
+          _________) {
         return Container(
           decoration: const BoxDecoration(
             color: Colors.white,

@@ -43,6 +43,7 @@ class ShopRepositoryImpl implements ShopRepository {
                   areaTags: e.areaTags,
                   foodTags: e.foodTags,
                   postUser: e.postUser,
+                  price: e.price,
                 ))
             .toList()),
         (e) => Error(Exception(e)));
@@ -60,7 +61,8 @@ class ShopRepositoryImpl implements ShopRepository {
         serviceTags: shop.serviceTags,
         areaTags: shop.areaTags,
         foodTags: shop.foodTags,
-        postUser: shop.postUser);
+        postUser: shop.postUser,
+        price: shop.price);
 
     final postResult = await _dataSource.postShop(shop: shopModel);
 
@@ -87,7 +89,8 @@ class ShopRepositoryImpl implements ShopRepository {
               serviceTags: shop.value!.serviceTags,
               areaTags: shop.value!.areaTags,
               foodTags: shop.value!.foodTags,
-              postUser: shop.value!.postUser));
+              postUser: shop.value!.postUser,
+              price: shop.value!.price));
         } else {
           return Success(null);
         }
@@ -118,7 +121,8 @@ class ShopRepositoryImpl implements ShopRepository {
                   serviceTags: e.serviceTags,
                   areaTags: e.areaTags,
                   foodTags: e.foodTags,
-                  postUser: e.postUser))
+                  postUser: e.postUser,
+                  price: e.price))
               .toList());
 
           _shopRepositoryStreamController.add(shopList);

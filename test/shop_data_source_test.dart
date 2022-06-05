@@ -41,6 +41,7 @@ Future<void> main() async {
       'area_tags': [3, 4],
       'food_tags': [5, 6],
       'post_user': 'user1',
+      'price': 3000,
       'created_at': DateTime(2020, 1, 1),
     },
   );
@@ -59,6 +60,7 @@ Future<void> main() async {
       'area_tags': [3],
       'food_tags': [5],
       'post_user': 'user1',
+      'price': 1000,
       'created_at': DateTime.now(),
     },
   );
@@ -129,7 +131,8 @@ Future<void> main() async {
         serviceTags: <int>[1, 2],
         areaTags: <int>[3, 4],
         foodTags: <int>[5, 6],
-        postUser: 'user1');
+        postUser: 'user1',
+        price: 3000);
 
     final geo = Geoflutterfire();
 
@@ -143,6 +146,7 @@ Future<void> main() async {
         'service_tags': [1, 2],
         'area_tags': [3, 4],
         'food_tags': [5, 6],
+        'price': 3000
       })).thenAnswer((_) async {
         await _firestore.collection('shops').add(<String, dynamic>{
           'name': 'name_3',
@@ -156,6 +160,7 @@ Future<void> main() async {
           'service_tags': [1, 2],
           'area_tags': [3, 4],
           'food_tags': [5, 6],
+          'price': 3000
         });
         return Success(null);
       });

@@ -18,6 +18,7 @@ void main() {
       'food_tags': [5, 6],
       'created_at': DateTime(2020, 1, 1),
       'post_user': 'user1',
+      'price': 3000,
     },
     {
       'name': 'name_2',
@@ -33,6 +34,7 @@ void main() {
       'food_tags': [5],
       'created_at': DateTime.now(),
       'post_user': 'user1',
+      'price': 1000,
     },
   ];
 
@@ -49,7 +51,8 @@ void main() {
         serviceTags: [1, 2],
         areaTags: [3, 4],
         foodTags: [5, 6],
-        postUser: 'user1');
+        postUser: 'user1',
+        price: 3000);
 
     expect(test.name, actual.name);
     expect(test.shopId, actual.shopId);
@@ -73,7 +76,8 @@ void main() {
           serviceTags: [1, 2],
           areaTags: [3, 4],
           foodTags: [5, 6],
-          postUser: 'user1');
+          postUser: 'user1',
+          price: 3000);
 
       final copyWith = original.copyWith(
           name: original.name,
@@ -85,7 +89,8 @@ void main() {
           serviceTags: original.serviceTags,
           areaTags: original.areaTags,
           foodTags: original.foodTags,
-          postUser: original.postUser);
+          postUser: original.postUser,
+          price: original.price);
 
       expect(copyWith.name, original.name);
       expect(copyWith.shopId, original.shopId);
@@ -108,7 +113,8 @@ void main() {
           serviceTags: [1, 2],
           areaTags: [3, 4],
           foodTags: [5, 6],
-          postUser: 'user1');
+          postUser: 'user1',
+          price: 1000);
       final copyWith = original.copyWith(
           name: original.name,
           shopId: original.shopId,
@@ -119,7 +125,8 @@ void main() {
           serviceTags: original.serviceTags,
           areaTags: original.areaTags,
           foodTags: original.foodTags,
-          postUser: original.postUser);
+          postUser: original.postUser,
+          price: original.price);
 
       expect(copyWith.longitude, isNot(original.longitude));
     });
@@ -136,7 +143,8 @@ void main() {
         serviceTags: [1, 2],
         areaTags: [3, 4],
         foodTags: [5, 6],
-        postUser: 'user1');
+        postUser: 'user1',
+        price: 3000);
 
     final json = original.toJson();
     expect(json, isA<Map<String, dynamic>>());
@@ -153,7 +161,8 @@ void main() {
         serviceTags: [1, 2],
         areaTags: [3, 4],
         foodTags: [5, 6],
-        postUser: 'user1');
+        postUser: 'user1',
+        price: 3000);
 
     final json = original.toString();
     expect(json, isA<String>());

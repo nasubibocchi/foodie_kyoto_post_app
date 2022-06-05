@@ -13,7 +13,8 @@ class ShopModel {
       required this.serviceTags,
       required this.areaTags,
       required this.foodTags,
-      required this.postUser});
+      required this.postUser,
+      required this.price});
 
   factory ShopModel.fromJson(Map<String, Object?> json) {
     final position = json['position'] as Map<String, dynamic>;
@@ -41,7 +42,8 @@ class ShopModel {
         serviceTags: serviceTags,
         areaTags: areaTags,
         foodTags: foodTags,
-        postUser: json['post_user'] as String);
+        postUser: json['post_user'] as String,
+        price: json['price'] as int);
   }
 
   final String name;
@@ -54,6 +56,7 @@ class ShopModel {
   final List<int> areaTags;
   final List<int> foodTags;
   final String postUser;
+  final int price;
 
   ShopModel copyWith(
       {String? name,
@@ -65,7 +68,8 @@ class ShopModel {
       List<int>? serviceTags,
       List<int>? areaTags,
       List<int>? foodTags,
-      String? postUser}) {
+      String? postUser,
+      int? price}) {
     return ShopModel(
         name: name as String,
         shopId: shopId as String,
@@ -76,7 +80,8 @@ class ShopModel {
         serviceTags: serviceTags as List<int>,
         areaTags: areaTags as List<int>,
         foodTags: foodTags as List<int>,
-        postUser: postUser as String);
+        postUser: postUser as String,
+        price: price as int);
   }
 
   Map<String, Object?> toJson() {
@@ -91,6 +96,7 @@ class ShopModel {
       'area_tags': areaTags,
       'food_tags': foodTags,
       'post_user': postUser,
+      'price': price,
     };
   }
 
@@ -107,6 +113,7 @@ class ShopModel {
         'area_tags: $areaTags,'
         'food_tags: $foodTags,'
         'post_user: $postUser,'
+        'price: $price,'
         ')';
   }
 
@@ -116,6 +123,6 @@ class ShopModel {
   @override
   int get hashCode {
     return Object.hash(runtimeType, name, shopId, latitude, longitude, comment,
-        images, serviceTags, areaTags, foodTags, postUser);
+        images, serviceTags, areaTags, foodTags, postUser, price);
   }
 }

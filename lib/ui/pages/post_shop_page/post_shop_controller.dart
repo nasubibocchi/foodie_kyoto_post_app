@@ -22,6 +22,7 @@ class PostShopState with _$PostShopState {
     required TextEditingController commentController,
     required String? comment,
     @Default([]) List<File> images,
+    @Default(0) int price,
     @Default([]) List<int> selectedServiceTags,
     @Default([]) List<int> selectedAreaTags,
     @Default([]) List<int> selectedFoodTags,
@@ -83,6 +84,7 @@ class PostShopController extends StateNotifier<PostShopState> {
                   TextSelection.collapsed(offset: data.value!.comment.length))),
           comment: data.value!.comment,
           images: _images,
+          price: data.value!.price,
           selectedServiceTags: data.value!.serviceTags,
           selectedAreaTags: data.value!.areaTags,
           selectedFoodTags: data.value!.foodTags,
@@ -101,7 +103,8 @@ class PostShopController extends StateNotifier<PostShopState> {
               serviceTags: <int>[],
               areaTags: <int>[],
               foodTags: <int>[],
-              postUser: '');
+              postUser: '',
+              price: 0);
 
           state = PostShopState(
               shop: shop,
@@ -328,6 +331,7 @@ class PostShopController extends StateNotifier<PostShopState> {
               longitude: currentState.shop!.longitude,
               comment: currentState.comment!,
               images: imagesUrl,
+              price: currentState.price,
               serviceTags: currentState.selectedServiceTags,
               areaTags: currentState.selectedAreaTags,
               foodTags: currentState.selectedFoodTags,
