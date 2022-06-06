@@ -28,6 +28,9 @@ mixin _$PostMenuState {
   String get review => throw _privateConstructorUsedError;
   TextEditingController get reviewController =>
       throw _privateConstructorUsedError;
+  String get enReview => throw _privateConstructorUsedError;
+  TextEditingController get enReviewController =>
+      throw _privateConstructorUsedError;
   List<int> get foodTags => throw _privateConstructorUsedError;
   String get postUser => throw _privateConstructorUsedError;
   bool get isPosting => throw _privateConstructorUsedError;
@@ -52,6 +55,8 @@ abstract class $PostMenuStateCopyWith<$Res> {
       TextEditingController priceController,
       String review,
       TextEditingController reviewController,
+      String enReview,
+      TextEditingController enReviewController,
       List<int> foodTags,
       String postUser,
       bool isPosting});
@@ -77,6 +82,8 @@ class _$PostMenuStateCopyWithImpl<$Res>
     Object? priceController = freezed,
     Object? review = freezed,
     Object? reviewController = freezed,
+    Object? enReview = freezed,
+    Object? enReviewController = freezed,
     Object? foodTags = freezed,
     Object? postUser = freezed,
     Object? isPosting = freezed,
@@ -118,6 +125,14 @@ class _$PostMenuStateCopyWithImpl<$Res>
           ? _value.reviewController
           : reviewController // ignore: cast_nullable_to_non_nullable
               as TextEditingController,
+      enReview: enReview == freezed
+          ? _value.enReview
+          : enReview // ignore: cast_nullable_to_non_nullable
+              as String,
+      enReviewController: enReviewController == freezed
+          ? _value.enReviewController
+          : enReviewController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
       foodTags: foodTags == freezed
           ? _value.foodTags
           : foodTags // ignore: cast_nullable_to_non_nullable
@@ -151,6 +166,8 @@ abstract class _$$_PostMenuStateCopyWith<$Res>
       TextEditingController priceController,
       String review,
       TextEditingController reviewController,
+      String enReview,
+      TextEditingController enReviewController,
       List<int> foodTags,
       String postUser,
       bool isPosting});
@@ -178,6 +195,8 @@ class __$$_PostMenuStateCopyWithImpl<$Res>
     Object? priceController = freezed,
     Object? review = freezed,
     Object? reviewController = freezed,
+    Object? enReview = freezed,
+    Object? enReviewController = freezed,
     Object? foodTags = freezed,
     Object? postUser = freezed,
     Object? isPosting = freezed,
@@ -219,6 +238,14 @@ class __$$_PostMenuStateCopyWithImpl<$Res>
           ? _value.reviewController
           : reviewController // ignore: cast_nullable_to_non_nullable
               as TextEditingController,
+      enReview: enReview == freezed
+          ? _value.enReview
+          : enReview // ignore: cast_nullable_to_non_nullable
+              as String,
+      enReviewController: enReviewController == freezed
+          ? _value.enReviewController
+          : enReviewController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
       foodTags: foodTags == freezed
           ? _value._foodTags
           : foodTags // ignore: cast_nullable_to_non_nullable
@@ -248,6 +275,8 @@ class _$_PostMenuState implements _PostMenuState {
       required this.priceController,
       this.review = '',
       required this.reviewController,
+      this.enReview = '',
+      required this.enReviewController,
       final List<int> foodTags = const [],
       this.postUser = '',
       this.isPosting = false})
@@ -280,6 +309,11 @@ class _$_PostMenuState implements _PostMenuState {
   final String review;
   @override
   final TextEditingController reviewController;
+  @override
+  @JsonKey()
+  final String enReview;
+  @override
+  final TextEditingController enReviewController;
   final List<int> _foodTags;
   @override
   @JsonKey()
@@ -297,7 +331,7 @@ class _$_PostMenuState implements _PostMenuState {
 
   @override
   String toString() {
-    return 'PostMenuState(menu: $menu, name: $name, nameController: $nameController, images: $images, movies: $movies, price: $price, priceController: $priceController, review: $review, reviewController: $reviewController, foodTags: $foodTags, postUser: $postUser, isPosting: $isPosting)';
+    return 'PostMenuState(menu: $menu, name: $name, nameController: $nameController, images: $images, movies: $movies, price: $price, priceController: $priceController, review: $review, reviewController: $reviewController, enReview: $enReview, enReviewController: $enReviewController, foodTags: $foodTags, postUser: $postUser, isPosting: $isPosting)';
   }
 
   @override
@@ -317,6 +351,9 @@ class _$_PostMenuState implements _PostMenuState {
             const DeepCollectionEquality().equals(other.review, review) &&
             const DeepCollectionEquality()
                 .equals(other.reviewController, reviewController) &&
+            const DeepCollectionEquality().equals(other.enReview, enReview) &&
+            const DeepCollectionEquality()
+                .equals(other.enReviewController, enReviewController) &&
             const DeepCollectionEquality().equals(other._foodTags, _foodTags) &&
             const DeepCollectionEquality().equals(other.postUser, postUser) &&
             const DeepCollectionEquality().equals(other.isPosting, isPosting));
@@ -334,6 +371,8 @@ class _$_PostMenuState implements _PostMenuState {
       const DeepCollectionEquality().hash(priceController),
       const DeepCollectionEquality().hash(review),
       const DeepCollectionEquality().hash(reviewController),
+      const DeepCollectionEquality().hash(enReview),
+      const DeepCollectionEquality().hash(enReviewController),
       const DeepCollectionEquality().hash(_foodTags),
       const DeepCollectionEquality().hash(postUser),
       const DeepCollectionEquality().hash(isPosting));
@@ -355,6 +394,8 @@ abstract class _PostMenuState implements PostMenuState {
       required final TextEditingController priceController,
       final String review,
       required final TextEditingController reviewController,
+      final String enReview,
+      required final TextEditingController enReviewController,
       final List<int> foodTags,
       final String postUser,
       final bool isPosting}) = _$_PostMenuState;
@@ -379,6 +420,11 @@ abstract class _PostMenuState implements PostMenuState {
   String get review => throw _privateConstructorUsedError;
   @override
   TextEditingController get reviewController =>
+      throw _privateConstructorUsedError;
+  @override
+  String get enReview => throw _privateConstructorUsedError;
+  @override
+  TextEditingController get enReviewController =>
       throw _privateConstructorUsedError;
   @override
   List<int> get foodTags => throw _privateConstructorUsedError;
