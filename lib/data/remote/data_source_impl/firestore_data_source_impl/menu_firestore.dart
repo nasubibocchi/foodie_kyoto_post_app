@@ -28,6 +28,7 @@ class MenuFirestore {
         'food_tags': menuData['food_tags'],
         'price': menuData['price'],
         'review': menuData['review'],
+        'en_review': menuData['en_review'],
         'post_user': menuData['post_user'],
       });
 
