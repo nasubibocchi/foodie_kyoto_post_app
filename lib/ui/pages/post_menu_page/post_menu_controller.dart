@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -29,7 +31,8 @@ class PostMenuState with _$PostMenuState {
 }
 
 class PostMenuController extends StateNotifier<PostMenuState> {
-  PostMenuController(this._menuUseCase, this._shopId)
+  PostMenuController(this._menuUseCase, this._menuImageUseCase,
+      this._imageFileUseCase, this._shopId)
       : super(PostMenuState(
           menu: null,
           name: '',
@@ -49,6 +52,8 @@ class PostMenuController extends StateNotifier<PostMenuState> {
   }
 
   final MenuUseCase _menuUseCase;
+  final MenuImageUseCase _menuImageUseCase;
+  final ImageFileUseCase _imageFileUseCase;
   final String _shopId;
 
   void onEditMenuName(String name) {
@@ -74,6 +79,87 @@ class PostMenuController extends StateNotifier<PostMenuState> {
     final price = number == '' ? 0 : int.parse(number);
 
     state = currentState.copyWith(price: price);
+  }
+
+  Future<void> selectImages() async {
+    final currentState = state;
+    List<File> _imageList = currentState.images;
+
+    final imagesResult = await _imageFileUseCase.pickMultiImage();
+
+    imagesResult.whenWithResult(
+      (images) {
+        if (images.value.isNotEmpty) {
+          state = currentState.copyWith(images: _imageList + images.value);
+        }
+      },
+      (e) {
+        // errorが発生したらstateをエラー状態にしたいが、
+        // loading(メニュー編集機能で作成予定)stateとあわせて作りたいので
+        // いったん何もしない
+      },
+    );
+  }
+
+  Future<void> changeImage(int index) async {
+    final currentState = state;
+
+    final List<File> dupImages = List.of(currentState.images);
+
+    final imageResult = await _imageFileUseCase.pickImage();
+
+    imageResult.whenWithResult(
+      (image) {
+        if (image.value != null) {
+          dupImages[index] = image.value!;
+          state = currentState.copyWith(images: dupImages);
+        }
+      },
+      (e) {
+        // errorが発生したらstateをエラー状態にしたいが、
+        // loading(メニュー編集機能で作成予定)stateとあわせて作りたいので
+        // いったん何もしない
+      },
+    );
+  }
+
+  void deleteSelectedImage(int index) {
+    final currentState = state;
+
+    final List<File> dupImages = List.of(currentState.images);
+
+    dupImages.removeAt(index);
+
+    state = currentState.copyWith(images: dupImages);
+  }
+
+  Future<List<String>> getImageUrlFromStorage(List<String> imagePaths) async {
+    final currentState = state;
+    final menuName = currentState.name;
+
+    for (int i = 0; i < imagePaths.length; i++) {
+      await _menuImageUseCase.postImages(
+          path: imagePaths[i],
+          shopId: _shopId,
+          menuName: menuName,
+          fileName: '$i');
+    }
+
+    final List<String> _imageUrlList = <String>[];
+    for (int i = 0; i < imagePaths.length; i++) {
+      final urlResult = await _menuImageUseCase.getImagesUrl(
+          path: imagePaths[i],
+          shopId: _shopId,
+          menuName: menuName,
+          fileName: '$i');
+
+      urlResult.whenWithResult((url) {
+        if (url.value != null) {
+          _imageUrlList.add(url.value!);
+        }
+      }, (failure) {});
+    }
+    return _imageUrlList;
   }
 
   Future<PostResults> createOrModifyMenu() async {
