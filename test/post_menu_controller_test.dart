@@ -1,100 +1,165 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_controller.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_provider.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';
+import 'package:tuple/tuple.dart';
 
 import 'post_menu_controller_test.mocks.dart';
 
-@GenerateMocks([MenuUseCase, MenuImageUseCase, ImageFileUseCase])
+@GenerateMocks([MenuUseCase, MenuImageUseCase, ImageFileUseCase, PathUseCase])
 void main() {
   final _menuUseCase = MockMenuUseCase();
   final _menuImageUseCase = MockMenuImageUseCase();
   final _imageFileUseCase = MockImageFileUseCase();
+  final _pathUseCase = MockPathUseCase();
 
   final container = ProviderContainer(overrides: [
-    postMenuProvider.overrideWithProvider(
-        StateNotifierProvider.family<PostMenuController, PostMenuState, String>(
-            (ref, _shopId) => PostMenuController(
-                _menuUseCase, _menuImageUseCase, _imageFileUseCase, _shopId))),
+    postMenuProvider.overrideWithProvider(StateNotifierProvider.family<
+            PostMenuController, PostMenuState, Tuple2<String, Menu?>>(
+        (ref, tuple) => PostMenuController(_menuUseCase, _menuImageUseCase,
+            _imageFileUseCase, _pathUseCase, tuple.item1, tuple.item2))),
   ]);
 
-  group('onEditMenuName', () {
+  group('when initial menu is not defined', () {
     const shopId = 'shop_id_1';
-    final model = container.read(postMenuProvider(shopId).notifier);
+    final model =
+        container.read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+    group('onEditMenuName', () {
+      test('when input string', () {
+        model.onEditMenuName('name');
+        model.debugState.when(
+          (name, _, __, ___, ____, _____, ______, _______, ________, _________,
+              __________, ___________, ____________) {
+            expect(name, 'name');
+          },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
 
-    test('when input string', () {
-      model.onEditMenuName('name');
-      expect(model.debugState.name, 'name');
+      test('when input symbol', () {
+        model.onEditMenuName('🦆');
+        model.debugState.when(
+          (name, _, __, ___, ____, _____, ______, _______, ________, _________,
+                  __________, ___________, ____________) =>
+              expect(name, '🦆'),
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
     });
 
-    test('when input symbol', () {
-      model.onEditMenuName('🦆');
-      expect(model.debugState.name, '🦆');
-    });
-  });
+    group('onEditReview', () {
+      test('when input string', () {
+        model.onEditReview('レビュー!');
+        model.debugState.when(
+          (_, __, ___, ____, _____, ______, review, _______, ________,
+              _________, __________, ___________, ____________) {
+            expect(review, 'レビュー!');
+          },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
 
-  group('onEditReview', () {
-    const shopId = 'shop_id_1';
-    final model = container.read(postMenuProvider(shopId).notifier);
-
-    test('when input string', () {
-      model.onEditReview('レビュー!');
-      expect(model.debugState.review, 'レビュー!');
-    });
-
-    test('when input symbol', () {
-      model.onEditReview('🦆');
-      expect(model.debugState.review, '🦆');
-    });
-  });
-
-  group('onEditEnglishReview', () {
-    const shopId = 'shop_id_1';
-    final model = container.read(postMenuProvider(shopId).notifier);
-
-    test('when input string', () {
-      model.onEditReview('review!');
-      expect(model.debugState.review, 'review!');
-    });
-
-    test('when input symbol', () {
-      model.onEditReview('🦆');
-      expect(model.debugState.review, '🦆');
-    });
-  });
-
-  group('onEditPrice', () {
-    const shopId = 'shop_id_1';
-    final model = container.read(postMenuProvider(shopId).notifier);
-
-    test('when input number string', () {
-      model.onEditPrice('122334');
-      expect(model.debugState.price, 122334);
+      test('when input symbol', () {
+        model.onEditReview('🦆');
+        model.debugState.when(
+          (_, __, ___, ____, _____, ______, review, _______, ________,
+              _________, __________, ___________, ____________) {
+            expect(review, '🦆');
+          },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
     });
 
-    test('when empty', () {
-      model.onEditPrice('');
-      expect(model.debugState.price, 0);
+    group('onEditEnglishReview', () {
+      test('when input string', () {
+        model.onEditEnglishReview('review!');
+        model.debugState.when(
+          (_, __, ___, ____, _____, ______, _______, ________, enReview,
+              _________, __________, ___________, ____________) {
+            expect(enReview, 'review!');
+          },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
+
+      test('when input symbol', () {
+        model.onEditEnglishReview('🦆');
+        model.debugState.when(
+          (_, __, ___, ____, _____, ______, _______, ________, enReview,
+              _________, __________, ___________, ____________) {
+            expect(enReview, '🦆');
+          },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
     });
-  });
 
-  group('postMenu', () {
-    test('when review comment is empty', () async {
-      const shopId = 'shop_id_1';
-      final model = container.read(postMenuProvider(shopId).notifier);
+    group('onEditPrice', () {
+      test('when input number string', () {
+        model.onEditPrice('122334');
+        model.debugState.when(
+          (_, __, ___, ____, price, _____, ______, _______, ________, _________,
+              __________, ___________, ____________) {
+            expect(price, 122334);
+          },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
 
-      model.onEditMenuName('name');
-      model.onEditPrice('300');
-      model.onEditReview('review');
+      test('when empty', () {
+        model.onEditPrice('');
+        model.debugState.when(
+          (_, __, ___, ____, price, _____, ______, _______, ________, _________,
+              __________, ___________, ____________) {
+            expect(price, 0);
+          },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
+    });
 
-      final result = await model.createOrModifyMenu();
+    group('postMenu', () {
+      test('when review comment is empty', () async {
+        model.onEditMenuName('name');
+        model.onEditPrice('300');
+        model.onEditReview('review');
 
-      expect(result, PostResults.empty);
+        final result = await model.createOrModifyMenu();
+
+        expect(result, PostResults.empty);
+      });
     });
   });
 }
