@@ -43,152 +43,137 @@ class PostMenuPage extends HookConsumerWidget {
               indent: 0,
               endIndent: 0,
             ),
-            Container(
-                decoration: const BoxDecoration(color: Colors.white),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'メニュー名',
-                        style:
-                            TextStyle(color: AppColors.appBlack, fontSize: 16),
-                      ),
-                      TextField(
-                        controller: nameController,
-                        decoration: const InputDecoration(
-                          hintText: '（必須）メニュー名を入力',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        onChanged: ref
-                            .read(postMenuProvider(shopId).notifier)
-                            .onEditMenuName,
-                      ),
-                    ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'メニュー名',
+                    style: TextStyle(color: AppColors.appBlack, fontSize: 16),
                   ),
-                )),
-            const Divider(
-              thickness: 4,
-              color: AppColors.appDarkBeige,
-              indent: 0,
-              endIndent: 0,
-            ),
-            Container(
-                decoration: const BoxDecoration(color: Colors.white),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'レビューコメント(日本語)',
-                        style:
-                            TextStyle(color: AppColors.appBlack, fontSize: 16),
-                      ),
-                      TextField(
-                        controller: reviewController,
-                        maxLines: 6,
-                        decoration: const InputDecoration(
-                          hintText: '（必須）日本語でレビューを入力',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        onChanged: ref
-                            .read(postMenuProvider(shopId).notifier)
-                            .onEditReview,
-                      ),
-                    ],
-                  ),
-                )),
-            const Divider(
-              thickness: 4,
-              color: AppColors.appDarkBeige,
-              indent: 0,
-              endIndent: 0,
-            ),
-            Container(
-                decoration: const BoxDecoration(color: Colors.white),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'レビューコメント(英語)',
-                        style:
-                            TextStyle(color: AppColors.appBlack, fontSize: 16),
-                      ),
-                      TextField(
-                        controller: enReviewController,
-                        maxLines: 6,
-                        decoration: const InputDecoration(
-                          hintText: '英語でレビューを入力',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        onChanged: ref
-                            .read(postMenuProvider(shopId).notifier)
-                            .onEditEnglishReview,
-                      ),
-                    ],
-                  ),
-                )),
-            const Divider(
-              thickness: 4,
-              color: AppColors.appDarkBeige,
-              indent: 0,
-              endIndent: 0,
-            ),
-            Container(
-              decoration: const BoxDecoration(color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      '料金',
-                      style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+                  TextField(
+                    controller: nameController,
+                    decoration: const InputDecoration(
+                      hintText: '（必須）メニュー名を入力',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: InputBorder.none,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: priceController,
-                            textAlign: TextAlign.end,
-                            keyboardType: const TextInputType.numberWithOptions(
-                                signed: true, decimal: true),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            decoration: const InputDecoration(
-                              hintText: '￥予算を入力',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                            onChanged: ref
-                                .read(postMenuProvider(shopId).notifier)
-                                .onEditPrice,
+                    onChanged: ref
+                        .read(postMenuProvider(shopId).notifier)
+                        .onEditMenuName,
+                  ),
+                ],
+              ),
+            ),
+            const Divider(
+              thickness: 4,
+              color: AppColors.appDarkBeige,
+              indent: 0,
+              endIndent: 0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'レビューコメント(日本語)',
+                    style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+                  ),
+                  TextField(
+                    controller: reviewController,
+                    maxLines: 6,
+                    decoration: const InputDecoration(
+                      hintText: '（必須）日本語でレビューを入力',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: InputBorder.none,
+                    ),
+                    onChanged: ref
+                        .read(postMenuProvider(shopId).notifier)
+                        .onEditReview,
+                  ),
+                ],
+              ),
+            ),
+            const Divider(
+              thickness: 4,
+              color: AppColors.appDarkBeige,
+              indent: 0,
+              endIndent: 0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'レビューコメント(英語)',
+                    style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+                  ),
+                  TextField(
+                    controller: enReviewController,
+                    maxLines: 6,
+                    decoration: const InputDecoration(
+                      hintText: '英語でレビューを入力',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: InputBorder.none,
+                    ),
+                    onChanged: ref
+                        .read(postMenuProvider(shopId).notifier)
+                        .onEditEnglishReview,
+                  ),
+                ],
+              ),
+            ),
+            const Divider(
+              thickness: 4,
+              color: AppColors.appDarkBeige,
+              indent: 0,
+              endIndent: 0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '料金',
+                    style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: priceController,
+                          textAlign: TextAlign.end,
+                          keyboardType: const TextInputType.numberWithOptions(
+                              signed: true, decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: const InputDecoration(
+                            hintText: '￥予算を入力',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            border: InputBorder.none,
                           ),
+                          onChanged: ref
+                              .read(postMenuProvider(shopId).notifier)
+                              .onEditPrice,
                         ),
-                        const SizedBox(width: 4),
-                        const Text(
-                          '円',
-                          style: TextStyle(
-                              color: AppColors.appBlack, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Text(
+                        '円',
+                        style:
+                            TextStyle(color: AppColors.appBlack, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             const Divider(
