@@ -57,7 +57,7 @@ class PostMenuController extends StateNotifier<PostMenuState> {
   void onEditReview(String review) {
     final currentState = state;
 
-    state = currentState.copyWith(name: review);
+    state = currentState.copyWith(review: review);
   }
 
   void onEditPrice(String number) {
