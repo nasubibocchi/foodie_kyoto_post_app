@@ -4,6 +4,7 @@
 
 import 'dart:async' as _i4;
 
+import 'package:cloud_firestore/cloud_firestore.dart' as _i5;
 import 'package:foodie_kyoto_post_app/data/model/result.dart' as _i2;
 import 'package:foodie_kyoto_post_app/data/remote/data_source_impl/firestore_data_source_impl/menu_firestore.dart'
     as _i3;
@@ -37,4 +38,12 @@ class MockMenuFirestore extends _i1.Mock implements _i3.MenuFirestore {
               returnValue: Future<_i2.Result<Map<String, dynamic>>>.value(
                   _FakeResult_0<Map<String, dynamic>>()))
           as _i4.Future<_i2.Result<Map<String, dynamic>>>);
+  @override
+  _i4.Future<_i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>>>
+      fetchShopMenus({String? shopId}) => (super.noSuchMethod(
+          Invocation.method(#fetchShopMenus, [], {#shopId: shopId}),
+          returnValue: Future<
+                  _i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>>>.value(
+              _FakeResult_0<_i5.QuerySnapshot<Map<String, dynamic>>>())) as _i4
+          .Future<_i2.Result<_i5.QuerySnapshot<Map<String, dynamic>>>>);
 }

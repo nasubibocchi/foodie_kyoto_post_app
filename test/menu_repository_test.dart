@@ -58,4 +58,53 @@ void main() {
       });
     });
   });
+
+  group('fetchShopMenus', () {
+    const shopId = 'shop_id_1';
+    final menuModel = MenuModel(
+        name: 'menu_name_1',
+        shopId: 'shop_id_1',
+        images: ['image1', 'image2'],
+        movies: ['movie1', 'movie2'],
+        foodTags: [1, 2, 3],
+        price: 3000,
+        review: 'review1',
+        postUser: 'user1');
+
+    final model = container.read(menuRepositoryProvider);
+
+    test('when there is a menu to return', () async {
+      when(_menuDataSource.fetchShopMenus(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success([menuModel]);
+      });
+
+      final result = await model.fetchShopMenus(shopId: shopId);
+
+      result.whenWithResult(
+        (menu) => expect(menu.value.first.name, 'menu_name_1'),
+        (e) {
+          // ignore: avoid_print
+          print('test is not passed');
+        },
+      );
+    });
+
+    test('when there is no menu to return', () async {
+      when(_menuDataSource.fetchShopMenus(shopId: shopId))
+          .thenAnswer((_) async {
+        return Success([]);
+      });
+
+      final result = await model.fetchShopMenus(shopId: shopId);
+
+      result.whenWithResult(
+        (menu) => expect(menu.value, []),
+        (e) {
+          // ignore: avoid_print
+          print('test is not passed');
+        },
+      );
+    });
+  });
 }

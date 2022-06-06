@@ -9,4 +9,6 @@ final menuRepositoryProvider = Provider<MenuRepositoryImpl>(
 
 abstract class MenuRepository {
   Future<Result<Menu>> createMenu({required Menu menu});
+
+  Future<Result<List<Menu>>> fetchShopMenus({required String shopId});
 }

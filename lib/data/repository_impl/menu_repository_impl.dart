@@ -39,4 +39,31 @@ class MenuRepositoryImpl implements MenuRepository {
       (e) => Error(Exception(e)),
     );
   }
+
+  @override
+  Future<Result<List<Menu>>> fetchShopMenus({required String shopId}) async {
+    final menuModelResult = await _dataSource.fetchShopMenus(shopId: shopId);
+
+    return menuModelResult.whenWithResult(
+      (menuModelList) {
+        if (menuModelList.value.isNotEmpty) {
+          final menuList = menuModelList.value
+              .map((e) => Menu(
+                  name: e.name,
+                  shopId: e.shopId,
+                  images: e.images,
+                  movies: e.movies,
+                  foodTags: e.foodTags,
+                  price: e.price,
+                  review: e.review,
+                  postUser: e.postUser))
+              .toList();
+          return Success(menuList);
+        } else {
+          return Success(<Menu>[]);
+        }
+      },
+      (e) => Error(Exception(e)),
+    );
+  }
 }

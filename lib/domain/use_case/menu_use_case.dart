@@ -13,4 +13,7 @@ class MenuUseCase {
 
   Future<Result<Menu>> createMenu({required Menu menu}) =>
       _repository.createMenu(menu: menu);
+
+  Future<Result<List<Menu>>> fetchShopMenus({required String shopId}) =>
+      _repository.fetchShopMenus(shopId: shopId);
 }
