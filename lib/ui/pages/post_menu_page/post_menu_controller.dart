@@ -21,6 +21,8 @@ class PostMenuState with _$PostMenuState {
       required TextEditingController priceController,
       @Default('') String review,
       required TextEditingController reviewController,
+      @Default('') String enReview,
+      required TextEditingController enReviewController,
       @Default([]) List<int> foodTags,
       @Default('') String postUser,
       @Default(false) bool isPosting}) = _PostMenuState;
@@ -34,15 +36,16 @@ class PostMenuController extends StateNotifier<PostMenuState> {
           nameController: TextEditingController(text: ''),
           priceController: TextEditingController(text: ''),
           reviewController: TextEditingController(text: ''),
+          enReviewController: TextEditingController(text: ''),
         )) {
     state.nameController.selection = TextSelection.fromPosition(
-      TextPosition(offset: state.nameController.text.length),
-    );
+        TextPosition(offset: state.nameController.text.length));
     state.priceController.selection = TextSelection.fromPosition(
-      TextPosition(offset: state.priceController.text.length),
-    );
+        TextPosition(offset: state.priceController.text.length));
     state.reviewController.selection = TextSelection.fromPosition(
         TextPosition(offset: state.reviewController.text.length));
+    state.enReviewController.selection = TextSelection.fromPosition(
+        TextPosition(offset: state.enReviewController.text.length));
   }
 
   final MenuUseCase _menuUseCase;
@@ -60,6 +63,12 @@ class PostMenuController extends StateNotifier<PostMenuState> {
     state = currentState.copyWith(review: review);
   }
 
+  void onEditEnglishReview(String enReview) {
+    final currentState = state;
+
+    state = currentState.copyWith(enReview: enReview);
+  }
+
   void onEditPrice(String number) {
     final currentState = state;
     final price = number == '' ? 0 : int.parse(number);
@@ -70,6 +79,7 @@ class PostMenuController extends StateNotifier<PostMenuState> {
   Future<PostResults> createOrModifyMenu() async {
     final currentState = state;
 
+    // 英語でのレビューは必須にはしない
     if (currentState.review == '' ||
         currentState.images == [] ||
         currentState.movies == null) {
@@ -85,6 +95,7 @@ class PostMenuController extends StateNotifier<PostMenuState> {
         foodTags: currentState.foodTags,
         price: currentState.price,
         review: currentState.review,
+        enReview: currentState.enReview,
         postUser: currentState.postUser);
 
     final result = await _menuUseCase.createMenu(menu: menu);

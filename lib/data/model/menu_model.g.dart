@@ -17,6 +17,7 @@ _$_MenuModel _$$_MenuModelFromJson(Map<String, dynamic> json) => _$_MenuModel(
           (json['food_tags'] as List<dynamic>).map((e) => e as int).toList(),
       price: json['price'] as int,
       review: json['review'] as String,
+      enReview: json['en_review'] as String,
       postUser: json['post_user'] as String,
     );
 
@@ -29,5 +30,6 @@ Map<String, dynamic> _$$_MenuModelToJson(_$_MenuModel instance) =>
       'food_tags': instance.foodTags,
       'price': instance.price,
       'review': instance.review,
+      'en_review': instance.enReview,
       'post_user': instance.postUser,
     };

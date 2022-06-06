@@ -37,6 +37,21 @@ void main() {
     final model = container.read(postMenuProvider(shopId).notifier);
 
     test('when input string', () {
+      model.onEditReview('レビュー!');
+      expect(model.debugState.review, 'レビュー!');
+    });
+
+    test('when input symbol', () {
+      model.onEditReview('🦆');
+      expect(model.debugState.review, '🦆');
+    });
+  });
+
+  group('onEditEnglishReview', () {
+    const shopId = 'shop_id_1';
+    final model = container.read(postMenuProvider(shopId).notifier);
+
+    test('when input string', () {
       model.onEditReview('review!');
       expect(model.debugState.review, 'review!');
     });

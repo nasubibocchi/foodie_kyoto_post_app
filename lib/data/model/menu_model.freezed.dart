@@ -27,6 +27,7 @@ mixin _$MenuModel {
   List<int> get foodTags => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
   String get review => throw _privateConstructorUsedError;
+  String get enReview => throw _privateConstructorUsedError;
   String get postUser => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $MenuModelCopyWith<$Res> {
       List<int> foodTags,
       int price,
       String review,
+      String enReview,
       String postUser});
 }
 
@@ -67,6 +69,7 @@ class _$MenuModelCopyWithImpl<$Res> implements $MenuModelCopyWith<$Res> {
     Object? foodTags = freezed,
     Object? price = freezed,
     Object? review = freezed,
+    Object? enReview = freezed,
     Object? postUser = freezed,
   }) {
     return _then(_value.copyWith(
@@ -98,6 +101,10 @@ class _$MenuModelCopyWithImpl<$Res> implements $MenuModelCopyWith<$Res> {
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
               as String,
+      enReview: enReview == freezed
+          ? _value.enReview
+          : enReview // ignore: cast_nullable_to_non_nullable
+              as String,
       postUser: postUser == freezed
           ? _value.postUser
           : postUser // ignore: cast_nullable_to_non_nullable
@@ -120,6 +127,7 @@ abstract class _$$_MenuModelCopyWith<$Res> implements $MenuModelCopyWith<$Res> {
       List<int> foodTags,
       int price,
       String review,
+      String enReview,
       String postUser});
 }
 
@@ -142,6 +150,7 @@ class __$$_MenuModelCopyWithImpl<$Res> extends _$MenuModelCopyWithImpl<$Res>
     Object? foodTags = freezed,
     Object? price = freezed,
     Object? review = freezed,
+    Object? enReview = freezed,
     Object? postUser = freezed,
   }) {
     return _then(_$_MenuModel(
@@ -173,6 +182,10 @@ class __$$_MenuModelCopyWithImpl<$Res> extends _$MenuModelCopyWithImpl<$Res>
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
               as String,
+      enReview: enReview == freezed
+          ? _value.enReview
+          : enReview // ignore: cast_nullable_to_non_nullable
+              as String,
       postUser: postUser == freezed
           ? _value.postUser
           : postUser // ignore: cast_nullable_to_non_nullable
@@ -192,6 +205,7 @@ class _$_MenuModel extends _MenuModel {
       required final List<int> foodTags,
       required this.price,
       required this.review,
+      required this.enReview,
       required this.postUser})
       : _images = images,
         _movies = movies,
@@ -231,11 +245,13 @@ class _$_MenuModel extends _MenuModel {
   @override
   final String review;
   @override
+  final String enReview;
+  @override
   final String postUser;
 
   @override
   String toString() {
-    return 'MenuModel(name: $name, shopId: $shopId, images: $images, movies: $movies, foodTags: $foodTags, price: $price, review: $review, postUser: $postUser)';
+    return 'MenuModel(name: $name, shopId: $shopId, images: $images, movies: $movies, foodTags: $foodTags, price: $price, review: $review, enReview: $enReview, postUser: $postUser)';
   }
 
   @override
@@ -250,6 +266,7 @@ class _$_MenuModel extends _MenuModel {
             const DeepCollectionEquality().equals(other._foodTags, _foodTags) &&
             const DeepCollectionEquality().equals(other.price, price) &&
             const DeepCollectionEquality().equals(other.review, review) &&
+            const DeepCollectionEquality().equals(other.enReview, enReview) &&
             const DeepCollectionEquality().equals(other.postUser, postUser));
   }
 
@@ -264,6 +281,7 @@ class _$_MenuModel extends _MenuModel {
       const DeepCollectionEquality().hash(_foodTags),
       const DeepCollectionEquality().hash(price),
       const DeepCollectionEquality().hash(review),
+      const DeepCollectionEquality().hash(enReview),
       const DeepCollectionEquality().hash(postUser));
 
   @JsonKey(ignore: true)
@@ -286,6 +304,7 @@ abstract class _MenuModel extends MenuModel {
       required final List<int> foodTags,
       required final int price,
       required final String review,
+      required final String enReview,
       required final String postUser}) = _$_MenuModel;
   _MenuModel._() : super._();
 
@@ -306,6 +325,8 @@ abstract class _MenuModel extends MenuModel {
   int get price => throw _privateConstructorUsedError;
   @override
   String get review => throw _privateConstructorUsedError;
+  @override
+  String get enReview => throw _privateConstructorUsedError;
   @override
   String get postUser => throw _privateConstructorUsedError;
   @override

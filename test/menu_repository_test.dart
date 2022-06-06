@@ -29,6 +29,7 @@ void main() {
         foodTags: [1, 2, 3],
         price: 3000,
         review: 'review1',
+        enReview: 'en_review1',
         postUser: 'user1');
 
     final menuModel = MenuModel(
@@ -39,6 +40,7 @@ void main() {
         foodTags: menu.foodTags,
         price: menu.price,
         review: menu.review,
+        enReview: menu.enReview,
         postUser: menu.postUser);
 
     test('it returns correct response when a menu posted', () async {
@@ -69,6 +71,7 @@ void main() {
         foodTags: [1, 2, 3],
         price: 3000,
         review: 'review1',
+        enReview: 'en_review1',
         postUser: 'user1');
 
     final model = container.read(menuRepositoryProvider);
