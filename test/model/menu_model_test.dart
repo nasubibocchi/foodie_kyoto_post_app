@@ -11,6 +11,7 @@ void main() {
       'food_tags': [1, 2, 3],
       'price': 3000,
       'review': 'review1',
+      'en_review': 'en_review1',
       'post_user': 'user1',
     },
   ];
@@ -26,6 +27,7 @@ void main() {
         foodTags: [1, 2],
         price: 3000,
         review: 'review1',
+        enReview: 'en_review1',
         postUser: 'user1');
 
     expect(actual.name, test.name);
@@ -42,6 +44,7 @@ void main() {
           foodTags: [1, 2],
           price: 3000,
           review: 'review1',
+          enReview: 'en_review1',
           postUser: 'user1');
 
       final copyWith = original.copyWith(
@@ -52,6 +55,7 @@ void main() {
           foodTags: original.foodTags,
           price: original.price,
           review: original.review,
+          enReview: original.enReview,
           postUser: original.postUser);
 
       expect(copyWith.name, original.name);
@@ -67,6 +71,7 @@ void main() {
           foodTags: [1, 2],
           price: 5000,
           review: 'review2',
+          enReview: 'en_review1',
           postUser: 'user1');
       final copyWith = original.copyWith(
           name: original.name,
@@ -76,6 +81,7 @@ void main() {
           foodTags: original.foodTags,
           price: original.price,
           review: original.review,
+          enReview: original.enReview,
           postUser: original.postUser);
 
       expect(copyWith.shopId, isNot(original.shopId));
@@ -91,6 +97,7 @@ void main() {
       'food_tags': [1, 2],
       'price': 3000,
       'review': 'review1',
+      'en_review': 'en_review1',
       'post_user': 'user1',
     };
 
@@ -102,6 +109,7 @@ void main() {
         foodTags: [1, 2],
         price: 3000,
         review: 'review1',
+        enReview: 'en_review1',
         postUser: 'user1');
 
     final json = original.toJson();
@@ -117,6 +125,7 @@ void main() {
         'foodTags: [1, 2], '
         'price: 3000, '
         'review: review1, '
+        'enReview: en_review1, '
         'postUser: user1)';
 
     final original = MenuModel(
@@ -127,6 +136,7 @@ void main() {
         foodTags: [1, 2],
         price: 3000,
         review: 'review1',
+        enReview: 'en_review1',
         postUser: 'user1');
 
     final json = original.toString();

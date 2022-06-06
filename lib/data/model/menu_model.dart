@@ -14,6 +14,7 @@ class MenuModel with _$MenuModel {
     required List<int> foodTags,
     required int price,
     required String review,
+    required String enReview,
     required String postUser,
   }) = _MenuModel;
 
