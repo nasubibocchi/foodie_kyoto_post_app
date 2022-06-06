@@ -33,6 +33,7 @@ void main() {
       'food_tags': [1, 2, 3],
       'price': 3000,
       'review': 'review1',
+      'en_review': 'en_review1',
       'post_user': 'user1',
     };
 
@@ -51,6 +52,7 @@ void main() {
           'food_tags': [1, 2, 3],
           'price': 3000,
           'review': 'review1',
+          'en_review': 'en_review1',
           'post_user': 'user1',
         });
 
@@ -72,6 +74,7 @@ void main() {
                 foodTags: [1, 2, 3],
                 price: 3000,
                 review: 'review1',
+                enReview: 'en_review1',
                 postUser: 'user1'));
       }, (e) {
         // ignore: avoid_print
@@ -90,6 +93,7 @@ void main() {
       'food_tags': [1, 2, 3],
       'price': 3000,
       'review': 'review1',
+      'en_review': 'en_review1',
       'post_user': 'user1',
     };
 
