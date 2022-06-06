@@ -38,4 +38,12 @@ class MockMenuDataSource extends _i1.Mock implements _i3.MenuDataSource {
               returnValue: Future<_i2.Result<_i5.MenuModel>>.value(
                   _FakeResult_0<_i5.MenuModel>()))
           as _i4.Future<_i2.Result<_i5.MenuModel>>);
+  @override
+  _i4.Future<_i2.Result<List<_i5.MenuModel>>> fetchShopMenus(
+          {String? shopId}) =>
+      (super.noSuchMethod(
+              Invocation.method(#fetchShopMenus, [], {#shopId: shopId}),
+              returnValue: Future<_i2.Result<List<_i5.MenuModel>>>.value(
+                  _FakeResult_0<List<_i5.MenuModel>>()))
+          as _i4.Future<_i2.Result<List<_i5.MenuModel>>>);
 }
