@@ -5,9 +5,11 @@ import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 part 'post_menu_controller.freezed.dart';
 
@@ -33,7 +35,7 @@ class PostMenuState with _$PostMenuState {
 
 class PostMenuController extends StateNotifier<PostMenuState> {
   PostMenuController(this._menuUseCase, this._menuImageUseCase,
-      this._imageFileUseCase, this._shopId, this._menu)
+      this._imageFileUseCase, this._pathUseCase, this._shopId, this._menu)
       : super(PostMenuState(
           name: '',
           nameController: TextEditingController(text: ''),
@@ -45,27 +47,45 @@ class PostMenuController extends StateNotifier<PostMenuState> {
   final MenuUseCase _menuUseCase;
   final MenuImageUseCase _menuImageUseCase;
   final ImageFileUseCase _imageFileUseCase;
+  final PathUseCase _pathUseCase;
   final String _shopId;
   final Menu? _menu;
 
   Future<void> initMenu() async {
     if (_menu != null) {
+      final List<File> _images = [];
+      final menuImages = _menu!.images;
+      for (int i = 0; i < menuImages.length; i++) {
+        final _image = await urlToFile(menuImages[i], '$i');
+        if (_image != null) {
+          _images.add(_image);
+        }
+      }
+
       state = PostMenuState(
         name: _menu!.name,
         nameController: TextEditingController.fromValue(TextEditingValue(
             text: _menu!.name,
             selection: TextSelection.collapsed(offset: _menu!.name.length))),
+        price: _menu!.price,
         priceController: TextEditingController.fromValue(TextEditingValue(
             text: '${_menu!.price}',
             selection:
                 TextSelection.collapsed(offset: '${_menu!.price}'.length))),
+        review: _menu!.review,
         reviewController: TextEditingController.fromValue(TextEditingValue(
             text: _menu!.review,
             selection: TextSelection.collapsed(offset: _menu!.review.length))),
+        enReview: _menu!.enReview,
         enReviewController: TextEditingController.fromValue(TextEditingValue(
             text: _menu!.enReview,
             selection:
                 TextSelection.collapsed(offset: _menu!.enReview.length))),
+        images: _images,
+        // 動画を登録できるようにしたら初期化処理を入れる
+        movies: null,
+        foodTags: _menu!.foodTags,
+        postUser: _menu!.postUser,
       );
     } else {
       final menu = Menu(
@@ -96,6 +116,29 @@ class PostMenuController extends StateNotifier<PostMenuState> {
             selection: TextSelection.collapsed(offset: menu.enReview.length))),
       );
     }
+  }
+
+  Future<File?> urlToFile(String imageUrl, String fileName) async {
+    final tempDirResult = await _pathUseCase.getTempDirectory();
+
+    return tempDirResult.whenWithResult(
+      (path) async {
+        String tempPath = path.value.path;
+
+        final File file = File('$tempPath/$fileName.png');
+
+        final url = Uri.parse(imageUrl);
+        final http.Response response = await http.get(url);
+
+        await file.writeAsBytes(response.bodyBytes);
+
+        return file;
+      },
+      (e) {
+        state = PostMenuState.error();
+        return null;
+      },
+    );
   }
 
   void onEditMenuName(String name) {
