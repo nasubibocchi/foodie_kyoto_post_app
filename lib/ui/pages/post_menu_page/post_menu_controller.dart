@@ -268,22 +268,41 @@ class PostMenuController extends StateNotifier<PostMenuState> {
         return PostResults.empty;
       }
 
-      final menu = Menu(
-          name: currentState.name,
-          shopId: _shopId,
-          // images, moviesのコントローラは別途作る
-          images: [],
-          movies: [],
-          foodTags: currentState.foodTags,
-          price: currentState.price,
-          review: currentState.review,
-          enReview: currentState.enReview,
-          postUser: currentState.postUser);
+      state = currentState.copyWith(isPosting: true);
 
-      final result = await _menuUseCase.createMenu(menu: menu);
+      final deleteResult = await _menuImageUseCase.deleteImages(
+          shopId: _shopId, menuName: currentState.name);
 
-      return result.whenWithResult(
-          (success) => PostResults.success, (e) => PostResults.error);
+      return deleteResult.whenWithResult((success) async {
+        final imagesUrl = await getImageUrlFromStorage(
+            currentState.images.map((e) => e.path).toList());
+
+        if (imagesUrl.isNotEmpty) {
+          final menu = Menu(
+              name: currentState.name,
+              shopId: _shopId,
+              // moviesのコントローラは別途作る
+              images: imagesUrl,
+              movies: [],
+              foodTags: currentState.foodTags,
+              price: currentState.price,
+              review: currentState.review,
+              enReview: currentState.enReview,
+              postUser: currentState.postUser);
+
+          final result = await _menuUseCase.createMenu(menu: menu);
+          state = currentState.copyWith(isPosting: false);
+
+          return result.whenWithResult(
+              (success) => PostResults.success, (e) => PostResults.error);
+        } else {
+          state = currentState.copyWith(isPosting: false);
+          return PostResults.error;
+        }
+      }, (e) {
+        state = currentState.copyWith(isPosting: false);
+        return PostResults.error;
+      });
     } else {
       return PostResults.abort;
     }
