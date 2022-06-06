@@ -36,4 +36,16 @@ class MenuFirestore {
       return Error(e);
     }
   }
+
+  Future<Result<QuerySnapshot<Map<String, dynamic>>>> fetchShopMenus(
+      {required String shopId}) async {
+    final ref = _firestore.collection('shops').doc(shopId).collection('menus');
+
+    try {
+      final result = await ref.get();
+      return Success(result);
+    } on Exception catch (e) {
+      return Error(e);
+    }
+  }
 }

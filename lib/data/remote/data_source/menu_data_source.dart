@@ -9,4 +9,6 @@ final menuDataSourceProvider = Provider<MenuDataSourceImpl>((ref) =>
 
 abstract class MenuDataSource {
   Future<Result<MenuModel>> createMenu({required MenuModel menuModel});
+
+  Future<Result<List<MenuModel>>> fetchShopMenus({required String shopId});
 }

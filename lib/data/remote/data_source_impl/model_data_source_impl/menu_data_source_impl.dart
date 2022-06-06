@@ -20,4 +20,24 @@ class MenuDataSourceImpl implements MenuDataSource {
       (e) => Error(Exception(e)),
     );
   }
+
+  @override
+  Future<Result<List<MenuModel>>> fetchShopMenus(
+      {required String shopId}) async {
+    final menusResult = await _menuFirestore.fetchShopMenus(shopId: shopId);
+
+    return menusResult.whenWithResult(
+      (snapshot) {
+        if (snapshot.value.docs.isNotEmpty) {
+          final menuList = snapshot.value.docs
+              .map((e) => MenuModel.fromJson(e.data()))
+              .toList();
+          return Success(menuList);
+        } else {
+          return Success(<MenuModel>[]);
+        }
+      },
+      (e) => Error(Exception(e)),
+    );
+  }
 }
