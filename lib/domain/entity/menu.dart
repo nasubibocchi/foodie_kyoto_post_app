@@ -7,6 +7,7 @@ class Menu {
       required this.foodTags,
       required this.price,
       required this.review,
+      required this.enReview,
       required this.postUser});
 
   final String name;
@@ -16,5 +17,6 @@ class Menu {
   final List<int> foodTags;
   final int price;
   final String review;
+  final String enReview;
   final String postUser;
 }

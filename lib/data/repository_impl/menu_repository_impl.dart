@@ -20,6 +20,7 @@ class MenuRepositoryImpl implements MenuRepository {
         foodTags: menu.foodTags,
         price: menu.price,
         review: menu.review,
+        enReview: menu.enReview,
         postUser: menu.postUser);
 
     final menuModelResult = await _dataSource.createMenu(menuModel: menuModel);
@@ -34,6 +35,7 @@ class MenuRepositoryImpl implements MenuRepository {
             foodTags: menuModel.value.foodTags,
             price: menuModel.value.price,
             review: menuModel.value.review,
+            enReview: menuModel.value.enReview,
             postUser: menuModel.value.postUser),
       ),
       (e) => Error(Exception(e)),
@@ -56,6 +58,7 @@ class MenuRepositoryImpl implements MenuRepository {
                   foodTags: e.foodTags,
                   price: e.price,
                   review: e.review,
+                  enReview: e.enReview,
                   postUser: e.postUser))
               .toList();
           return Success(menuList);
