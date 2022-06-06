@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_controller.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_provider.dart';
@@ -8,13 +10,17 @@ import 'package:mockito/annotations.dart';
 
 import 'post_menu_controller_test.mocks.dart';
 
-@GenerateMocks([MenuUseCase])
+@GenerateMocks([MenuUseCase, MenuImageUseCase, ImageFileUseCase])
 void main() {
   final _menuUseCase = MockMenuUseCase();
+  final _menuImageUseCase = MockMenuImageUseCase();
+  final _imageFileUseCase = MockImageFileUseCase();
+
   final container = ProviderContainer(overrides: [
     postMenuProvider.overrideWithProvider(
         StateNotifierProvider.family<PostMenuController, PostMenuState, String>(
-            (ref, _shopId) => PostMenuController(_menuUseCase, _shopId))),
+            (ref, _shopId) => PostMenuController(
+                _menuUseCase, _menuImageUseCase, _imageFileUseCase, _shopId))),
   ]);
 
   group('onEditMenuName', () {
