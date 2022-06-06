@@ -6,7 +6,7 @@ import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controll
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';
 
-import 'post_menu_controller.mocks.dart';
+import 'post_menu_controller_test.mocks.dart';
 
 @GenerateMocks([MenuUseCase])
 void main() {
@@ -16,6 +16,51 @@ void main() {
         StateNotifierProvider.family<PostMenuController, PostMenuState, String>(
             (ref, _shopId) => PostMenuController(_menuUseCase, _shopId))),
   ]);
+
+  group('onEditMenuName', () {
+    const shopId = 'shop_id_1';
+    final model = container.read(postMenuProvider(shopId).notifier);
+
+    test('when input string', () {
+      model.onEditMenuName('name');
+      expect(model.debugState.name, 'name');
+    });
+
+    test('when input symbol', () {
+      model.onEditMenuName('🦆');
+      expect(model.debugState.name, '🦆');
+    });
+  });
+
+  group('onEditReview', () {
+    const shopId = 'shop_id_1';
+    final model = container.read(postMenuProvider(shopId).notifier);
+
+    test('when input string', () {
+      model.onEditReview('review!');
+      expect(model.debugState.review, 'review!');
+    });
+
+    test('when input symbol', () {
+      model.onEditReview('🦆');
+      expect(model.debugState.review, '🦆');
+    });
+  });
+
+  group('onEditPrice', () {
+    const shopId = 'shop_id_1';
+    final model = container.read(postMenuProvider(shopId).notifier);
+
+    test('when input number string', () {
+      model.onEditPrice('122334');
+      expect(model.debugState.price, 122334);
+    });
+
+    test('when empty', () {
+      model.onEditPrice('');
+      expect(model.debugState.price, 0);
+    });
+  });
 
   group('postMenu', () {
     test('when review comment is empty', () async {
