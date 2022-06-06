@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
+import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/menu_image_widget.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -37,6 +38,13 @@ class PostMenuPage extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const Divider(
+              thickness: 4,
+              color: AppColors.appDarkBeige,
+              indent: 0,
+              endIndent: 0,
+            ),
+            MenuImageWidget(shopId: shopId),
             const Divider(
               thickness: 4,
               color: AppColors.appDarkBeige,
