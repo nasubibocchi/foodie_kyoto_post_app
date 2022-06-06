@@ -13,6 +13,8 @@ import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart'
     as _i6;
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart'
     as _i3;
+import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart'
+    as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -115,4 +117,20 @@ class MockImageFileUseCase extends _i1.Mock implements _i7.ImageFileUseCase {
           returnValue:
               Future<_i2.Result<_i8.File?>>.value(_FakeResult_0<_i8.File?>()))
       as _i4.Future<_i2.Result<_i8.File?>>);
+}
+
+/// A class which mocks [PathUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPathUseCase extends _i1.Mock implements _i9.PathUseCase {
+  MockPathUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Result<_i8.Directory>> getTempDirectory() =>
+      (super.noSuchMethod(Invocation.method(#getTempDirectory, []),
+              returnValue: Future<_i2.Result<_i8.Directory>>.value(
+                  _FakeResult_0<_i8.Directory>()))
+          as _i4.Future<_i2.Result<_i8.Directory>>);
 }
