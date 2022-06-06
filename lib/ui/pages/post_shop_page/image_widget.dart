@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
+import 'package:foodie_kyoto_post_app/ui/components/change_or_delete_dialog.dart';
 import 'package:foodie_kyoto_post_app/ui/components/ok_dialog.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -37,7 +38,7 @@ class ImageWidget extends ConsumerWidget {
                                   await showDialog(
                                       context: context,
                                       builder: (context) {
-                                        return _ChangeOrDeleteDialog(
+                                        return ChangeOrDeleteDialog(
                                             onTapChange: () async {
                                           try {
                                             ref
@@ -139,51 +140,6 @@ class ImageWidget extends ConsumerWidget {
       },
       loading: () => const SizedBox(),
       error: () => const SizedBox(),
-    );
-  }
-}
-
-class _ChangeOrDeleteDialog extends StatelessWidget {
-  const _ChangeOrDeleteDialog(
-      {Key? key, required this.onTapChange, required this.onTapDelete})
-      : super(key: key);
-
-  final VoidCallback onTapChange;
-  final VoidCallback onTapDelete;
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      actions: [
-        Align(
-          alignment: Alignment.topRight,
-          child: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.close, color: AppColors.appGrey)),
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              children: [
-                TextButton(
-                    onPressed: onTapChange,
-                    child: const Text(
-                      '変更',
-                      style: TextStyle(color: AppColors.appBlack, fontSize: 16),
-                    )),
-              ],
-            ),
-            const Divider(color: AppColors.appBeige, thickness: 1),
-            TextButton(
-                onPressed: onTapDelete,
-                child: const Text(
-                  '削除',
-                  style: TextStyle(color: AppColors.appBlack, fontSize: 16),
-                )),
-          ],
-        ),
-      ],
     );
   }
 }
