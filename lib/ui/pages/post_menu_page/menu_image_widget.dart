@@ -2,20 +2,30 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
+import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
 import 'package:foodie_kyoto_post_app/ui/components/change_or_delete_dialog.dart';
 import 'package:foodie_kyoto_post_app/ui/components/ok_dialog.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:tuple/tuple.dart';
 
 class MenuImageWidget extends ConsumerWidget {
-  const MenuImageWidget({Key? key, required this.shopId}) : super(key: key);
+  const MenuImageWidget({Key? key, required this.shopId, this.menu})
+      : super(key: key);
 
   final String shopId;
+  final Menu? menu;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final images = ref.watch(postMenuProvider(shopId).select((s) => s.images));
+    final images = ref.watch(postMenuProvider(Tuple2(shopId, menu)).select(
+      (s) => s.when((_, __, images, ___, ____, _____, ______, _______, ________,
+          _________, __________, ___________, ____________) {
+        return images;
+      }, error: () => []),
+    ));
+
     final controller = PageController(viewportFraction: 0.9);
 
     return images.isNotEmpty
@@ -39,7 +49,8 @@ class MenuImageWidget extends ConsumerWidget {
                                         onTapChange: () async {
                                       try {
                                         ref
-                                            .read(postMenuProvider(shopId)
+                                            .read(postMenuProvider(
+                                                    Tuple2(shopId, menu))
                                                 .notifier)
                                             .changeImage(index);
                                       } catch (e) {
@@ -55,8 +66,9 @@ class MenuImageWidget extends ConsumerWidget {
                                       }
                                     }, onTapDelete: () {
                                       ref
-                                          .read(
-                                              postMenuProvider(shopId).notifier)
+                                          .read(postMenuProvider(
+                                                  Tuple2(shopId, menu))
+                                              .notifier)
                                           .deleteSelectedImage(index);
                                     });
                                   });
@@ -85,7 +97,7 @@ class MenuImageWidget extends ConsumerWidget {
                   onPressed: () async {
                     try {
                       ref
-                          .read(postMenuProvider(shopId).notifier)
+                          .read(postMenuProvider(Tuple2(shopId, menu)).notifier)
                           .selectImages();
                     } catch (e) {
                       await showDialog(
@@ -112,7 +124,9 @@ class MenuImageWidget extends ConsumerWidget {
         : GestureDetector(
             onTap: () async {
               try {
-                ref.read(postMenuProvider(shopId).notifier).selectImages();
+                ref
+                    .read(postMenuProvider(Tuple2(shopId, menu)).notifier)
+                    .selectImages();
               } catch (e) {
                 await showDialog(
                     context: context,
