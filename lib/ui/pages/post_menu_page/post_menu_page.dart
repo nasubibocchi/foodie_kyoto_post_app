@@ -20,8 +20,11 @@ class PostMenuPage extends HookConsumerWidget {
     final reviewController =
         ref.watch(postMenuProvider(shopId).select((s) => s.reviewController));
 
+    final enReviewController =
+        ref.watch(postMenuProvider(shopId).select((s) => s.enReviewController));
+
     return Scaffold(
-      backgroundColor: AppColors.appDarkBeige,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -34,7 +37,12 @@ class PostMenuPage extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 4),
+            const Divider(
+              thickness: 4,
+              color: AppColors.appDarkBeige,
+              indent: 0,
+              endIndent: 0,
+            ),
             Container(
                 decoration: const BoxDecoration(color: Colors.white),
                 child: Padding(
@@ -51,7 +59,7 @@ class PostMenuPage extends HookConsumerWidget {
                       TextField(
                         controller: nameController,
                         decoration: const InputDecoration(
-                          hintText: 'メニュー名を入力',
+                          hintText: '（必須）メニュー名を入力',
                           hintStyle: TextStyle(color: Colors.grey),
                           border: InputBorder.none,
                         ),
@@ -62,7 +70,12 @@ class PostMenuPage extends HookConsumerWidget {
                     ],
                   ),
                 )),
-            const SizedBox(height: 4),
+            const Divider(
+              thickness: 4,
+              color: AppColors.appDarkBeige,
+              indent: 0,
+              endIndent: 0,
+            ),
             Container(
                 decoration: const BoxDecoration(color: Colors.white),
                 child: Padding(
@@ -72,7 +85,7 @@ class PostMenuPage extends HookConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'レビューコメント',
+                        'レビューコメント(日本語)',
                         style:
                             TextStyle(color: AppColors.appBlack, fontSize: 16),
                       ),
@@ -80,7 +93,7 @@ class PostMenuPage extends HookConsumerWidget {
                         controller: reviewController,
                         maxLines: 6,
                         decoration: const InputDecoration(
-                          hintText: '日本語と英語でレビューを入力',
+                          hintText: '（必須）日本語でレビューを入力',
                           hintStyle: TextStyle(color: Colors.grey),
                           border: InputBorder.none,
                         ),
@@ -91,7 +104,46 @@ class PostMenuPage extends HookConsumerWidget {
                     ],
                   ),
                 )),
-            const SizedBox(height: 4),
+            const Divider(
+              thickness: 4,
+              color: AppColors.appDarkBeige,
+              indent: 0,
+              endIndent: 0,
+            ),
+            Container(
+                decoration: const BoxDecoration(color: Colors.white),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'レビューコメント(英語)',
+                        style:
+                            TextStyle(color: AppColors.appBlack, fontSize: 16),
+                      ),
+                      TextField(
+                        controller: enReviewController,
+                        maxLines: 6,
+                        decoration: const InputDecoration(
+                          hintText: '英語でレビューを入力',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                        ),
+                        onChanged: ref
+                            .read(postMenuProvider(shopId).notifier)
+                            .onEditEnglishReview,
+                      ),
+                    ],
+                  ),
+                )),
+            const Divider(
+              thickness: 4,
+              color: AppColors.appDarkBeige,
+              indent: 0,
+              endIndent: 0,
+            ),
             Container(
               decoration: const BoxDecoration(color: Colors.white),
               child: Padding(
@@ -138,6 +190,12 @@ class PostMenuPage extends HookConsumerWidget {
                   ],
                 ),
               ),
+            ),
+            const Divider(
+              thickness: 4,
+              color: AppColors.appDarkBeige,
+              indent: 0,
+              endIndent: 0,
             ),
           ],
         ),
