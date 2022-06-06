@@ -36,4 +36,11 @@ class MockMenuUseCase extends _i1.Mock implements _i3.MenuUseCase {
               returnValue:
                   Future<_i2.Result<_i5.Menu>>.value(_FakeResult_0<_i5.Menu>()))
           as _i4.Future<_i2.Result<_i5.Menu>>);
+  @override
+  _i4.Future<_i2.Result<List<_i5.Menu>>> fetchShopMenus({String? shopId}) =>
+      (super.noSuchMethod(
+              Invocation.method(#fetchShopMenus, [], {#shopId: shopId}),
+              returnValue: Future<_i2.Result<List<_i5.Menu>>>.value(
+                  _FakeResult_0<List<_i5.Menu>>()))
+          as _i4.Future<_i2.Result<List<_i5.Menu>>>);
 }
