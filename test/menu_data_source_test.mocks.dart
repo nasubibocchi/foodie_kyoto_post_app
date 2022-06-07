@@ -34,7 +34,7 @@ class MockMenuFirestore extends _i1.Mock implements _i3.MenuFirestore {
   _i4.Future<_i2.Result<Map<String, dynamic>>> postMenu(
           {Map<String, dynamic>? menuData}) =>
       (super.noSuchMethod(
-              Invocation.method(#createMenu, [], {#menuData: menuData}),
+              Invocation.method(#postMenu, [], {#menuData: menuData}),
               returnValue: Future<_i2.Result<Map<String, dynamic>>>.value(
                   _FakeResult_0<Map<String, dynamic>>()))
           as _i4.Future<_i2.Result<Map<String, dynamic>>>);

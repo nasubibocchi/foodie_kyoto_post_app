@@ -33,7 +33,7 @@ class MockMenuDataSource extends _i1.Mock implements _i3.MenuDataSource {
   @override
   _i4.Future<_i2.Result<_i5.MenuModel>> postMenu({_i5.MenuModel? menuModel}) =>
       (super.noSuchMethod(
-              Invocation.method(#createMenu, [], {#menuModel: menuModel}),
+              Invocation.method(#postMenu, [], {#menuModel: menuModel}),
               returnValue: Future<_i2.Result<_i5.MenuModel>>.value(
                   _FakeResult_0<_i5.MenuModel>()))
           as _i4.Future<_i2.Result<_i5.MenuModel>>);
