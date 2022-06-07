@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/menu_movie_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
@@ -34,8 +35,14 @@ class PostMenuState with _$PostMenuState {
 }
 
 class PostMenuController extends StateNotifier<PostMenuState> {
-  PostMenuController(this._menuUseCase, this._menuImageUseCase,
-      this._imageFileUseCase, this._pathUseCase, this._shopId, this._menu)
+  PostMenuController(
+      this._menuUseCase,
+      this._menuImageUseCase,
+      this._imageFileUseCase,
+      this._pathUseCase,
+      this._menuMovieUseCase,
+      this._shopId,
+      this._menu)
       : super(PostMenuState(
           name: '',
           nameController: TextEditingController(text: ''),
@@ -48,6 +55,7 @@ class PostMenuController extends StateNotifier<PostMenuState> {
   final MenuImageUseCase _menuImageUseCase;
   final ImageFileUseCase _imageFileUseCase;
   final PathUseCase _pathUseCase;
+  final MenuMovieUseCase _menuMovieUseCase;
   final String _shopId;
   final Menu? _menu;
 
@@ -56,11 +64,14 @@ class PostMenuController extends StateNotifier<PostMenuState> {
       final List<File> _images = [];
       final menuImages = _menu!.images;
       for (int i = 0; i < menuImages.length; i++) {
-        final _image = await urlToFile(menuImages[i], '$i');
+        final _image = await urlToFile(menuImages[i], '$i', false);
         if (_image != null) {
           _images.add(_image);
         }
       }
+
+      final menuMovie = _menu!.movies.first;
+      final _movie = await urlToFile(menuMovie, '0', true);
 
       state = PostMenuState(
         name: _menu!.name,
@@ -83,7 +94,7 @@ class PostMenuController extends StateNotifier<PostMenuState> {
                 TextSelection.collapsed(offset: _menu!.enReview.length))),
         images: _images,
         // 動画を登録できるようにしたら初期化処理を入れる
-        movies: null,
+        movies: _movie,
         foodTags: _menu!.foodTags,
         postUser: _menu!.postUser,
       );
@@ -119,14 +130,16 @@ class PostMenuController extends StateNotifier<PostMenuState> {
     }
   }
 
-  Future<File?> urlToFile(String imageUrl, String fileName) async {
+  Future<File?> urlToFile(
+      String imageUrl, String fileName, bool isMovie) async {
     final tempDirResult = await _pathUseCase.getTempDirectory();
 
     return tempDirResult.whenWithResult(
       (path) async {
         String tempPath = path.value.path;
+        final extension = isMovie ? '.MOV' : '.png';
 
-        final File file = File('$tempPath/$fileName.png');
+        final File file = File('$tempPath/$fileName$extension');
 
         final url = Uri.parse(imageUrl);
         final http.Response response = await http.get(url);
@@ -258,34 +271,88 @@ class PostMenuController extends StateNotifier<PostMenuState> {
     }
   }
 
+  Future<String?> getMovieUrlFromStorage(String moviePath) async {
+    if (state is _PostMenuState) {
+      final currentState = state as _PostMenuState;
+      final menuName = currentState.name;
+
+      final putFileResult = await _menuMovieUseCase.postMovie(
+          path: moviePath, shopId: _shopId, menuName: menuName, fileName: '0');
+
+      return putFileResult.whenWithResult(
+        (success) async {
+          final urlResult = await _menuMovieUseCase.getMovieUrl(
+              path: moviePath,
+              shopId: _shopId,
+              menuName: menuName,
+              fileName: '0');
+
+          return urlResult.whenWithResult(
+            (url) => '${url.value}',
+            (e) => null,
+          );
+        },
+        (e) => null,
+      );
+    }
+    return null;
+  }
+
+  Future<bool> deleteImageAndMovies() async {
+    if (state is _PostMenuState) {
+      final currentState = state as _PostMenuState;
+
+      final deleteImageResult = await _menuImageUseCase.deleteImages(
+          shopId: _shopId, menuName: currentState.name);
+
+      final deleteMovieResult = await _menuMovieUseCase.deleteMovies(
+          shopId: _shopId, menuName: currentState.name);
+
+      final isSuccessDeleteImage =
+          deleteImageResult.whenWithResult((success) => true, (e) => false);
+      final isSuccessDeleteMovie =
+          deleteMovieResult.whenWithResult((success) => true, (e) => false);
+
+      if (isSuccessDeleteImage && isSuccessDeleteMovie) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   Future<PostResults> createOrModifyMenu() async {
     if (state is _PostMenuState) {
       final currentState = state as _PostMenuState;
 
       // 英語でのレビューは必須にはしない
-      if (currentState.review == '' ||
-          currentState.images == [] ||
-          currentState.movies == null) {
+      // 動画もいったん必須にしない
+      if (currentState.review == '' || currentState.images == []) {
         return PostResults.empty;
       }
 
       state = currentState.copyWith(isPosting: true);
 
-      final deleteResult = await _menuImageUseCase.deleteImages(
-          shopId: _shopId, menuName: currentState.name);
-
-      return deleteResult.whenWithResult((success) async {
+      final deleteResult = await deleteImageAndMovies();
+      if (deleteResult) {
         final imagesUrl = await getImageUrlFromStorage(
             currentState.images.map((e) => e.path).toList());
+
+        String movieUrl = '';
+        if (currentState.movies != null) {
+          final url = await getMovieUrlFromStorage(currentState.movies!.path);
+          movieUrl = url ?? '';
+        }
 
         if (imagesUrl.isNotEmpty) {
           final menu = Menu(
               menuId: _menu == null ? '' : _menu!.menuId,
               name: currentState.name,
               shopId: _shopId,
-              // moviesのコントローラは別途作る
               images: imagesUrl,
-              movies: [],
+              movies: [movieUrl],
               foodTags: currentState.foodTags,
               price: currentState.price,
               review: currentState.review,
@@ -301,10 +368,10 @@ class PostMenuController extends StateNotifier<PostMenuState> {
           state = currentState.copyWith(isPosting: false);
           return PostResults.error;
         }
-      }, (e) {
+      } else {
         state = currentState.copyWith(isPosting: false);
         return PostResults.error;
-      });
+      }
     } else {
       return PostResults.abort;
     }
