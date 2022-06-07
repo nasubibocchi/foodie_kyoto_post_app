@@ -11,6 +11,8 @@ import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart'
     as _i7;
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart'
     as _i6;
+import 'package:foodie_kyoto_post_app/domain/use_case/menu_movie_use_case.dart'
+    as _i10;
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart'
     as _i3;
 import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart'
@@ -133,4 +135,49 @@ class MockPathUseCase extends _i1.Mock implements _i9.PathUseCase {
               returnValue: Future<_i2.Result<_i8.Directory>>.value(
                   _FakeResult_0<_i8.Directory>()))
           as _i4.Future<_i2.Result<_i8.Directory>>);
+}
+
+/// A class which mocks [MenuMovieUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMenuMovieUseCase extends _i1.Mock implements _i10.MenuMovieUseCase {
+  MockMenuMovieUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Result<String?>> postMovie(
+          {String? path, String? shopId, String? menuName, String? fileName}) =>
+      (super.noSuchMethod(
+              Invocation.method(#postMovie, [], {
+                #path: path,
+                #shopId: shopId,
+                #menuName: menuName,
+                #fileName: fileName
+              }),
+              returnValue:
+                  Future<_i2.Result<String?>>.value(_FakeResult_0<String?>()))
+          as _i4.Future<_i2.Result<String?>>);
+  @override
+  _i4.Future<_i2.Result<String?>> getMovieUrl(
+          {String? path, String? shopId, String? menuName, String? fileName}) =>
+      (super.noSuchMethod(
+              Invocation.method(#getMovieUrl, [], {
+                #path: path,
+                #shopId: shopId,
+                #menuName: menuName,
+                #fileName: fileName
+              }),
+              returnValue:
+                  Future<_i2.Result<String?>>.value(_FakeResult_0<String?>()))
+          as _i4.Future<_i2.Result<String?>>);
+  @override
+  _i4.Future<_i2.Result<String>> deleteMovies(
+          {String? shopId, dynamic menuName}) =>
+      (super.noSuchMethod(
+              Invocation.method(
+                  #deleteMovies, [], {#shopId: shopId, #menuName: menuName}),
+              returnValue:
+                  Future<_i2.Result<String>>.value(_FakeResult_0<String>()))
+          as _i4.Future<_i2.Result<String>>);
 }
