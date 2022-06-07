@@ -4,6 +4,7 @@ import 'package:foodie_kyoto_post_app/data/model/menu_model.dart';
 void main() {
   final data = [
     {
+      'menu_id': 'menu_id_1',
       'name': 'menu_name_1',
       'shop_id': 'shop_id_1',
       'images': ['image1', 'image2'],
@@ -20,6 +21,7 @@ void main() {
     final test = MenuModel.fromJson(data.first);
 
     final actual = MenuModel(
+        menuId: 'menu_id_1',
         name: 'menu_name_1',
         shopId: 'shop_id_1',
         images: ['image1', 'image2'],
@@ -37,6 +39,7 @@ void main() {
   group('copyWith', () {
     test('copyWith = original', () {
       final original = MenuModel(
+          menuId: 'menu_id_1',
           name: 'menu_name_1',
           shopId: 'shop_id_1',
           images: ['image1', 'image2'],
@@ -48,6 +51,7 @@ void main() {
           postUser: 'user1');
 
       final copyWith = original.copyWith(
+          menuId: original.menuId,
           name: original.name,
           shopId: original.shopId,
           images: original.images,
@@ -64,6 +68,7 @@ void main() {
 
     test('copyWith != original', () {
       final original = MenuModel(
+          menuId: 'menu_id_1',
           name: 'menu_name_1',
           shopId: 'shop_id_2',
           images: ['image1', 'image2'],
@@ -74,6 +79,7 @@ void main() {
           enReview: 'en_review1',
           postUser: 'user1');
       final copyWith = original.copyWith(
+          menuId: original.menuId,
           name: original.name,
           shopId: original.name,
           images: original.images,
@@ -90,6 +96,7 @@ void main() {
 
   test('toJson()', () {
     final ref = {
+      'menu_id': 'menu_id_1',
       'name': 'menu_name_1',
       'shop_id': 'shop_id_1',
       'images': ['image1', 'image2'],
@@ -102,6 +109,7 @@ void main() {
     };
 
     final original = MenuModel(
+        menuId: 'menu_id_1',
         name: 'menu_name_1',
         shopId: 'shop_id_1',
         images: ['image1', 'image2'],
@@ -118,6 +126,7 @@ void main() {
 
   test('toString()', () {
     const ref = 'MenuModel('
+        'menuId: menu_id_1, '
         'name: menu_name_1, '
         'shopId: shop_id_1, '
         'images: [image1, image2], '
@@ -129,6 +138,7 @@ void main() {
         'postUser: user1)';
 
     final original = MenuModel(
+        menuId: 'menu_id_1',
         name: 'menu_name_1',
         shopId: 'shop_id_1',
         images: ['image1', 'image2'],

@@ -89,6 +89,7 @@ class PostMenuController extends StateNotifier<PostMenuState> {
       );
     } else {
       final menu = Menu(
+          menuId: '',
           name: '',
           shopId: _shopId,
           images: [],
@@ -279,6 +280,7 @@ class PostMenuController extends StateNotifier<PostMenuState> {
 
         if (imagesUrl.isNotEmpty) {
           final menu = Menu(
+              menuId: _menu == null ? '' : _menu!.menuId,
               name: currentState.name,
               shopId: _shopId,
               // moviesのコントローラは別途作る
@@ -290,7 +292,7 @@ class PostMenuController extends StateNotifier<PostMenuState> {
               enReview: currentState.enReview,
               postUser: currentState.postUser);
 
-          final result = await _menuUseCase.createMenu(menu: menu);
+          final result = await _menuUseCase.postMenu(menu: menu);
           state = currentState.copyWith(isPosting: false);
 
           return result.whenWithResult(

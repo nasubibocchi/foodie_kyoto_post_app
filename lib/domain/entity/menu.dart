@@ -1,6 +1,7 @@
 class Menu {
   Menu(
-      {required this.name,
+      {required this.menuId,
+      required this.name,
       required this.shopId,
       required this.images,
       required this.movies,
@@ -10,6 +11,7 @@ class Menu {
       required this.enReview,
       required this.postUser});
 
+  final String menuId;
   final String name;
   final String shopId;
   final List<String> images;

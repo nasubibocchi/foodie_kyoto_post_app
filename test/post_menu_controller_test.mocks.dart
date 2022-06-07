@@ -38,8 +38,8 @@ class MockMenuUseCase extends _i1.Mock implements _i3.MenuUseCase {
   }
 
   @override
-  _i4.Future<_i2.Result<_i5.Menu>> createMenu({_i5.Menu? menu}) =>
-      (super.noSuchMethod(Invocation.method(#createMenu, [], {#menu: menu}),
+  _i4.Future<_i2.Result<_i5.Menu>> postMenu({_i5.Menu? menu}) =>
+      (super.noSuchMethod(Invocation.method(#postMenu, [], {#menu: menu}),
               returnValue:
                   Future<_i2.Result<_i5.Menu>>.value(_FakeResult_0<_i5.Menu>()))
           as _i4.Future<_i2.Result<_i5.Menu>>);

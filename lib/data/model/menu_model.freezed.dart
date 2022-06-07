@@ -20,6 +20,7 @@ MenuModel _$MenuModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MenuModel {
+  String get menuId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get shopId => throw _privateConstructorUsedError;
   List<String> get images => throw _privateConstructorUsedError;
@@ -41,7 +42,8 @@ abstract class $MenuModelCopyWith<$Res> {
   factory $MenuModelCopyWith(MenuModel value, $Res Function(MenuModel) then) =
       _$MenuModelCopyWithImpl<$Res>;
   $Res call(
-      {String name,
+      {String menuId,
+      String name,
       String shopId,
       List<String> images,
       List<String> movies,
@@ -62,6 +64,7 @@ class _$MenuModelCopyWithImpl<$Res> implements $MenuModelCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? menuId = freezed,
     Object? name = freezed,
     Object? shopId = freezed,
     Object? images = freezed,
@@ -73,6 +76,10 @@ class _$MenuModelCopyWithImpl<$Res> implements $MenuModelCopyWith<$Res> {
     Object? postUser = freezed,
   }) {
     return _then(_value.copyWith(
+      menuId: menuId == freezed
+          ? _value.menuId
+          : menuId // ignore: cast_nullable_to_non_nullable
+              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -120,7 +127,8 @@ abstract class _$$_MenuModelCopyWith<$Res> implements $MenuModelCopyWith<$Res> {
       __$$_MenuModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String name,
+      {String menuId,
+      String name,
       String shopId,
       List<String> images,
       List<String> movies,
@@ -143,6 +151,7 @@ class __$$_MenuModelCopyWithImpl<$Res> extends _$MenuModelCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? menuId = freezed,
     Object? name = freezed,
     Object? shopId = freezed,
     Object? images = freezed,
@@ -154,6 +163,10 @@ class __$$_MenuModelCopyWithImpl<$Res> extends _$MenuModelCopyWithImpl<$Res>
     Object? postUser = freezed,
   }) {
     return _then(_$_MenuModel(
+      menuId: menuId == freezed
+          ? _value.menuId
+          : menuId // ignore: cast_nullable_to_non_nullable
+              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -198,7 +211,8 @@ class __$$_MenuModelCopyWithImpl<$Res> extends _$MenuModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_MenuModel extends _MenuModel {
   _$_MenuModel(
-      {required this.name,
+      {required this.menuId,
+      required this.name,
       required this.shopId,
       required final List<String> images,
       required final List<String> movies,
@@ -215,6 +229,8 @@ class _$_MenuModel extends _MenuModel {
   factory _$_MenuModel.fromJson(Map<String, dynamic> json) =>
       _$$_MenuModelFromJson(json);
 
+  @override
+  final String menuId;
   @override
   final String name;
   @override
@@ -251,7 +267,7 @@ class _$_MenuModel extends _MenuModel {
 
   @override
   String toString() {
-    return 'MenuModel(name: $name, shopId: $shopId, images: $images, movies: $movies, foodTags: $foodTags, price: $price, review: $review, enReview: $enReview, postUser: $postUser)';
+    return 'MenuModel(menuId: $menuId, name: $name, shopId: $shopId, images: $images, movies: $movies, foodTags: $foodTags, price: $price, review: $review, enReview: $enReview, postUser: $postUser)';
   }
 
   @override
@@ -259,6 +275,7 @@ class _$_MenuModel extends _MenuModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MenuModel &&
+            const DeepCollectionEquality().equals(other.menuId, menuId) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.shopId, shopId) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
@@ -274,6 +291,7 @@ class _$_MenuModel extends _MenuModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(menuId),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(shopId),
       const DeepCollectionEquality().hash(_images),
@@ -297,7 +315,8 @@ class _$_MenuModel extends _MenuModel {
 
 abstract class _MenuModel extends MenuModel {
   factory _MenuModel(
-      {required final String name,
+      {required final String menuId,
+      required final String name,
       required final String shopId,
       required final List<String> images,
       required final List<String> movies,
@@ -311,6 +330,8 @@ abstract class _MenuModel extends MenuModel {
   factory _MenuModel.fromJson(Map<String, dynamic> json) =
       _$_MenuModel.fromJson;
 
+  @override
+  String get menuId => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
   @override
