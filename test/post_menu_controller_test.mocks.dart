@@ -15,6 +15,8 @@ import 'package:foodie_kyoto_post_app/domain/use_case/menu_movie_use_case.dart'
     as _i10;
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart'
     as _i3;
+import 'package:foodie_kyoto_post_app/domain/use_case/movie_file_use_case.dart'
+    as _i11;
 import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart'
     as _i9;
 import 'package:mockito/mockito.dart' as _i1;
@@ -180,4 +182,20 @@ class MockMenuMovieUseCase extends _i1.Mock implements _i10.MenuMovieUseCase {
               returnValue:
                   Future<_i2.Result<String>>.value(_FakeResult_0<String>()))
           as _i4.Future<_i2.Result<String>>);
+}
+
+/// A class which mocks [MovieFileUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMovieFileUseCase extends _i1.Mock implements _i11.MovieFileUseCase {
+  MockMovieFileUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.Result<_i8.File?>> pickVideo() => (super.noSuchMethod(
+          Invocation.method(#pickVideo, []),
+          returnValue:
+              Future<_i2.Result<_i8.File?>>.value(_FakeResult_0<_i8.File?>()))
+      as _i4.Future<_i2.Result<_i8.File?>>);
 }

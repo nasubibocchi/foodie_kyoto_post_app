@@ -5,6 +5,7 @@ import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_movie_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/movie_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_controller.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_provider.dart';
@@ -21,7 +22,8 @@ import 'post_menu_controller_test.mocks.dart';
   MenuImageUseCase,
   ImageFileUseCase,
   PathUseCase,
-  MenuMovieUseCase
+  MenuMovieUseCase,
+  MovieFileUseCase,
 ])
 void main() {
   final _menuUseCase = MockMenuUseCase();
@@ -29,6 +31,7 @@ void main() {
   final _imageFileUseCase = MockImageFileUseCase();
   final _pathUseCase = MockPathUseCase();
   final _menuMovieUseCase = MockMenuMovieUseCase();
+  final _movieFileUseCase = MockMovieFileUseCase();
 
   final container = ProviderContainer(overrides: [
     postMenuProvider.overrideWithProvider(StateNotifierProvider.family<
@@ -39,6 +42,7 @@ void main() {
             _imageFileUseCase,
             _pathUseCase,
             _menuMovieUseCase,
+            _movieFileUseCase,
             tuple.item1,
             tuple.item2))),
   ]);
