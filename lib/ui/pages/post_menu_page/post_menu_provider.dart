@@ -3,6 +3,7 @@ import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_movie_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_use_case.dart';
+import 'package:foodie_kyoto_post_app/domain/use_case/movie_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/path_use_case.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,6 +17,7 @@ final postMenuProvider = StateNotifierProvider.family<
           ref.read(imageFileUseCaseProvider),
           ref.read(pathUseCaseProvider),
           ref.read(menuMovieUseCaseProvider),
+          ref.read(movieFileUseCaseProvider),
           tuple.item1,
           tuple.item2,
         ));
