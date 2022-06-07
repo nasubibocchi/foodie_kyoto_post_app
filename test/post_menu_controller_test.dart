@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart';
@@ -10,6 +11,7 @@ import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_provider
 import 'package:foodie_kyoto_post_app/ui/pages/post_shop_page/post_shop_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
 
 import 'post_menu_controller_test.mocks.dart';
@@ -166,9 +168,20 @@ void main() {
 
     group('postMenu', () {
       test('when review comment is empty', () async {
+        model.onEditReview('');
+
+        when(_menuImageUseCase.deleteImages(shopId: shopId, menuName: 'name'))
+            .thenAnswer((_) async {
+          return Success('path');
+        });
+
+        when(_menuMovieUseCase.deleteMovies(shopId: shopId, menuName: 'name'))
+            .thenAnswer((_) async {
+          return Success('path');
+        });
+
         model.onEditMenuName('name');
         model.onEditPrice('300');
-        model.onEditReview('review');
 
         final result = await model.createOrModifyMenu();
 
