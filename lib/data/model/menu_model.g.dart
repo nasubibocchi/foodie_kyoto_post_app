@@ -7,6 +7,7 @@ part of 'menu_model.dart';
 // **************************************************************************
 
 _$_MenuModel _$$_MenuModelFromJson(Map<String, dynamic> json) => _$_MenuModel(
+      menuId: json['menu_id'] as String,
       name: json['name'] as String,
       shopId: json['shop_id'] as String,
       images:
@@ -23,6 +24,7 @@ _$_MenuModel _$$_MenuModelFromJson(Map<String, dynamic> json) => _$_MenuModel(
 
 Map<String, dynamic> _$$_MenuModelToJson(_$_MenuModel instance) =>
     <String, dynamic>{
+      'menu_id': instance.menuId,
       'name': instance.name,
       'shop_id': instance.shopId,
       'images': instance.images,

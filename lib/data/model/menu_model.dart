@@ -7,6 +7,7 @@ part 'menu_model.g.dart';
 @freezed
 class MenuModel with _$MenuModel {
   factory MenuModel({
+    required String menuId,
     required String name,
     required String shopId,
     required List<String> images,
