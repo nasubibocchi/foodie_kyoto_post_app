@@ -2,7 +2,7 @@ import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/domain/repository/menu_movie_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final menuMovieUseCase = Provider<MenuMovieUseCase>((ref) =>
+final menuMovieUseCaseProvider = Provider<MenuMovieUseCase>((ref) =>
     MenuMovieUseCase(repository: ref.read(menuMovieRepositoryProvider)));
 
 class MenuMovieUseCase {
