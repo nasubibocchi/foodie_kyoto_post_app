@@ -22,6 +22,7 @@ void main() {
 
   group('postMenu', () {
     final menu = Menu(
+        menuId: 'menu_id_1',
         name: 'menu_name_1',
         shopId: 'shop_id_1',
         images: ['image1', 'image2'],
@@ -33,6 +34,7 @@ void main() {
         postUser: 'user1');
 
     final menuModel = MenuModel(
+        menuId: menu.menuId,
         name: menu.name,
         shopId: menu.shopId,
         images: menu.images,
@@ -44,13 +46,13 @@ void main() {
         postUser: menu.postUser);
 
     test('it returns correct response when a menu posted', () async {
-      when(_menuDataSource.createMenu(menuModel: menuModel))
+      when(_menuDataSource.postMenu(menuModel: menuModel))
           .thenAnswer((_) async {
         return Success(menuModel);
       });
 
       final model = container.read(menuRepositoryProvider);
-      final result = await model.createMenu(menu: menu);
+      final result = await model.postMenu(menu: menu);
 
       result.whenWithResult((success) {
         expect(success.value.name, 'menu_name_1');
@@ -64,6 +66,7 @@ void main() {
   group('fetchShopMenus', () {
     const shopId = 'shop_id_1';
     final menuModel = MenuModel(
+        menuId: 'menu_id_1',
         name: 'menu_name_1',
         shopId: 'shop_id_1',
         images: ['image1', 'image2'],

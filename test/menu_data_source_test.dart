@@ -26,6 +26,7 @@ void main() {
 
   group('postShop', () {
     final menuData = {
+      'menu_id': 'menu_id_1',
       'name': 'menu_name_1',
       'shop_id': 'shop_id_1',
       'images': ['image1', 'image2'],
@@ -38,13 +39,15 @@ void main() {
     };
 
     test('it returns correct response when a menu posted', () async {
-      when(_menuFirestore.createMenu(menuData: menuData)).thenAnswer((_) async {
+      when(_menuFirestore.postMenu(menuData: menuData)).thenAnswer((_) async {
         final ref = _firestore
             .collection('shops')
             .doc(menuData['shop_id'] as String)
-            .collection('menus');
+            .collection('menus')
+            .doc(menuData['menu_id'] as String);
 
-        await ref.add(<String, dynamic>{
+        await ref.set(<String, dynamic>{
+          'menu_id': 'menu_id_1',
           'name': 'menu_name_1',
           'shop_id': 'shop_id_1',
           'images': ['image1', 'image2'],
@@ -61,12 +64,13 @@ void main() {
 
       final model = container.read(menuDataSourceProvider);
       final result =
-          await model.createMenu(menuModel: MenuModel.fromJson(menuData));
+          await model.postMenu(menuModel: MenuModel.fromJson(menuData));
 
       result.whenWithResult((success) {
         expect(
             success.value,
             MenuModel(
+                menuId: 'menu_id_1',
                 name: 'menu_name_1',
                 shopId: 'shop_id_1',
                 images: ['image1', 'image2'],
@@ -86,8 +90,9 @@ void main() {
   group('fetchShopMenus', () {
     const shopId = 'shop_id_2';
     final menuData = {
+      'menu_id': 'menu_id_1',
       'name': 'menu_name_1',
-      'shop_id': 'shop_id_1',
+      'shop_id': 'shop_id_2',
       'images': ['image1', 'image2'],
       'movies': ['movie1', 'movie2'],
       'food_tags': [1, 2, 3],

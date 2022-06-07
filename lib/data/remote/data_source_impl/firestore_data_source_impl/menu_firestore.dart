@@ -12,15 +12,31 @@ class MenuFirestore {
 
   final FirebaseFirestore _firestore;
 
-  Future<Result<Map<String, dynamic>>> createMenu(
+  Future<Result<Map<String, dynamic>>> postMenu(
       {required Map<String, dynamic> menuData}) async {
-    final ref = _firestore
-        .collection('shops')
-        .doc(menuData['shop_id'])
-        .collection('menus');
+    final DocumentReference ref;
+    final String menuId;
+    if (menuData['menu_id'] == '') {
+      ref = _firestore
+          .collection('shops')
+          .doc(menuData['shop_id'])
+          .collection('menus')
+          .doc();
+
+      menuId = ref.id;
+    } else {
+      ref = _firestore
+          .collection('shops')
+          .doc(menuData['shop_id'])
+          .collection('menus')
+          .doc(menuData['menu_id']);
+
+      menuId = menuData['menu_id'];
+    }
 
     try {
-      await ref.add(<String, dynamic>{
+      await ref.set(<String, dynamic>{
+        'menu_id': menuId,
         'name': menuData['name'],
         'shop_id': menuData['shop_id'],
         'images': menuData['images'],

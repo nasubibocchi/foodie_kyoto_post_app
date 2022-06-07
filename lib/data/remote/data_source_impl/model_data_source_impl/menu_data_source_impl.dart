@@ -10,10 +10,10 @@ class MenuDataSourceImpl implements MenuDataSource {
   final MenuFirestore _menuFirestore;
 
   @override
-  Future<Result<MenuModel>> createMenu({required MenuModel menuModel}) async {
+  Future<Result<MenuModel>> postMenu({required MenuModel menuModel}) async {
     final menuData = menuModel.toJson();
 
-    final firestoreResult = await _menuFirestore.createMenu(menuData: menuData);
+    final firestoreResult = await _menuFirestore.postMenu(menuData: menuData);
 
     return firestoreResult.whenWithResult(
       (result) => Success(MenuModel.fromJson(result.value)),
