@@ -72,17 +72,26 @@ class SearchShopPage extends HookConsumerWidget {
             ),
             const SizedBox(height: 20),
             shopList != null && shopList.isNotEmpty
-                ? ListView.builder(
-                    itemCount: shopList.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, int index) {
-                      return TextButton(
-                          onPressed: () => context.go(
-                              '/${RouteNames.searchShopPage}/${RouteNames.postShopPage}',
-                              extra: shopList[index].placeId),
-                          child: Text(shopList[index].description));
-                    })
+                ? SizedBox(
+                    height: 400,
+                    child: ListView.builder(
+                        itemCount: shopList.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, int index) {
+                          return SizedBox(
+                            height: 64,
+                            child: TextButton(
+                                onPressed: () => context.go(
+                                    '/${RouteNames.searchShopPage}/${RouteNames.postShopPage}',
+                                    extra: shopList[index].placeId),
+                                child: Text(
+                                  shopList[index].description,
+                                  style: const TextStyle(
+                                      color: AppColors.appBlack),
+                                )),
+                          );
+                        }),
+                  )
                 : const SizedBox(),
           ],
         ),
