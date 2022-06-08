@@ -336,7 +336,7 @@ class _MenuWidget extends StatelessWidget {
                         ),
                         child: const Icon(
                           Icons.edit_rounded,
-                          color: AppColors.appOrange,
+                          color: AppColors.appGrey,
                           size: 24,
                         ),
                       ),
