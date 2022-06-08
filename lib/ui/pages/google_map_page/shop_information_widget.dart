@@ -19,7 +19,7 @@ class ShopInformationWidget extends StatelessWidget {
       width: 400,
       child: GestureDetector(
         onTap: () {
-          context.go('/${RouteNames.shopDetailPage}', extra: shop);
+          context.go('/${RouteNames.shopDetailPage}', extra: {'shop': shop});
         },
         child: Card(
           shape: RoundedRectangleBorder(

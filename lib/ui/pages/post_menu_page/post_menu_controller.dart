@@ -52,7 +52,9 @@ class PostMenuController extends StateNotifier<PostMenuState> {
           priceController: TextEditingController(text: ''),
           reviewController: TextEditingController(text: ''),
           enReviewController: TextEditingController(text: ''),
-        ));
+        )) {
+    initMenu();
+  }
 
   final MenuUseCase _menuUseCase;
   final MenuImageUseCase _menuImageUseCase;

@@ -11,9 +11,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ShopDetailPage extends HookConsumerWidget {
-  const ShopDetailPage({Key? key, required this.shop}) : super(key: key);
+  ShopDetailPage({Key? key, required this.shop}) : super(key: key);
 
   final Shop shop;
+  final GlobalKey scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,6 +30,7 @@ class ShopDetailPage extends HookConsumerWidget {
         shop.foodTags.map((key) => FoodTags.foodTags[key]).toList();
 
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -139,7 +141,7 @@ class ShopDetailPage extends HookConsumerWidget {
                             Text(
                               '¥${shop.price}',
                               style: const TextStyle(
-                                  color: AppColors.appBlack, fontSize: 14),
+                                  color: AppColors.appBlack, fontSize: 16),
                             ),
                             const SizedBox(width: 2),
                             const Text(
@@ -159,7 +161,7 @@ class ShopDetailPage extends HookConsumerWidget {
                     endIndent: 0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -183,7 +185,7 @@ class ShopDetailPage extends HookConsumerWidget {
                     endIndent: 0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -198,9 +200,12 @@ class ShopDetailPage extends HookConsumerWidget {
                               alignment: Alignment.topRight,
                               child: GestureDetector(
                                 onTap: () {
-                                  context.go(
+                                  scaffoldKey.currentContext!.go(
                                     '/${RouteNames.shopDetailPage}/${RouteNames.postMenuPage}',
-                                    extra: shop.shopId,
+                                    extra: <String, Object?>{
+                                      'shop': shop,
+                                      'menu': null
+                                    },
                                   );
                                 },
                                 child: const Icon(
@@ -215,13 +220,24 @@ class ShopDetailPage extends HookConsumerWidget {
                         const SizedBox(height: 8),
                         menu.isNotEmpty
                             ? SizedBox(
-                                height: 100,
+                                height: 100.0 * menu.length,
                                 child: ListView.builder(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     itemCount: menu.length,
                                     itemBuilder: (context, int index) {
-                                      return _MenuWidget(menu: menu[index]);
+                                      return _MenuWidget(
+                                        menu: menu[index],
+                                        onTapEditIcon: () {
+                                          scaffoldKey.currentContext!.go(
+                                            '/${RouteNames.shopDetailPage}/${RouteNames.postMenuPage}',
+                                            extra: <String, Object>{
+                                              'shop': shop,
+                                              'menu': menu[index]
+                                            },
+                                          );
+                                        },
+                                      );
                                     }),
                               )
                             : const Text(
@@ -280,14 +296,16 @@ class _TagWidget extends StatelessWidget {
 }
 
 class _MenuWidget extends StatelessWidget {
-  const _MenuWidget({Key? key, required this.menu}) : super(key: key);
+  const _MenuWidget({Key? key, required this.menu, required this.onTapEditIcon})
+      : super(key: key);
 
   final Menu menu;
+  final VoidCallback onTapEditIcon;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
       child: Container(
           height: 96,
           width: double.infinity,
@@ -298,61 +316,24 @@ class _MenuWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 96,
-                width: 96,
-                child: CachedNetworkImage(imageUrl: menu.images.first),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            Text(
-                              menu.name,
-                              style: const TextStyle(
-                                  color: AppColors.appBlack,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              '¥${menu.price}',
-                              style: const TextStyle(
-                                  color: AppColors.appBlack, fontSize: 12),
-                            ),
-                          ],
+              Stack(
+                children: [
+                  SizedBox(
+                    height: 96,
+                    width: 96,
+                    child: CachedNetworkImage(imageUrl: menu.images.first),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                      onTap: onTapEditIcon,
+                      child: Container(
+                        margin: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
                         ),
-                        Text(
-                          menu.postUser,
-                          style: const TextStyle(
-                              color: AppColors.appBlack, fontSize: 12),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 0),
-                          child: Text(
-                            menu.review,
-                            maxLines: 3,
-                            style: const TextStyle(
-                                color: AppColors.appBlack, fontSize: 12),
-                          ),
-                        )
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: GestureDetector(
-                        onTap: () {
-                          // メニュー編集ページへ移動
-                        },
                         child: const Icon(
                           Icons.edit_rounded,
                           color: AppColors.appGrey,
@@ -360,6 +341,52 @@ class _MenuWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 4),
+                    Text(
+                      menu.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: AppColors.appBlack,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(width: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          '¥${menu.price}',
+                          style: const TextStyle(
+                              color: AppColors.appBlack, fontSize: 12),
+                        ),
+                        const SizedBox(width: 16),
+                        Text(
+                          '投稿者：${menu.postUser}',
+                          style: const TextStyle(
+                              color: AppColors.appBlack, fontSize: 12),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 0),
+                      child: Text(
+                        menu.review,
+                        maxLines: 2,
+                        overflow: TextOverflow.fade,
+                        style: const TextStyle(
+                            color: AppColors.appBlack, fontSize: 12),
+                      ),
+                    )
                   ],
                 ),
               ),
