@@ -266,6 +266,25 @@ class PostMenuController extends StateNotifier<PostMenuState> {
     }
   }
 
+  void addFoodTag(int key) {
+    if (state is _PostMenuState) {
+      final currentState = state as _PostMenuState;
+
+      state = currentState.copyWith(foodTags: currentState.foodTags + [key]);
+    }
+  }
+
+  void removeFoodTag(int key) {
+    if (state is _PostMenuState) {
+      final currentState = state as _PostMenuState;
+
+      final foodTags = List.of(currentState.foodTags);
+      foodTags.remove(key);
+
+      state = currentState.copyWith(foodTags: foodTags);
+    }
+  }
+
   Future<List<String>> getImageUrlFromStorage(List<String> imagePaths) async {
     if (state is _PostMenuState) {
       final currentState = state as _PostMenuState;

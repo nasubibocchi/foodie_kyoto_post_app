@@ -170,6 +170,39 @@ void main() {
       });
     });
 
+    group('addFoodTag', () {
+      test('when add the food tag of key 1', () {
+        model.addFoodTag(1);
+        model.debugState.when(
+          (_, __, ___, ____, ____________, _____, ______, _______, ________,
+              _________, foodTags, __________, ___________) {
+            expect(foodTags.length, 1);
+          },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
+    });
+
+    group('removeFoodTag', () {
+      test('when add the food tag of key 1', () {
+        // 'addFoodTag' でタグが一つ選択されている状態から始まる
+        model.removeFoodTag(1);
+        model.debugState.when(
+          (_, __, ___, ____, ____________, _____, ______, _______, ________,
+              _________, foodTags, __________, ___________) {
+            expect(foodTags.length, 0);
+          },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
+    });
+
     group('postMenu', () {
       test('when review comment is empty', () async {
         model.onEditReview('');
