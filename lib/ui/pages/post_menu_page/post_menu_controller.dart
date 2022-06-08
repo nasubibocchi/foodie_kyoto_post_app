@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+import 'package:foodie_kyoto_post_app/constants/post_users_data.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/menu_image_use_case.dart';
@@ -282,6 +283,25 @@ class PostMenuController extends StateNotifier<PostMenuState> {
       foodTags.remove(key);
 
       state = currentState.copyWith(foodTags: foodTags);
+    }
+  }
+
+  void selectPostUser(int key) {
+    if (state is _PostMenuState) {
+      final currentState = state as _PostMenuState;
+
+      final selectedUser = PostUsers.postUsers[key];
+
+      if (selectedUser != null) {
+        state = currentState.copyWith(postUser: selectedUser);
+      }
+    }
+  }
+
+  void removeSelectedUser() {
+    if (state is _PostMenuState) {
+      final currentState = state as _PostMenuState;
+      state = currentState.copyWith(postUser: '');
     }
   }
 
