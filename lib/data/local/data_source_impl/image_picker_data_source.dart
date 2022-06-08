@@ -28,4 +28,13 @@ class ImagePickerDataSource {
       return Error(e);
     }
   }
+
+  Future<Result<XFile?>> pickVideo() async {
+    try {
+      final pickerResult = await _picker.pickVideo(source: ImageSource.gallery);
+      return Success(pickerResult);
+    } on Exception catch (e) {
+      return Error(e);
+    }
+  }
 }
