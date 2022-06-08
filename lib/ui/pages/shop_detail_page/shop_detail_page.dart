@@ -327,12 +327,6 @@ class _MenuWidget extends StatelessWidget {
                     alignment: Alignment.topRight,
                     child: GestureDetector(
                       onTap: onTapEditIcon,
-                      // onTap: () {
-                      //   context.go(
-                      //     '/${RouteNames.shopDetailPage}/${RouteNames.postMenuPage}',
-                      //     extra: menu,
-                      //   );
-                      // },
                       child: Container(
                         margin: const EdgeInsets.all(4),
                         padding: const EdgeInsets.all(2),
