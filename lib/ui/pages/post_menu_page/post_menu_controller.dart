@@ -140,7 +140,7 @@ class PostMenuController extends StateNotifier<PostMenuState> {
     return tempDirResult.whenWithResult(
       (path) async {
         String tempPath = path.value.path;
-        final extension = isMovie ? '.MOV' : '.png';
+        final extension = isMovie ? '.mp4' : '.png';
 
         final File file = File('$tempPath/$fileName$extension');
 
