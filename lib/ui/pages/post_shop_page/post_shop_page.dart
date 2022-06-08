@@ -19,88 +19,130 @@ class PostShopPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postShopProvider(shopId));
+    final shop = ref.watch(postShopProvider(shopId).select((s) => s.when(
+        (shop, _, __, ___, ____, _____, ______, _______, ________, _________,
+                __________) =>
+            shop,
+        loading: () => null,
+        error: () => null)));
 
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(),
-      body: state.when((shop, commentController, _, __, ___, priceController,
-          ____, _____, ______, _______, isPosting) {
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: AppColors.appBlack),
+        title: Text(
+          shop?.name ?? '',
+          style: const TextStyle(color: AppColors.appBlack),
+        ),
+      ),
+      body: state.when((shop, commentController, _, images, __, priceController,
+          ___, ____, _____, ______, isPosting) {
+        const _divider = Divider(
+          thickness: 4,
+          color: AppColors.appDarkBeige,
+          indent: 0,
+          endIndent: 0,
+        );
+
         return isPosting
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.appGrey))
             : SingleChildScrollView(
                 child: Column(
                   children: [
-                    Text(shop?.name ?? ''),
-                    const SizedBox(height: 20),
+                    _divider,
+                    const SizedBox(height: 8),
                     ImageWidget(shopId: shopId),
                     const SizedBox(height: 20),
-                    TextField(
-                      controller: commentController,
-                      onChanged: ref
-                          .read(postShopProvider(shopId).notifier)
-                          .editComment,
-                    ),
-                    const SizedBox(height: 4),
-                    Container(
-                      decoration: const BoxDecoration(color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '予算',
-                              style: TextStyle(
-                                  color: AppColors.appBlack, fontSize: 16),
+                    _divider,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'レビューコメント',
+                            style: TextStyle(
+                                color: AppColors.appBlack, fontSize: 16),
+                          ),
+                          TextField(
+                            controller: commentController,
+                            maxLines: 8,
+                            cursorColor: AppColors.appOrange,
+                            decoration: const InputDecoration(
+                              hintText: '（例）雰囲気がいい',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: InputBorder.none,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              textBaseline: TextBaseline.alphabetic,
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    controller: priceController,
-                                    textAlign: TextAlign.end,
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(
-                                            signed: true, decimal: true),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    decoration: const InputDecoration(
-                                      hintText: '￥予算を入力',
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
-                                    ),
-                                    onChanged: ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .editPrice,
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                                const Text(
-                                  '円',
-                                  style: TextStyle(
-                                      color: AppColors.appBlack, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                            onChanged: ref
+                                .read(postShopProvider(shopId).notifier)
+                                .editComment,
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    _divider,
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '予算',
+                            style: TextStyle(
+                                color: AppColors.appBlack, fontSize: 16),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: priceController,
+                                  textAlign: TextAlign.end,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                          signed: true, decimal: true),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  cursorColor: AppColors.appOrange,
+                                  decoration: const InputDecoration(
+                                    hintText: '￥予算を入力',
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: ref
+                                      .read(postShopProvider(shopId).notifier)
+                                      .editPrice,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              const Text(
+                                '円',
+                                style: TextStyle(
+                                    color: AppColors.appBlack, fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    _divider,
                     _ServiceTagsWidget(shopId: shopId),
-                    const SizedBox(height: 4),
+                    _divider,
                     _AreaTagsWidget(shopId: shopId),
-                    const SizedBox(height: 4),
+                    _divider,
                     _FoodTagsWidget(shopId: shopId),
-                    const SizedBox(height: 4),
+                    _divider,
                     _SelectedTagsWidget(shopId: shopId),
-                    const SizedBox(height: 4),
+                    _divider,
                     _PostUsersWidget(shopId: shopId),
+                    _divider,
                     const SizedBox(height: 24),
                     PostButton(scaffoldKey, shopId: shopId),
                     const SizedBox(height: 24),
@@ -127,61 +169,55 @@ class _ServiceTagsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(postShopProvider(shopId));
+    final selectedServiceTags = ref.watch(postShopProvider(shopId).select((s) =>
+        s.when(
+            (_, __, ___, ____, _____, ______, selectedServiceTags, _______,
+                    ________, _________, __________) =>
+                selectedServiceTags,
+            loading: () => [],
+            error: () => [])));
 
-    return state.when(
-      (_, __, ___, ____, _____, ______, selectedServiceTags, _______, ________,
-          _________, __________) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Column(
-            children: [
-              const Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    'サービス',
-                    style: TextStyle(color: AppColors.appBlack, fontSize: 16),
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Wrap(
-                    spacing: 16,
-                    children: ServiceTags.serviceTags.entries
-                        .map((e) => TagButton(
-                            onTap: () {
-                              ref
-                                  .read(postShopProvider(shopId).notifier)
-                                  .addServiceTag(e.key);
-                            },
-                            onTapCloseIcon: () {
-                              ref
-                                  .read(postShopProvider(shopId).notifier)
-                                  .removeServiceTag(e.key);
-                            },
-                            tagName: e.value,
-                            isSelected: selectedServiceTags.contains(e.key)))
-                        .toList(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-      loading: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
       ),
-      error: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
+      child: Column(
+        children: [
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                'サービス',
+                style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Wrap(
+                spacing: 16,
+                children: ServiceTags.serviceTags.entries
+                    .map((e) => TagButton(
+                        onTap: () {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .addServiceTag(e.key);
+                        },
+                        onTapCloseIcon: () {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .removeServiceTag(e.key);
+                        },
+                        tagName: e.value,
+                        isSelected: selectedServiceTags.contains(e.key)))
+                    .toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -194,61 +230,55 @@ class _AreaTagsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(postShopProvider(shopId));
+    final selectedAreaTags = ref.watch(postShopProvider(shopId).select((s) =>
+        s.when(
+            (_, __, ___, ____, _____, ______, _______, selectedAreaTags,
+                    ________, _________, __________) =>
+                selectedAreaTags,
+            loading: () => [],
+            error: () => [])));
 
-    return state.when(
-      (_, __, ___, ____, _____, ______, _______, selectedAreaTags, ________,
-          _________, __________) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Column(
-            children: [
-              const Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    'エリア',
-                    style: TextStyle(color: AppColors.appBlack, fontSize: 16),
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Wrap(
-                    spacing: 16,
-                    children: AreaTags.areaTags.entries
-                        .map((e) => TagButton(
-                            onTap: () {
-                              ref
-                                  .read(postShopProvider(shopId).notifier)
-                                  .addAreaTag(e.key);
-                            },
-                            onTapCloseIcon: () {
-                              ref
-                                  .read(postShopProvider(shopId).notifier)
-                                  .removeAreaTag(e.key);
-                            },
-                            tagName: e.value,
-                            isSelected: selectedAreaTags.contains(e.key)))
-                        .toList(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-      loading: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
       ),
-      error: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
+      child: Column(
+        children: [
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                'エリア',
+                style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Wrap(
+                spacing: 16,
+                children: AreaTags.areaTags.entries
+                    .map((e) => TagButton(
+                        onTap: () {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .addAreaTag(e.key);
+                        },
+                        onTapCloseIcon: () {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .removeAreaTag(e.key);
+                        },
+                        tagName: e.value,
+                        isSelected: selectedAreaTags.contains(e.key)))
+                    .toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -261,61 +291,55 @@ class _FoodTagsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(postShopProvider(shopId));
+    final selectedFoodTags = ref.watch(postShopProvider(shopId).select((s) =>
+        s.when(
+            (_, __, ___, ____, _____, ______, _______, ________,
+                    selectedFoodTags, _________, __________) =>
+                selectedFoodTags,
+            loading: () => [],
+            error: () => [])));
 
-    return state.when(
-      (_, __, ___, ____, _____, ______, _______, ________, selectedFoodTags,
-          _________, __________) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Column(
-            children: [
-              const Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    'フード',
-                    style: TextStyle(color: AppColors.appBlack, fontSize: 16),
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Wrap(
-                    spacing: 16,
-                    children: FoodTags.foodTags.entries
-                        .map((e) => TagButton(
-                            onTap: () {
-                              ref
-                                  .read(postShopProvider(shopId).notifier)
-                                  .addFoodTag(e.key);
-                            },
-                            onTapCloseIcon: () {
-                              ref
-                                  .read(postShopProvider(shopId).notifier)
-                                  .removeFoodTag(e.key);
-                            },
-                            tagName: e.value,
-                            isSelected: selectedFoodTags.contains(e.key)))
-                        .toList(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-      loading: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
       ),
-      error: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
+      child: Column(
+        children: [
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                'フード',
+                style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Wrap(
+                spacing: 16,
+                children: FoodTags.foodTags.entries
+                    .map((e) => TagButton(
+                        onTap: () {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .addFoodTag(e.key);
+                        },
+                        onTapCloseIcon: () {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .removeFoodTag(e.key);
+                        },
+                        tagName: e.value,
+                        isSelected: selectedFoodTags.contains(e.key)))
+                    .toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -328,97 +352,105 @@ class _SelectedTagsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(postShopProvider(shopId));
+    final selectedServiceTags = ref.watch(postShopProvider(shopId).select((s) =>
+        s.when(
+            (_, __, ___, ____, _____, ______, selectedServiceTags, _______,
+                    ________, _________, __________) =>
+                selectedServiceTags,
+            loading: () => [],
+            error: () => [])));
+    final selectedAreaTags = ref.watch(postShopProvider(shopId).select((s) =>
+        s.when(
+            (_, __, ___, ____, _____, ______, _______, selectedAreaTags,
+                    ________, _________, __________) =>
+                selectedAreaTags,
+            loading: () => [],
+            error: () => [])));
+    final selectedFoodTags = ref.watch(postShopProvider(shopId).select((s) =>
+        s.when(
+            (_, __, ___, ____, _____, ______, selectedServiceTags,
+                    selectedAreaTags, selectedFoodTags, _______, ________) =>
+                selectedFoodTags,
+            loading: () => [],
+            error: () => [])));
 
-    return state.when(
-      (_, __, ___, ____, _____, ______, selectedServiceTags, selectedAreaTags,
-          selectedFoodTags, _______, ________) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        const Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              '選択済みタグ',
+              style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+            ),
           ),
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            const Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  '選択済みタグ',
-                  style: TextStyle(color: AppColors.appBlack, fontSize: 16),
-                ),
-              ),
+        ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: ServiceTags.serviceTags.entries
+                      .map((e) => selectedServiceTags.contains(e.key)
+                          ? TagButton(
+                              onTap: () {
+                                ref
+                                    .read(postShopProvider(shopId).notifier)
+                                    .addServiceTag(e.key);
+                              },
+                              onTapCloseIcon: () {
+                                ref
+                                    .read(postShopProvider(shopId).notifier)
+                                    .removeServiceTag(e.key);
+                              },
+                              tagName: e.value,
+                              isSelected: selectedServiceTags.contains(e.key))
+                          : const SizedBox())
+                      .toList() +
+                  AreaTags.areaTags.entries
+                      .map((e) => selectedAreaTags.contains(e.key)
+                          ? TagButton(
+                              onTap: () {
+                                ref
+                                    .read(postShopProvider(shopId).notifier)
+                                    .addAreaTag(e.key);
+                              },
+                              onTapCloseIcon: () {
+                                ref
+                                    .read(postShopProvider(shopId).notifier)
+                                    .removeAreaTag(e.key);
+                              },
+                              tagName: e.value,
+                              isSelected: selectedAreaTags.contains(e.key))
+                          : const SizedBox())
+                      .toList() +
+                  FoodTags.foodTags.entries
+                      .map((e) => selectedFoodTags.contains(e.key)
+                          ? TagButton(
+                              onTap: () {
+                                ref
+                                    .read(postShopProvider(shopId).notifier)
+                                    .addFoodTag(e.key);
+                              },
+                              onTapCloseIcon: () {
+                                ref
+                                    .read(postShopProvider(shopId).notifier)
+                                    .removeFoodTag(e.key);
+                              },
+                              tagName: e.value,
+                              isSelected: selectedFoodTags.contains(e.key))
+                          : const SizedBox())
+                      .toList(),
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: ServiceTags.serviceTags.entries
-                          .map((e) => selectedServiceTags.contains(e.key)
-                              ? TagButton(
-                                  onTap: () {
-                                    ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .addServiceTag(e.key);
-                                  },
-                                  onTapCloseIcon: () {
-                                    ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .removeServiceTag(e.key);
-                                  },
-                                  tagName: e.value,
-                                  isSelected:
-                                      selectedServiceTags.contains(e.key))
-                              : const SizedBox())
-                          .toList() +
-                      AreaTags.areaTags.entries
-                          .map((e) => selectedAreaTags.contains(e.key)
-                              ? TagButton(
-                                  onTap: () {
-                                    ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .addAreaTag(e.key);
-                                  },
-                                  onTapCloseIcon: () {
-                                    ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .removeAreaTag(e.key);
-                                  },
-                                  tagName: e.value,
-                                  isSelected: selectedAreaTags.contains(e.key))
-                              : const SizedBox())
-                          .toList() +
-                      FoodTags.foodTags.entries
-                          .map((e) => selectedFoodTags.contains(e.key)
-                              ? TagButton(
-                                  onTap: () {
-                                    ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .addFoodTag(e.key);
-                                  },
-                                  onTapCloseIcon: () {
-                                    ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .removeFoodTag(e.key);
-                                  },
-                                  tagName: e.value,
-                                  isSelected: selectedFoodTags.contains(e.key))
-                              : const SizedBox())
-                          .toList(),
-                ),
-              ),
-            ),
-          ]),
-        );
-      },
-      loading: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
-      ),
-      error: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
-      ),
+          ),
+        ),
+      ]),
     );
   }
 }
@@ -430,60 +462,55 @@ class _PostUsersWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(postShopProvider(shopId));
-    return state.when(
-      (_, __, ___, ____, _____, ______, _______, ________, _________,
-          postUserName, __________) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Column(
-            children: [
-              const Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    '登録者',
-                    style: TextStyle(color: AppColors.appBlack, fontSize: 16),
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Wrap(
-                    spacing: 16,
-                    children: PostUsers.postUsers.entries
-                        .map((e) => UserButton(
-                            onTap: () {
-                              ref
-                                  .read(postShopProvider(shopId).notifier)
-                                  .selectPostUser(e.key);
-                            },
-                            onTapCloseIcon: () {
-                              ref
-                                  .read(postShopProvider(shopId).notifier)
-                                  .removeSelectedUser();
-                            },
-                            userName: e.value,
-                            isSelected: postUserName.contains(e.value)))
-                        .toList(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-      loading: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
+    final postUserName = ref.watch(postShopProvider(shopId).select((s) =>
+        s.when(
+            (_, __, ___, ____, _____, ______, _______, ________, _________,
+                    postUserName, __________) =>
+                postUserName,
+            loading: () => '',
+            error: () => '')));
+
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
       ),
-      error: () => const Center(
-        child: CircularProgressIndicator(color: AppColors.appGrey),
+      child: Column(
+        children: [
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                '登録者',
+                style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Wrap(
+                spacing: 16,
+                children: PostUsers.postUsers.entries
+                    .map((e) => UserButton(
+                        onTap: () {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .selectPostUser(e.key);
+                        },
+                        onTapCloseIcon: () {
+                          ref
+                              .read(postShopProvider(shopId).notifier)
+                              .removeSelectedUser();
+                        },
+                        userName: e.value,
+                        isSelected: postUserName.contains(e.value)))
+                    .toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
