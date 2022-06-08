@@ -90,12 +90,17 @@ class GoogleMapPage extends HookConsumerWidget {
         (googleMapController, _, isShowingShopInformation, __) =>
             isShowingShopInformation
                 ? const SizedBox()
-                : Padding(
-                    padding: const EdgeInsets.only(right: 64),
-                    child: FloatingActionButton(
-                      onPressed: () =>
-                          context.go('/${RouteNames.searchShopPage}'),
-                      child: const Icon(Icons.add, key: Key(addAShopKey)),
+                : FloatingActionButton.extended(
+                    backgroundColor: AppColors.appPink,
+                    onPressed: () =>
+                        context.go('/${RouteNames.searchShopPage}'),
+                    icon: const Icon(Icons.add,
+                        color: AppColors.appBlack,
+                        size: 16,
+                        key: Key(addAShopKey)),
+                    label: const Text(
+                      'お店を追加',
+                      style: TextStyle(color: AppColors.appBlack),
                     ),
                   ),
         creating: () => const SizedBox(),
