@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_kyoto_post_app/constants.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
@@ -47,8 +48,8 @@ class ShopInformationWidget extends StatelessWidget {
                           itemBuilder: (context, int index) {
                             return Padding(
                               padding: const EdgeInsets.all(4),
-                              child: Image(
-                                  image: NetworkImage(shop.images[index])),
+                              child: CachedNetworkImage(
+                                  imageUrl: shop.images[index]),
                             );
                           }),
                     ),
