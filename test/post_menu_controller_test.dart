@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:foodie_kyoto_post_app/constants/post_users_data.dart';
 import 'package:foodie_kyoto_post_app/data/model/result.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
 import 'package:foodie_kyoto_post_app/domain/use_case/image_file_use_case.dart';
@@ -195,6 +196,36 @@ void main() {
               _________, foodTags, __________, ___________) {
             expect(foodTags.length, 0);
           },
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
+    });
+
+    group('selectPostUser', () {
+      test('when select user1', () {
+        model.selectPostUser(1);
+        model.debugState.when(
+          (_, __, ___, ____, ____________, _____, ______, _______, ________,
+                  _________, __________, postUser, ___________) =>
+              expect(postUser, PostUsers.postUsers[1]),
+          error: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
+        );
+      });
+    });
+
+    group('removePostUser', () {
+      test('when select user1', () {
+        model.removeSelectedUser();
+        model.debugState.when(
+          (_, __, ___, ____, ____________, _____, ______, _______, ________,
+                  _________, __________, postUser, ___________) =>
+              expect(postUser, ''),
           error: () {
             // ignore: avoid_print
             print('test is not passed');
