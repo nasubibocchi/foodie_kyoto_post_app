@@ -40,7 +40,10 @@ class SearchShopPage extends HookConsumerWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: AppColors.appGrey),
+                  boxShadow: const [
+                    BoxShadow(
+                        offset: Offset(0, 2), color: Colors.grey, blurRadius: 2)
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
