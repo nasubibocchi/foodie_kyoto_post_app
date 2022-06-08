@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
+import 'package:foodie_kyoto_post_app/constants/post_users_data.dart';
 import 'package:foodie_kyoto_post_app/constants/tags_data.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
 import 'package:foodie_kyoto_post_app/ui/components/ok_dialog.dart';
 import 'package:foodie_kyoto_post_app/ui/components/tag_button.dart';
+import 'package:foodie_kyoto_post_app/ui/components/user_button.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/menu_image_widget.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/menu_movie_widget.dart';
+import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_button.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
 class PostMenuPage extends HookConsumerWidget {
-  const PostMenuPage({Key? key, required this.shopId, this.menu})
-      : super(key: key);
+  PostMenuPage({Key? key, required this.shopId, this.menu}) : super(key: key);
 
   final String shopId;
   final Menu? menu;
+
+  final GlobalKey scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postMenuProvider(Tuple2(shopId, menu)));
 
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -49,221 +54,237 @@ class PostMenuPage extends HookConsumerWidget {
           postUser,
           isPosting,
         ) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                const Divider(
-                  thickness: 4,
-                  color: AppColors.appDarkBeige,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                MenuImageWidget(shopId: shopId),
-                const Divider(
-                  thickness: 4,
-                  color: AppColors.appDarkBeige,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                MenuMovieWidget(
-                  shopId: shopId,
-                  movies: movies,
-                  onTapDeleteMovie: () => ref
-                      .read(postMenuProvider(Tuple2(shopId, menu)).notifier)
-                      .deleteSelectedMovie()
-                      .then((_) => Navigator.of(context).pop()),
-                  onTapAddMovie: () async {
-                    try {
-                      await ref
-                          .read(postMenuProvider(Tuple2(shopId, menu)).notifier)
-                          .selectMovie();
-                    } catch (e) {
-                      await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const OkDialog(
-                                title: 'エラー',
-                                body: '動画選択に失敗しました。もう一度試してみてください。');
-                          });
-                    }
-                  },
-                ),
-                const Divider(
-                  thickness: 4,
-                  color: AppColors.appDarkBeige,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+          return isPosting
+              ? const Center(
+                  child: CircularProgressIndicator(color: AppColors.appGrey),
+                )
+              : SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'メニュー名',
-                        style:
-                            TextStyle(color: AppColors.appBlack, fontSize: 16),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
                       ),
-                      TextField(
-                        controller: nameController,
-                        decoration: const InputDecoration(
-                          hintText: '（必須）メニュー名を入力',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        onChanged: ref
+                      MenuImageWidget(shopId: shopId),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
+                      MenuMovieWidget(
+                        shopId: shopId,
+                        movies: movies,
+                        onTapDeleteMovie: () => ref
                             .read(
                                 postMenuProvider(Tuple2(shopId, menu)).notifier)
-                            .onEditMenuName,
+                            .deleteSelectedMovie()
+                            .then((_) => Navigator.of(context).pop()),
+                        onTapAddMovie: () async {
+                          try {
+                            await ref
+                                .read(postMenuProvider(Tuple2(shopId, menu))
+                                    .notifier)
+                                .selectMovie();
+                          } catch (e) {
+                            await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const OkDialog(
+                                      title: 'エラー',
+                                      body: '動画選択に失敗しました。もう一度試してみてください。');
+                                });
+                          }
+                        },
                       ),
-                    ],
-                  ),
-                ),
-                const Divider(
-                  thickness: 4,
-                  color: AppColors.appDarkBeige,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'レビューコメント(日本語)',
-                        style:
-                            TextStyle(color: AppColors.appBlack, fontSize: 16),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
                       ),
-                      TextField(
-                        controller: reviewController,
-                        maxLines: 6,
-                        decoration: const InputDecoration(
-                          hintText: '（必須）日本語でレビューを入力',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        onChanged: ref
-                            .read(
-                                postMenuProvider(Tuple2(shopId, menu)).notifier)
-                            .onEditReview,
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(
-                  thickness: 4,
-                  color: AppColors.appDarkBeige,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'レビューコメント(英語)',
-                        style:
-                            TextStyle(color: AppColors.appBlack, fontSize: 16),
-                      ),
-                      TextField(
-                        controller: enReviewController,
-                        maxLines: 6,
-                        decoration: const InputDecoration(
-                          hintText: '英語でレビューを入力',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        onChanged: ref
-                            .read(
-                                postMenuProvider(Tuple2(shopId, menu)).notifier)
-                            .onEditEnglishReview,
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(
-                  thickness: 4,
-                  color: AppColors.appDarkBeige,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        '料金',
-                        style:
-                            TextStyle(color: AppColors.appBlack, fontSize: 16),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: priceController,
-                              textAlign: TextAlign.end,
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                      signed: true, decimal: true),
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'メニュー名',
+                              style: TextStyle(
+                                  color: AppColors.appBlack, fontSize: 16),
+                            ),
+                            TextField(
+                              controller: nameController,
                               decoration: const InputDecoration(
-                                hintText: '￥予算を入力',
+                                hintText: '（必須）メニュー名を入力',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: InputBorder.none,
                               ),
                               onChanged: ref
                                   .read(postMenuProvider(Tuple2(shopId, menu))
                                       .notifier)
-                                  .onEditPrice,
+                                  .onEditMenuName,
                             ),
-                          ),
-                          const SizedBox(width: 4),
-                          const Text(
-                            '円',
-                            style: TextStyle(
-                                color: AppColors.appBlack, fontSize: 12),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'レビューコメント(日本語)',
+                              style: TextStyle(
+                                  color: AppColors.appBlack, fontSize: 16),
+                            ),
+                            TextField(
+                              controller: reviewController,
+                              maxLines: 6,
+                              decoration: const InputDecoration(
+                                hintText: '（必須）日本語でレビューを入力',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                              onChanged: ref
+                                  .read(postMenuProvider(Tuple2(shopId, menu))
+                                      .notifier)
+                                  .onEditReview,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'レビューコメント(英語)',
+                              style: TextStyle(
+                                  color: AppColors.appBlack, fontSize: 16),
+                            ),
+                            TextField(
+                              controller: enReviewController,
+                              maxLines: 6,
+                              decoration: const InputDecoration(
+                                hintText: '英語でレビューを入力',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                              onChanged: ref
+                                  .read(postMenuProvider(Tuple2(shopId, menu))
+                                      .notifier)
+                                  .onEditEnglishReview,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              '料金',
+                              style: TextStyle(
+                                  color: AppColors.appBlack, fontSize: 16),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: priceController,
+                                    textAlign: TextAlign.end,
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(
+                                            signed: true, decimal: true),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    decoration: const InputDecoration(
+                                      hintText: '￥予算を入力',
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      border: InputBorder.none,
+                                    ),
+                                    onChanged: ref
+                                        .read(postMenuProvider(
+                                                Tuple2(shopId, menu))
+                                            .notifier)
+                                        .onEditPrice,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                const Text(
+                                  '円',
+                                  style: TextStyle(
+                                      color: AppColors.appBlack, fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
+                      _FoodTagsWidget(shopId: shopId, menu: menu),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
+                      _SelectedTagsWidget(shopId: shopId, menu: menu),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
+                      _PostUsersWidget(shopId: shopId, menu: menu),
+                      const Divider(
+                        thickness: 4,
+                        color: AppColors.appDarkBeige,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
+                      const SizedBox(height: 16),
+                      PostButton(scaffoldKey, shopId: shopId, menu: menu),
+                      const SizedBox(height: 24),
                     ],
                   ),
-                ),
-                const Divider(
-                  thickness: 4,
-                  color: AppColors.appDarkBeige,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                _FoodTagsWidget(shopId: shopId, menu: menu),
-                const Divider(
-                  thickness: 4,
-                  color: AppColors.appDarkBeige,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                _SelectedTagsWidget(shopId: shopId, menu: menu),
-                const Divider(
-                  thickness: 4,
-                  color: AppColors.appDarkBeige,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                const SizedBox(height: 24),
-              ],
-            ),
-          );
+                );
         },
         error: () {
           return const Center(
@@ -398,6 +419,69 @@ class _SelectedTagsWidget extends ConsumerWidget {
             ),
           ),
         ]),
+      ),
+    );
+  }
+}
+
+class _PostUsersWidget extends ConsumerWidget {
+  const _PostUsersWidget({required this.shopId, required this.menu});
+
+  final String shopId;
+  final Menu? menu;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final postUser = ref.watch(postMenuProvider(Tuple2(shopId, menu)).select(
+        (s) => s.when(
+            (_, __, ___, ____, _____, ______, _______, ________, _________,
+                    __________, ___________, postUser, ____________) =>
+                postUser,
+            error: () => '')));
+
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Column(
+        children: [
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                '登録者',
+                style: TextStyle(color: AppColors.appBlack, fontSize: 16),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Wrap(
+                spacing: 16,
+                children: PostUsers.postUsers.entries
+                    .map((e) => UserButton(
+                        onTap: () {
+                          ref
+                              .read(postMenuProvider(Tuple2(shopId, menu))
+                                  .notifier)
+                              .selectPostUser(e.key);
+                        },
+                        onTapCloseIcon: () {
+                          ref
+                              .read(postMenuProvider(Tuple2(shopId, menu))
+                                  .notifier)
+                              .removeSelectedUser();
+                        },
+                        userName: e.value,
+                        isSelected: postUser.contains(e.value)))
+                    .toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

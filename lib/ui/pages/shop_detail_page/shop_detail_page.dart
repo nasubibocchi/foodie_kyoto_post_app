@@ -214,12 +214,16 @@ class ShopDetailPage extends HookConsumerWidget {
                         ),
                         const SizedBox(height: 8),
                         menu.isNotEmpty
-                            ? ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: menu.length,
-                                itemBuilder: (context, int index) {
-                                  return _MenuWidget(menu: menu[index]);
-                                })
+                            ? SizedBox(
+                                height: 100,
+                                child: ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: menu.length,
+                                    itemBuilder: (context, int index) {
+                                      return _MenuWidget(menu: menu[index]);
+                                    }),
+                              )
                             : const Text(
                                 'メニューを追加しましょう',
                                 style: TextStyle(color: AppColors.appBlack),
