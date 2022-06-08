@@ -19,88 +19,130 @@ class PostShopPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postShopProvider(shopId));
+    final shop = ref.watch(postShopProvider(shopId).select((s) => s.when(
+        (shop, _, __, ___, ____, _____, ______, _______, ________, _________,
+                __________) =>
+            shop,
+        loading: () => null,
+        error: () => null)));
 
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(),
-      body: state.when((shop, commentController, _, __, ___, priceController,
-          ____, _____, ______, _______, isPosting) {
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: AppColors.appBlack),
+        title: Text(
+          shop?.name ?? '',
+          style: const TextStyle(color: AppColors.appBlack),
+        ),
+      ),
+      body: state.when((shop, commentController, _, images, __, priceController,
+          ___, ____, _____, ______, isPosting) {
+        const _divider = Divider(
+          thickness: 4,
+          color: AppColors.appDarkBeige,
+          indent: 0,
+          endIndent: 0,
+        );
+
         return isPosting
             ? const Center(
                 child: CircularProgressIndicator(color: AppColors.appGrey))
             : SingleChildScrollView(
                 child: Column(
                   children: [
-                    Text(shop?.name ?? ''),
-                    const SizedBox(height: 20),
+                    _divider,
+                    const SizedBox(height: 8),
                     ImageWidget(shopId: shopId),
                     const SizedBox(height: 20),
-                    TextField(
-                      controller: commentController,
-                      onChanged: ref
-                          .read(postShopProvider(shopId).notifier)
-                          .editComment,
-                    ),
-                    const SizedBox(height: 4),
-                    Container(
-                      decoration: const BoxDecoration(color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '予算',
-                              style: TextStyle(
-                                  color: AppColors.appBlack, fontSize: 16),
+                    _divider,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'レビューコメント',
+                            style: TextStyle(
+                                color: AppColors.appBlack, fontSize: 16),
+                          ),
+                          TextField(
+                            controller: commentController,
+                            maxLines: 8,
+                            cursorColor: AppColors.appOrange,
+                            decoration: const InputDecoration(
+                              hintText: '（例）雰囲気がいい',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: InputBorder.none,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              textBaseline: TextBaseline.alphabetic,
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    controller: priceController,
-                                    textAlign: TextAlign.end,
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(
-                                            signed: true, decimal: true),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    decoration: const InputDecoration(
-                                      hintText: '￥予算を入力',
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
-                                    ),
-                                    onChanged: ref
-                                        .read(postShopProvider(shopId).notifier)
-                                        .editPrice,
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                                const Text(
-                                  '円',
-                                  style: TextStyle(
-                                      color: AppColors.appBlack, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                            onChanged: ref
+                                .read(postShopProvider(shopId).notifier)
+                                .editComment,
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    _divider,
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '予算',
+                            style: TextStyle(
+                                color: AppColors.appBlack, fontSize: 16),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: priceController,
+                                  textAlign: TextAlign.end,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                          signed: true, decimal: true),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  cursorColor: AppColors.appOrange,
+                                  decoration: const InputDecoration(
+                                    hintText: '￥予算を入力',
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: ref
+                                      .read(postShopProvider(shopId).notifier)
+                                      .editPrice,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              const Text(
+                                '円',
+                                style: TextStyle(
+                                    color: AppColors.appBlack, fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    _divider,
                     _ServiceTagsWidget(shopId: shopId),
-                    const SizedBox(height: 4),
+                    _divider,
                     _AreaTagsWidget(shopId: shopId),
-                    const SizedBox(height: 4),
+                    _divider,
                     _FoodTagsWidget(shopId: shopId),
-                    const SizedBox(height: 4),
+                    _divider,
                     _SelectedTagsWidget(shopId: shopId),
-                    const SizedBox(height: 4),
+                    _divider,
                     _PostUsersWidget(shopId: shopId),
+                    _divider,
                     const SizedBox(height: 24),
                     PostButton(scaffoldKey, shopId: shopId),
                     const SizedBox(height: 24),
