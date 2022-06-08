@@ -60,6 +60,10 @@ void main() {
               __________, ___________, ____________) {
             expect(name, 'name');
           },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -73,6 +77,10 @@ void main() {
           (name, _, __, ___, ____, _____, ______, _______, ________, _________,
                   __________, ___________, ____________) =>
               expect(name, '🦆'),
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -89,6 +97,10 @@ void main() {
               _________, __________, ___________, ____________) {
             expect(review, 'レビュー!');
           },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -102,6 +114,10 @@ void main() {
           (_, __, ___, ____, _____, ______, review, _______, ________,
               _________, __________, ___________, ____________) {
             expect(review, '🦆');
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -119,6 +135,10 @@ void main() {
               _________, __________, ___________, ____________) {
             expect(enReview, 'review!');
           },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -132,6 +152,10 @@ void main() {
           (_, __, ___, ____, _____, ______, _______, ________, enReview,
               _________, __________, ___________, ____________) {
             expect(enReview, '🦆');
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -149,6 +173,10 @@ void main() {
               __________, ___________, ____________) {
             expect(price, 122334);
           },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -162,6 +190,10 @@ void main() {
           (_, __, ___, ____, price, _____, ______, _______, ________, _________,
               __________, ___________, ____________) {
             expect(price, 0);
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -178,6 +210,10 @@ void main() {
           (_, __, ___, ____, ____________, _____, ______, _______, ________,
               _________, foodTags, __________, ___________) {
             expect(foodTags.length, 1);
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -196,6 +232,10 @@ void main() {
               _________, foodTags, __________, ___________) {
             expect(foodTags.length, 0);
           },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -211,6 +251,10 @@ void main() {
           (_, __, ___, ____, ____________, _____, ______, _______, ________,
                   _________, __________, postUser, ___________) =>
               expect(postUser, PostUsers.postUsers[1]),
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -226,6 +270,10 @@ void main() {
           (_, __, ___, ____, ____________, _____, ______, _______, ________,
                   _________, __________, postUser, ___________) =>
               expect(postUser, ''),
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
