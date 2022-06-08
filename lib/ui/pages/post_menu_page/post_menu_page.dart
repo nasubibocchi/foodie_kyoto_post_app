@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodie_kyoto_post_app/constants/app_colors.dart';
 import 'package:foodie_kyoto_post_app/domain/entity/menu.dart';
+import 'package:foodie_kyoto_post_app/ui/components/ok_dialog.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/menu_image_widget.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/menu_movie_widget.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_provider.dart';
@@ -35,7 +36,7 @@ class PostMenuPage extends HookConsumerWidget {
           _,
           nameController,
           __,
-          ___,
+          movies,
           ____,
           priceController,
           _____,
@@ -62,7 +63,29 @@ class PostMenuPage extends HookConsumerWidget {
                   indent: 0,
                   endIndent: 0,
                 ),
-                MenuMovieWidget(shopId: shopId),
+                MenuMovieWidget(
+                  shopId: shopId,
+                  movies: movies,
+                  onTapDeleteMovie: () => ref
+                      .read(postMenuProvider(Tuple2(shopId, menu)).notifier)
+                      .deleteSelectedMovie()
+                      .then((_) => Navigator.of(context).pop()),
+                  onTapAddMovie: () async {
+                    try {
+                      await ref
+                          .read(postMenuProvider(Tuple2(shopId, menu)).notifier)
+                          .selectMovie();
+                    } catch (e) {
+                      await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const OkDialog(
+                                title: 'エラー',
+                                body: '動画選択に失敗しました。もう一度試してみてください。');
+                          });
+                    }
+                  },
+                ),
                 const Divider(
                   thickness: 4,
                   color: AppColors.appDarkBeige,
