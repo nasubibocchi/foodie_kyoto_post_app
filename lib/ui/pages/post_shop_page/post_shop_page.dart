@@ -389,62 +389,73 @@ class _SelectedTagsWidget extends ConsumerWidget {
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Align(
+            alignment: Alignment.topLeft,
             child: Wrap(
-              spacing: 8,
-              runSpacing: 8,
               children: ServiceTags.serviceTags.entries
                       .map((e) => selectedServiceTags.contains(e.key)
-                          ? TagButton(
-                              onTap: () {
-                                ref
-                                    .read(postShopProvider(shopId).notifier)
-                                    .addServiceTag(e.key);
-                              },
-                              onTapCloseIcon: () {
-                                ref
-                                    .read(postShopProvider(shopId).notifier)
-                                    .removeServiceTag(e.key);
-                              },
-                              tagName: e.value,
-                              isSelected: selectedServiceTags.contains(e.key))
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              child: TagButton(
+                                  onTap: () {
+                                    ref
+                                        .read(postShopProvider(shopId).notifier)
+                                        .addServiceTag(e.key);
+                                  },
+                                  onTapCloseIcon: () {
+                                    ref
+                                        .read(postShopProvider(shopId).notifier)
+                                        .removeServiceTag(e.key);
+                                  },
+                                  tagName: e.value,
+                                  isSelected:
+                                      selectedServiceTags.contains(e.key)),
+                            )
                           : const SizedBox())
                       .toList() +
                   AreaTags.areaTags.entries
                       .map((e) => selectedAreaTags.contains(e.key)
-                          ? TagButton(
-                              onTap: () {
-                                ref
-                                    .read(postShopProvider(shopId).notifier)
-                                    .addAreaTag(e.key);
-                              },
-                              onTapCloseIcon: () {
-                                ref
-                                    .read(postShopProvider(shopId).notifier)
-                                    .removeAreaTag(e.key);
-                              },
-                              tagName: e.value,
-                              isSelected: selectedAreaTags.contains(e.key))
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              child: TagButton(
+                                  onTap: () {
+                                    ref
+                                        .read(postShopProvider(shopId).notifier)
+                                        .addAreaTag(e.key);
+                                  },
+                                  onTapCloseIcon: () {
+                                    ref
+                                        .read(postShopProvider(shopId).notifier)
+                                        .removeAreaTag(e.key);
+                                  },
+                                  tagName: e.value,
+                                  isSelected: selectedAreaTags.contains(e.key)),
+                            )
                           : const SizedBox())
                       .toList() +
                   FoodTags.foodTags.entries
                       .map((e) => selectedFoodTags.contains(e.key)
-                          ? TagButton(
-                              onTap: () {
-                                ref
-                                    .read(postShopProvider(shopId).notifier)
-                                    .addFoodTag(e.key);
-                              },
-                              onTapCloseIcon: () {
-                                ref
-                                    .read(postShopProvider(shopId).notifier)
-                                    .removeFoodTag(e.key);
-                              },
-                              tagName: e.value,
-                              isSelected: selectedFoodTags.contains(e.key))
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              child: TagButton(
+                                  onTap: () {
+                                    ref
+                                        .read(postShopProvider(shopId).notifier)
+                                        .addFoodTag(e.key);
+                                  },
+                                  onTapCloseIcon: () {
+                                    ref
+                                        .read(postShopProvider(shopId).notifier)
+                                        .removeFoodTag(e.key);
+                                  },
+                                  tagName: e.value,
+                                  isSelected: selectedFoodTags.contains(e.key)),
+                            )
                           : const SizedBox())
                       .toList(),
             ),
