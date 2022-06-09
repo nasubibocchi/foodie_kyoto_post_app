@@ -8,6 +8,7 @@ import 'package:foodie_kyoto_post_app/domain/entity/shop.dart';
 import 'package:foodie_kyoto_post_app/ui/pages/shop_detail_page/shop_detail_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ShopDetailPage extends HookConsumerWidget {
@@ -43,6 +44,8 @@ class ShopDetailPage extends HookConsumerWidget {
       ),
       body: state.when(
         (menu) {
+          final formatter = NumberFormat("#,###");
+
           return CustomScrollView(
             slivers: [
               SliverList(
@@ -139,7 +142,7 @@ class ShopDetailPage extends HookConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              '¥${shop.price}',
+                              '￥${formatter.format(shop.price)}',
                               style: const TextStyle(
                                   color: AppColors.appBlack, fontSize: 16),
                             ),
@@ -304,6 +307,8 @@ class _MenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formatter = NumberFormat("#,###");
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
       child: Container(
@@ -364,7 +369,7 @@ class _MenuWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          '¥${menu.price}',
+                          '￥${formatter.format(menu.price)}',
                           style: const TextStyle(
                               color: AppColors.appBlack, fontSize: 12),
                         ),

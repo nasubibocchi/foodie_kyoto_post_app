@@ -119,6 +119,7 @@ class PostMenuPage extends HookConsumerWidget {
                             ),
                             TextField(
                               controller: nameController,
+                              cursorColor: AppColors.appOrange,
                               decoration: const InputDecoration(
                                 hintText: '（必須）メニュー名を入力',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -151,6 +152,7 @@ class PostMenuPage extends HookConsumerWidget {
                             ),
                             TextField(
                               controller: reviewController,
+                              cursorColor: AppColors.appOrange,
                               maxLines: 6,
                               decoration: const InputDecoration(
                                 hintText: '（必須）日本語でレビューを入力',
@@ -184,6 +186,7 @@ class PostMenuPage extends HookConsumerWidget {
                             ),
                             TextField(
                               controller: enReviewController,
+                              cursorColor: AppColors.appOrange,
                               maxLines: 6,
                               decoration: const InputDecoration(
                                 hintText: '英語でレビューを入力',
@@ -230,6 +233,7 @@ class PostMenuPage extends HookConsumerWidget {
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
+                                    cursorColor: AppColors.appOrange,
                                     decoration: const InputDecoration(
                                       hintText: '￥予算を入力',
                                       hintStyle: TextStyle(color: Colors.grey),
