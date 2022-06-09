@@ -72,8 +72,11 @@ class PostMenuController extends StateNotifier<PostMenuState> {
         }
       }
 
+      File? _movie;
       final menuMovie = _menu!.movies.first;
-      final _movie = await urlToFile(menuMovie, '0', true);
+      if (menuMovie != '') {
+        _movie = await urlToFile(menuMovie, '0', true);
+      }
 
       state = PostMenuState(
         name: _menu!.name,
