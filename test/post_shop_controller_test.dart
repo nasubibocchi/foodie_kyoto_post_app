@@ -389,7 +389,7 @@ void main() {
 
       model.debugState.when((_, __, ___, ____, _____, ______, _______, ________,
           _________, postUserName, __________) {
-        expect(postUserName, '');
+        expect(postUserName, 'user1');
       }, loading: () {}, error: () {});
 
       model.selectPostUser(1);
@@ -452,7 +452,7 @@ void main() {
 
       model.debugState.when((_, __, ___, ____, _____, ______, _______, ________,
           _________, postUserName, __________) {
-        expect(postUserName, '');
+        expect(postUserName, 'user1');
       }, loading: () {}, error: () {});
 
       model.selectPostUser(1);
