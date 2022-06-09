@@ -22,6 +22,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'Foodie kyoto post app',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
