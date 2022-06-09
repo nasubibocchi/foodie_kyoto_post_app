@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   package_info_plus: ^1.4.2
   flutter_dotenv: ^5.0.2
+  intl: ^0.17.0
 
   # DI
   flutter_hooks: ^0.18.4
