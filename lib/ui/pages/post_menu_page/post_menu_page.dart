@@ -408,25 +408,28 @@ class _SelectedTagsWidget extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Wrap(
-                spacing: 8,
-                runSpacing: 8,
                 children: FoodTags.foodTags.entries
                     .map((e) => selectedFoodTags.contains(e.key)
-                        ? TagButton(
-                            onTap: () {
-                              ref
-                                  .read(postMenuProvider(Tuple2(shopId, menu))
-                                      .notifier)
-                                  .addFoodTag(e.key);
-                            },
-                            onTapCloseIcon: () {
-                              ref
-                                  .read(postMenuProvider(Tuple2(shopId, menu))
-                                      .notifier)
-                                  .removeFoodTag(e.key);
-                            },
-                            tagName: e.value,
-                            isSelected: selectedFoodTags.contains(e.key))
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: TagButton(
+                                onTap: () {
+                                  ref
+                                      .read(
+                                          postMenuProvider(Tuple2(shopId, menu))
+                                              .notifier)
+                                      .addFoodTag(e.key);
+                                },
+                                onTapCloseIcon: () {
+                                  ref
+                                      .read(
+                                          postMenuProvider(Tuple2(shopId, menu))
+                                              .notifier)
+                                      .removeFoodTag(e.key);
+                                },
+                                tagName: e.value,
+                                isSelected: selectedFoodTags.contains(e.key)),
+                          )
                         : const SizedBox())
                     .toList(),
               ),
