@@ -11,21 +11,16 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tuple/tuple.dart';
 
 class MenuImageWidget extends ConsumerWidget {
-  const MenuImageWidget({Key? key, required this.shopId, this.menu})
+  const MenuImageWidget(
+      {Key? key, required this.shopId, required this.images, this.menu})
       : super(key: key);
 
   final String shopId;
   final Menu? menu;
+  final List<File> images;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final images = ref.watch(postMenuProvider(Tuple2(shopId, menu)).select(
-      (s) => s.when((_, __, images, ___, ____, _____, ______, _______, ________,
-          _________, __________, ___________, ____________) {
-        return images;
-      }, error: () => []),
-    ));
-
     final controller = PageController(viewportFraction: 0.9);
 
     return images.isNotEmpty

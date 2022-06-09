@@ -9,15 +9,15 @@ import 'package:foodie_kyoto_post_app/ui/pages/post_menu_page/post_menu_controll
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
-final postMenuProvider = StateNotifierProvider.family<
-        PostMenuController, PostMenuState, Tuple2<String, Menu?>>(
-    (ref, tuple) => PostMenuController(
-          ref.read(menuUseCaseProvider),
-          ref.read(menuImageUseCaseProvider),
-          ref.read(imageFileUseCaseProvider),
-          ref.read(pathUseCaseProvider),
-          ref.read(menuMovieUseCaseProvider),
-          ref.read(movieFileUseCaseProvider),
-          tuple.item1,
-          tuple.item2,
-        ));
+final postMenuProvider = StateNotifierProvider.family
+    .autoDispose<PostMenuController, PostMenuState, Tuple2<String, Menu?>>(
+        (ref, tuple) => PostMenuController(
+              ref.read(menuUseCaseProvider),
+              ref.read(menuImageUseCaseProvider),
+              ref.read(imageFileUseCaseProvider),
+              ref.read(pathUseCaseProvider),
+              ref.read(menuMovieUseCaseProvider),
+              ref.read(movieFileUseCaseProvider),
+              tuple.item1,
+              tuple.item2,
+            ));

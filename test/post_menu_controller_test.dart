@@ -34,31 +34,42 @@ void main() {
   final _menuMovieUseCase = MockMenuMovieUseCase();
   final _movieFileUseCase = MockMovieFileUseCase();
 
-  final container = ProviderContainer(overrides: [
-    postMenuProvider.overrideWithProvider(StateNotifierProvider.family<
-            PostMenuController, PostMenuState, Tuple2<String, Menu?>>(
-        (ref, tuple) => PostMenuController(
-            _menuUseCase,
-            _menuImageUseCase,
-            _imageFileUseCase,
-            _pathUseCase,
-            _menuMovieUseCase,
-            _movieFileUseCase,
-            tuple.item1,
-            tuple.item2))),
-  ]);
-
+  // Menuがnull = 新規登録 の時のテストのみ実装済み
   group('when initial menu is not defined', () {
-    const shopId = 'shop_id_1';
-    final model =
-        container.read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+    late ProviderContainer container;
+
+    setUp(() {
+      container = ProviderContainer(overrides: [
+        postMenuProvider.overrideWithProvider(StateNotifierProvider.family
+            .autoDispose<PostMenuController, PostMenuState,
+                    Tuple2<String, Menu?>>(
+                (ref, tuple) => PostMenuController(
+                    _menuUseCase,
+                    _menuImageUseCase,
+                    _imageFileUseCase,
+                    _pathUseCase,
+                    _menuMovieUseCase,
+                    _movieFileUseCase,
+                    tuple.item1,
+                    tuple.item2))),
+      ]);
+    });
+
     group('onEditMenuName', () {
-      test('when input string', () {
+      test('when input string', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.onEditMenuName('name');
         model.debugState.when(
           (name, _, __, ___, ____, _____, ______, _______, ________, _________,
               __________, ___________, ____________) {
             expect(name, 'name');
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -67,12 +78,20 @@ void main() {
         );
       });
 
-      test('when input symbol', () {
+      test('when input symbol', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.onEditMenuName('🦆');
         model.debugState.when(
           (name, _, __, ___, ____, _____, ______, _______, ________, _________,
                   __________, ___________, ____________) =>
               expect(name, '🦆'),
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -82,12 +101,20 @@ void main() {
     });
 
     group('onEditReview', () {
-      test('when input string', () {
+      test('when input string', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.onEditReview('レビュー!');
         model.debugState.when(
           (_, __, ___, ____, _____, ______, review, _______, ________,
               _________, __________, ___________, ____________) {
             expect(review, 'レビュー!');
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -96,12 +123,20 @@ void main() {
         );
       });
 
-      test('when input symbol', () {
+      test('when input symbol', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.onEditReview('🦆');
         model.debugState.when(
           (_, __, ___, ____, _____, ______, review, _______, ________,
               _________, __________, ___________, ____________) {
             expect(review, '🦆');
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -112,12 +147,20 @@ void main() {
     });
 
     group('onEditEnglishReview', () {
-      test('when input string', () {
+      test('when input string', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.onEditEnglishReview('review!');
         model.debugState.when(
           (_, __, ___, ____, _____, ______, _______, ________, enReview,
               _________, __________, ___________, ____________) {
             expect(enReview, 'review!');
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -126,12 +169,20 @@ void main() {
         );
       });
 
-      test('when input symbol', () {
+      test('when input symbol', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.onEditEnglishReview('🦆');
         model.debugState.when(
           (_, __, ___, ____, _____, ______, _______, ________, enReview,
               _________, __________, ___________, ____________) {
             expect(enReview, '🦆');
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -142,12 +193,20 @@ void main() {
     });
 
     group('onEditPrice', () {
-      test('when input number string', () {
+      test('when input number string', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.onEditPrice('122334');
         model.debugState.when(
           (_, __, ___, ____, price, _____, ______, _______, ________, _________,
               __________, ___________, ____________) {
             expect(price, 122334);
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -156,12 +215,20 @@ void main() {
         );
       });
 
-      test('when empty', () {
+      test('when empty', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.onEditPrice('');
         model.debugState.when(
           (_, __, ___, ____, price, _____, ______, _______, ________, _________,
               __________, ___________, ____________) {
             expect(price, 0);
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -172,12 +239,20 @@ void main() {
     });
 
     group('addFoodTag', () {
-      test('when add the food tag of key 1', () {
+      test('when add the food tag of key 1', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.addFoodTag(1);
         model.debugState.when(
           (_, __, ___, ____, ____________, _____, ______, _______, ________,
               _________, foodTags, __________, ___________) {
             expect(foodTags.length, 1);
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -188,13 +263,21 @@ void main() {
     });
 
     group('removeFoodTag', () {
-      test('when add the food tag of key 1', () {
+      test('when add the food tag of key 1', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         // 'addFoodTag' でタグが一つ選択されている状態から始まる
         model.removeFoodTag(1);
         model.debugState.when(
           (_, __, ___, ____, ____________, _____, ______, _______, ________,
               _________, foodTags, __________, ___________) {
             expect(foodTags.length, 0);
+          },
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
           },
           error: () {
             // ignore: avoid_print
@@ -205,12 +288,20 @@ void main() {
     });
 
     group('selectPostUser', () {
-      test('when select user1', () {
+      test('when select user1', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.selectPostUser(1);
         model.debugState.when(
           (_, __, ___, ____, ____________, _____, ______, _______, ________,
                   _________, __________, postUser, ___________) =>
               expect(postUser, PostUsers.postUsers[1]),
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -220,12 +311,20 @@ void main() {
     });
 
     group('removePostUser', () {
-      test('when select user1', () {
+      test('when select user1', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
+
         model.removeSelectedUser();
         model.debugState.when(
           (_, __, ___, ____, ____________, _____, ______, _______, ________,
                   _________, __________, postUser, ___________) =>
               expect(postUser, ''),
+          loading: () {
+            // ignore: avoid_print
+            print('test is not passed');
+          },
           error: () {
             // ignore: avoid_print
             print('test is not passed');
@@ -235,8 +334,10 @@ void main() {
     });
 
     group('postMenu', () {
-      test('when review comment is empty', () async {
-        model.onEditReview('');
+      test('when the state is not _PostMenuState', () async {
+        const shopId = 'shop_id_1';
+        final model = container
+            .read(postMenuProvider(const Tuple2(shopId, null)).notifier);
 
         when(_menuImageUseCase.deleteImages(shopId: shopId, menuName: 'name'))
             .thenAnswer((_) async {
@@ -253,7 +354,7 @@ void main() {
 
         final result = await model.createOrModifyMenu();
 
-        expect(result, PostResults.empty);
+        expect(result, PostResults.abort);
       });
     });
   });

@@ -42,13 +42,13 @@ class PostMenuPage extends HookConsumerWidget {
         (
           _,
           nameController,
-          __,
+          images,
           movies,
-          ____,
+          __,
           priceController,
-          _____,
+          ___,
           reviewController,
-          ______,
+          ____,
           enReviewController,
           foodTags,
           postUser,
@@ -67,7 +67,8 @@ class PostMenuPage extends HookConsumerWidget {
                         indent: 0,
                         endIndent: 0,
                       ),
-                      MenuImageWidget(shopId: shopId),
+                      MenuImageWidget(
+                          shopId: shopId, images: images, menu: menu),
                       const Divider(
                         thickness: 4,
                         color: AppColors.appDarkBeige,
@@ -286,6 +287,13 @@ class PostMenuPage extends HookConsumerWidget {
                   ),
                 );
         },
+        loading: () {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: AppColors.appGrey,
+            ),
+          );
+        },
         error: () {
           return const Center(
             child: Text('error'),
@@ -309,6 +317,7 @@ class _FoodTagsWidget extends ConsumerWidget {
               (_, __, ___, ____, _____, ______, _______, ________, _________,
                       __________, foodTags, ___________, ____________) =>
                   foodTags,
+              loading: () => [],
               error: () => [],
             )));
 
@@ -375,6 +384,7 @@ class _SelectedTagsWidget extends ConsumerWidget {
               (_, __, ___, ____, _____, ______, _______, ________, _________,
                       __________, foodTags, ___________, ____________) =>
                   foodTags,
+              loading: () => [],
               error: () => [],
             )));
 
@@ -437,6 +447,7 @@ class _PostUsersWidget extends ConsumerWidget {
             (_, __, ___, ____, _____, ______, _______, ________, _________,
                     __________, ___________, postUser, ____________) =>
                 postUser,
+            loading: () => '',
             error: () => '')));
 
     return Container(

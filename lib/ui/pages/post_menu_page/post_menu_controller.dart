@@ -33,6 +33,8 @@ class PostMenuState with _$PostMenuState {
       @Default('') String postUser,
       @Default(false) bool isPosting}) = _PostMenuState;
 
+  factory PostMenuState.loading() = _PostMenuStateLoading;
+
   factory PostMenuState.error() = _PostMenuStateError;
 }
 
@@ -46,14 +48,8 @@ class PostMenuController extends StateNotifier<PostMenuState> {
       this._movieFileUSeCase,
       this._shopId,
       this._menu)
-      : super(PostMenuState(
-          name: '',
-          nameController: TextEditingController(text: ''),
-          priceController: TextEditingController(text: ''),
-          reviewController: TextEditingController(text: ''),
-          enReviewController: TextEditingController(text: ''),
-        )) {
-    initMenu();
+      : super(PostMenuState.loading()) {
+    Future(() async => await initMenu());
   }
 
   final MenuUseCase _menuUseCase;
@@ -76,8 +72,11 @@ class PostMenuController extends StateNotifier<PostMenuState> {
         }
       }
 
+      File? _movie;
       final menuMovie = _menu!.movies.first;
-      final _movie = await urlToFile(menuMovie, '0', true);
+      if (menuMovie != '') {
+        _movie = await urlToFile(menuMovie, '0', true);
+      }
 
       state = PostMenuState(
         name: _menu!.name,
@@ -99,7 +98,6 @@ class PostMenuController extends StateNotifier<PostMenuState> {
             selection:
                 TextSelection.collapsed(offset: _menu!.enReview.length))),
         images: _images,
-        // 動画を登録できるようにしたら初期化処理を入れる
         movies: _movie,
         foodTags: _menu!.foodTags,
         postUser: _menu!.postUser,

@@ -33,6 +33,10 @@ class _MenuMovieWidgetState extends State<MenuMovieWidget> {
   @override
   void initState() {
     super.initState();
+    if (widget.movies != null) {
+      videoController = VideoPlayerController.file(widget.movies!)
+        ..initialize();
+    }
   }
 
   @override

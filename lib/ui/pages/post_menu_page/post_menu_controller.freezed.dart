@@ -33,6 +33,7 @@ mixin _$PostMenuState {
             String postUser,
             bool isPosting)
         $default, {
+    required TResult Function() loading,
     required TResult Function() error,
   }) =>
       throw _privateConstructorUsedError;
@@ -53,6 +54,7 @@ mixin _$PostMenuState {
             String postUser,
             bool isPosting)?
         $default, {
+    TResult Function()? loading,
     TResult Function()? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -73,6 +75,7 @@ mixin _$PostMenuState {
             String postUser,
             bool isPosting)?
         $default, {
+    TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
   }) =>
@@ -80,18 +83,21 @@ mixin _$PostMenuState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_PostMenuState value) $default, {
+    required TResult Function(_PostMenuStateLoading value) loading,
     required TResult Function(_PostMenuStateError value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_PostMenuState value)? $default, {
+    TResult Function(_PostMenuStateLoading value)? loading,
     TResult Function(_PostMenuStateError value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_PostMenuState value)? $default, {
+    TResult Function(_PostMenuStateLoading value)? loading,
     TResult Function(_PostMenuStateError value)? error,
     required TResult orElse(),
   }) =>
@@ -353,6 +359,7 @@ class _$_PostMenuState implements _PostMenuState {
             String postUser,
             bool isPosting)
         $default, {
+    required TResult Function() loading,
     required TResult Function() error,
   }) {
     return $default(
@@ -389,6 +396,7 @@ class _$_PostMenuState implements _PostMenuState {
             String postUser,
             bool isPosting)?
         $default, {
+    TResult Function()? loading,
     TResult Function()? error,
   }) {
     return $default?.call(
@@ -425,6 +433,7 @@ class _$_PostMenuState implements _PostMenuState {
             String postUser,
             bool isPosting)?
         $default, {
+    TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -451,6 +460,7 @@ class _$_PostMenuState implements _PostMenuState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_PostMenuState value) $default, {
+    required TResult Function(_PostMenuStateLoading value) loading,
     required TResult Function(_PostMenuStateError value) error,
   }) {
     return $default(this);
@@ -460,6 +470,7 @@ class _$_PostMenuState implements _PostMenuState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_PostMenuState value)? $default, {
+    TResult Function(_PostMenuStateLoading value)? loading,
     TResult Function(_PostMenuStateError value)? error,
   }) {
     return $default?.call(this);
@@ -469,6 +480,7 @@ class _$_PostMenuState implements _PostMenuState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_PostMenuState value)? $default, {
+    TResult Function(_PostMenuStateLoading value)? loading,
     TResult Function(_PostMenuStateError value)? error,
     required TResult orElse(),
   }) {
@@ -515,6 +527,159 @@ abstract class _PostMenuState implements PostMenuState {
   @JsonKey(ignore: true)
   _$$_PostMenuStateCopyWith<_$_PostMenuState> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_PostMenuStateLoadingCopyWith<$Res> {
+  factory _$$_PostMenuStateLoadingCopyWith(_$_PostMenuStateLoading value,
+          $Res Function(_$_PostMenuStateLoading) then) =
+      __$$_PostMenuStateLoadingCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_PostMenuStateLoadingCopyWithImpl<$Res>
+    extends _$PostMenuStateCopyWithImpl<$Res>
+    implements _$$_PostMenuStateLoadingCopyWith<$Res> {
+  __$$_PostMenuStateLoadingCopyWithImpl(_$_PostMenuStateLoading _value,
+      $Res Function(_$_PostMenuStateLoading) _then)
+      : super(_value, (v) => _then(v as _$_PostMenuStateLoading));
+
+  @override
+  _$_PostMenuStateLoading get _value => super._value as _$_PostMenuStateLoading;
+}
+
+/// @nodoc
+
+class _$_PostMenuStateLoading implements _PostMenuStateLoading {
+  _$_PostMenuStateLoading();
+
+  @override
+  String toString() {
+    return 'PostMenuState.loading()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_PostMenuStateLoading);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String name,
+            TextEditingController nameController,
+            List<File> images,
+            File? movies,
+            int price,
+            TextEditingController priceController,
+            String review,
+            TextEditingController reviewController,
+            String enReview,
+            TextEditingController enReviewController,
+            List<int> foodTags,
+            String postUser,
+            bool isPosting)
+        $default, {
+    required TResult Function() loading,
+    required TResult Function() error,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult Function(
+            String name,
+            TextEditingController nameController,
+            List<File> images,
+            File? movies,
+            int price,
+            TextEditingController priceController,
+            String review,
+            TextEditingController reviewController,
+            String enReview,
+            TextEditingController enReviewController,
+            List<int> foodTags,
+            String postUser,
+            bool isPosting)?
+        $default, {
+    TResult Function()? loading,
+    TResult Function()? error,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String name,
+            TextEditingController nameController,
+            List<File> images,
+            File? movies,
+            int price,
+            TextEditingController priceController,
+            String review,
+            TextEditingController reviewController,
+            String enReview,
+            TextEditingController enReviewController,
+            List<int> foodTags,
+            String postUser,
+            bool isPosting)?
+        $default, {
+    TResult Function()? loading,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_PostMenuState value) $default, {
+    required TResult Function(_PostMenuStateLoading value) loading,
+    required TResult Function(_PostMenuStateError value) error,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult Function(_PostMenuState value)? $default, {
+    TResult Function(_PostMenuStateLoading value)? loading,
+    TResult Function(_PostMenuStateError value)? error,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_PostMenuState value)? $default, {
+    TResult Function(_PostMenuStateLoading value)? loading,
+    TResult Function(_PostMenuStateError value)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PostMenuStateLoading implements PostMenuState {
+  factory _PostMenuStateLoading() = _$_PostMenuStateLoading;
 }
 
 /// @nodoc
@@ -573,6 +738,7 @@ class _$_PostMenuStateError implements _PostMenuStateError {
             String postUser,
             bool isPosting)
         $default, {
+    required TResult Function() loading,
     required TResult Function() error,
   }) {
     return error();
@@ -596,6 +762,7 @@ class _$_PostMenuStateError implements _PostMenuStateError {
             String postUser,
             bool isPosting)?
         $default, {
+    TResult Function()? loading,
     TResult Function()? error,
   }) {
     return error?.call();
@@ -619,6 +786,7 @@ class _$_PostMenuStateError implements _PostMenuStateError {
             String postUser,
             bool isPosting)?
         $default, {
+    TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -632,6 +800,7 @@ class _$_PostMenuStateError implements _PostMenuStateError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_PostMenuState value) $default, {
+    required TResult Function(_PostMenuStateLoading value) loading,
     required TResult Function(_PostMenuStateError value) error,
   }) {
     return error(this);
@@ -641,6 +810,7 @@ class _$_PostMenuStateError implements _PostMenuStateError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_PostMenuState value)? $default, {
+    TResult Function(_PostMenuStateLoading value)? loading,
     TResult Function(_PostMenuStateError value)? error,
   }) {
     return error?.call(this);
@@ -650,6 +820,7 @@ class _$_PostMenuStateError implements _PostMenuStateError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_PostMenuState value)? $default, {
+    TResult Function(_PostMenuStateLoading value)? loading,
     TResult Function(_PostMenuStateError value)? error,
     required TResult orElse(),
   }) {
