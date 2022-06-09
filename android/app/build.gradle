@@ -80,7 +80,7 @@ android {
         if (dartEnvironmentVariables.FLAVOR != 'prod') {
             applicationIdSuffix ".${dartEnvironmentVariables.FLAVOR}"
         }
-        resValue "string", "app_name", "FlutterAT" +
+        resValue "string", "app_name", "KAMO🦆post" +
                 (dartEnvironmentVariables.FLAVOR == 'prod' ? '' : ".${dartEnvironmentVariables.FLAVOR}")
         // マニフェストにビルド変数を追加する
         manifestPlaceholders = ["MAP_API_KEY_Android": envProps.MAP_API_KEY_Android]
