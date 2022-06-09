@@ -78,6 +78,8 @@ class GoogleMapPageController extends StateNotifier<GoogleMapState> {
         isShowingShopInformation: isShowing,
         infoPageController: PageController(initialPage: index),
       );
+
+      currentState.infoPageController.jumpToPage(index);
     }
   }
 
