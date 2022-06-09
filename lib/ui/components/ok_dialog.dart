@@ -30,7 +30,11 @@ class OkDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'OK'),
-          child: const Text('OK'),
+          child: const Text(
+            'OK',
+            style: TextStyle(
+                color: AppColors.appBlack, fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );

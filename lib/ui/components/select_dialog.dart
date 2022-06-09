@@ -26,11 +26,19 @@ class SelectDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'Cancel'),
-          child: const Text('Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+                color: AppColors.appBlack, fontWeight: FontWeight.bold),
+          ),
         ),
         TextButton(
           onPressed: onPressed,
-          child: const Text('OK'),
+          child: const Text(
+            'OK',
+            style: TextStyle(
+                color: AppColors.appBlack, fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );
