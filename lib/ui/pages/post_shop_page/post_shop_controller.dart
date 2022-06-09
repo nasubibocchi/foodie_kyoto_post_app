@@ -93,6 +93,7 @@ class PostShopController extends StateNotifier<PostShopState> {
           selectedServiceTags: data.value!.serviceTags,
           selectedAreaTags: data.value!.areaTags,
           selectedFoodTags: data.value!.foodTags,
+          postUserName: data.value!.postUser,
         );
       } else {
         final shopDetail = await fetchShopDetail();
